@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -11,17 +13,24 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
 
-class CommandCreateProject:
-    create_directory_command = "mkdir"
+import unittest # See https://docs.python.org/3.5/library/unittest.html for details
+import integration_test_command_create_project
 
-    def __init__(self, project_name_):
-        self.project_name = project_name_
+_test_suite = unittest.TestSuite()
 
-    @property
-    def command_as_string(self):
-        return CommandCreateProject.create_directory_command + " " + self.project_name
+def add_tests_from_modules(modules):
+    for module in modules:
+        add_tests_from_module(module)
 
-    def execute(self):
-        subprocess.run([CommandCreateProject.create_directory_command, self.project_name])
+def add_tests_from_module(module):
+    _test_suite.addTests(unittest.TestLoader().loadTestsFromModule(module))
+
+def run_tests(verbosity_=3):
+    unittest.TextTestRunner(verbosity=verbosity_).run(_test_suite)
+
+
+if __name__ == '__main__':
+    modules = [integration_test_command_create_project]
+    add_tests_from_modules(modules)
+    run_tests()

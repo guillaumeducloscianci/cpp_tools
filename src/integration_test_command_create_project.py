@@ -11,17 +11,22 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
+import unittest
+import os
+from command_create_project import CommandCreateProject
 
-class CommandCreateProject:
-    create_directory_command = "mkdir"
 
-    def __init__(self, project_name_):
-        self.project_name = project_name_
+def getScriptDirectory():
+	return os.path.dirname(os.path.realpath(__file__))
 
-    @property
-    def command_as_string(self):
-        return CommandCreateProject.create_directory_command + " " + self.project_name
 
-    def execute(self):
-        subprocess.run([CommandCreateProject.create_directory_command, self.project_name])
+class TestCommandCreateProject(unittest.TestCase):
+
+    def setUp(self):
+        self.project_name = getScriptDirectory() + "/../testing/" + "abitrary_name"
+        self.command = CommandCreateProject(self.project_name);
+
+    def test_execution(self):
+    	self.command.execute();
+        # self.assertTrue(self.project_name == self.command.project_name)
+    
