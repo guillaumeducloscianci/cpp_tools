@@ -8,5 +8,5 @@
 
 # Create a new class
 
-`cpp_tools create class class_name -virtual`
+`cpp_tools create class class_name -abstract`
 `cpp_tools create class class_name -visitor`
