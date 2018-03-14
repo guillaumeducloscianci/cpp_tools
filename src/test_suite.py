@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -11,7 +13,9 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+
 import unittest # See https://docs.python.org/3.5/library/unittest.html for details
+
 
 def add_tests_from_modules(module_names):
 	for name in module_names:
@@ -22,6 +26,7 @@ def add_tests_from_module(module_name):
 
 def run_tests(verbosity_=3):
 	unittest.TextTestRunner(verbosity=verbosity_).run(unittest.TestSuite())
+
 
 if __name__ == '__main__':
 	add_tests_from_modules([])
