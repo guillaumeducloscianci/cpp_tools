@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,24 +11,14 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import unittest
+from command_parser import CommandParser
 
-import unittest # See https://docs.python.org/3.5/library/unittest.html for details
-import test_command_parser
+class TestCommandParser(unittest.TestCase):
 
-_test_suite = unittest.TestSuite()
+    def setUp(self):
+        self.parser = CommandParser();
 
-def add_tests_from_modules(modules):
-    for module in modules:
-        add_tests_from_module(module)
-
-def add_tests_from_module(module):
-    _test_suite.addTests(unittest.TestLoader().loadTestsFromModule(module))
-
-def run_tests(verbosity_=3):
-    unittest.TextTestRunner(verbosity=verbosity_).run(_test_suite)
-
-
-if __name__ == '__main__':
-    modules = [test_command_parser]
-    add_tests_from_modules(modules)
-    run_tests()
+    def test_is_valid_command(self):
+        arguments = ["create", "project"]
+        self.assertTrue(self.parser.is_valid_command(arguments))
