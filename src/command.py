@@ -11,18 +11,10 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command import Command
-import subprocess
+from abc import ABC, abstractmethod # Abstract base class module, see https://docs.python.org/3.5/library/abc.html
 
-class CommandCreateProject(Command):
-    create_directory_command = "mkdir"
+class Command(ABC):
 
-    def __init__(self, project_name_):
-        self.project_name = project_name_
-
-    @property
-    def command_as_string(self):
-        return self.create_directory_command + " " + self.project_name
-
-    def execute(self):
-        subprocess.run([self.create_directory_command, self.project_name])
+	@abstractmethod
+	def execute(self):
+		pass
