@@ -11,19 +11,15 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
-from command_create_project import CommandCreateProject
+import os
+import glob
+import subprocess
 
-class TestCommandCreateProject(unittest.TestCase):
+def clean_testing_directory():
+    subprocess.run(["gvfs-trash"] + glob.glob(get_testing_directory() + "/*"))
 
-    def setUp(self):
-        self.project_name = "abitrary_name"
-        self.command = CommandCreateProject(self.project_name);
+def get_testing_directory():
+    return get_script_directory() + "/../testing"
 
-    def test_command_stored_arguments(self):
-        self.assertTrue(self.project_name == self.command.project_name)
-
-    def test_command_as_string(self):
-        self.expected = CommandCreateProject.create_directory_command + " " + self.project_name
-        self.assertTrue(self.expected == self.command.command_as_string)
-        
+def get_script_directory():
+    return os.path.dirname(os.path.realpath(__file__))

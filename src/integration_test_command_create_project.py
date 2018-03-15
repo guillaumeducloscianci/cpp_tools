@@ -12,21 +12,17 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-import os
+from integration_test_tools import get_testing_directory
 from command_create_project import CommandCreateProject
-
-
-def getScriptDirectory():
-	return os.path.dirname(os.path.realpath(__file__))
 
 
 class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
-        self.project_name = getScriptDirectory() + "/../testing/" + "abitrary_name"
+        self.project_name = get_testing_directory() + "/abitrary_name"
         self.command = CommandCreateProject(self.project_name);
 
     def test_execution(self):
-    	self.command.execute();
+        self.command.execute();
         # self.assertTrue(self.project_name == self.command.project_name)
     
