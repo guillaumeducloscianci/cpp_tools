@@ -12,17 +12,21 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from command import Command
-import subprocess
+from command_create_directory import CommandCreateDirectory
 
 
 class CommandCreateProject(Command):
-    create_directory_command = "mkdir"
-
     def __init__(self, project_name_):
         self.project_name = project_name_
 
+    @staticmethod
+    def create_description_from_arguments(project_name):
+        return "Create project " + project_name
+
     def description(self):
-        return self.create_directory_command + " " + self.project_name
+        return self.create_description_from_arguments(self.project_name)
 
     def execute(self):
-        subprocess.run([self.create_directory_command, self.project_name])
+        commands = [CommandCreateDirectory(self.project_name)]
+        for command in commands:
+            command.execute()

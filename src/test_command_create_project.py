@@ -24,6 +24,5 @@ class TestCommandCreateProject(unittest.TestCase):
         self.assertEquals(self.project_name, self.command.project_name)
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCreateProject.create_directory_command + " " + self.project_name
+        self.expected = CommandCreateProject.create_description_from_arguments(self.project_name)
         self.assertEquals(self.expected, self.command.description())
-        
