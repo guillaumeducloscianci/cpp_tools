@@ -13,16 +13,16 @@
 
 import unittest
 from system_test_tools import get_testing_directory
-from command_create_project import CommandCreateProject
+from command_create_directory import CommandCreateDirectory
 
 
-class TestCommandCreateProject(unittest.TestCase):
+class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
-        self.project_name = get_testing_directory() + "/abitrary_project_name"
-        self.command = CommandCreateProject(self.project_name);
+        self.directory_name = get_testing_directory() + "/abitrary_directory_name"
+        self.command = CommandCreateDirectory(self.directory_name);
 
     def test_execution(self):
         self.command.execute();
-        # self.assertTrue(self.project_name == self.command.project_name)
+        # self.assertTrue(self.directory_name == self.command.directory_name)
     

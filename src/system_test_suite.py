@@ -16,6 +16,7 @@
 
 import unittest # See https://docs.python.org/3.5/library/unittest.html for details
 from system_test_tools import clean_testing_directory
+import system_test_command_create_directory
 import system_test_command_create_project
 
 _test_suite = unittest.TestSuite()
@@ -33,6 +34,6 @@ def run_tests(verbosity_=3):
 
 if __name__ == '__main__':
     clean_testing_directory()
-    modules = [system_test_command_create_project]
+    modules = [system_test_command_create_project, system_test_command_create_directory]
     add_tests_from_modules(modules)
     run_tests()

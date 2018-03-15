@@ -15,6 +15,10 @@ from abc import ABC, abstractmethod # Abstract base class module, see https://do
 
 class Command(ABC):
 
-	@abstractmethod
-	def execute(self):
-		pass
+    @abstractmethod
+    def execute(self):
+        pass
+
+    @abstractmethod
+    def to_string(self):
+        pass

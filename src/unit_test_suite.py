@@ -15,6 +15,7 @@
 
 
 import unittest # See https://docs.python.org/3.5/library/unittest.html for details
+import test_command_create_directory
 import test_command_create_project
 import test_command_parser
 
@@ -32,6 +33,6 @@ def run_tests(verbosity_=3):
 
 
 if __name__ == '__main__':
-    modules = [test_command_create_project, test_command_parser]
+    modules = [test_command_create_project, test_command_create_directory, test_command_parser]
     add_tests_from_modules(modules)
     run_tests()

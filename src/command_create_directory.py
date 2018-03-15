@@ -11,18 +11,17 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
-from system_test_tools import get_testing_directory
-from command_create_project import CommandCreateProject
+from command import Command
+import subprocess
 
+class CommandCreateDirectory(Command):
+    unix_create_directory_command = "mkdir"
 
-class TestCommandCreateProject(unittest.TestCase):
+    def __init__(self, directory_name_):
+        self.directory_name = directory_name_
 
-    def setUp(self):
-        self.project_name = get_testing_directory() + "/abitrary_project_name"
-        self.command = CommandCreateProject(self.project_name);
+    def to_string(self):
+        return self.unix_create_directory_command + " " + self.directory_name
 
-    def test_execution(self):
-        self.command.execute();
-        # self.assertTrue(self.project_name == self.command.project_name)
-    
+    def execute(self):
+        subprocess.run([self.unix_create_directory_command, self.directory_name])

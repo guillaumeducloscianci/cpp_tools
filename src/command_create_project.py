@@ -20,8 +20,7 @@ class CommandCreateProject(Command):
     def __init__(self, project_name_):
         self.project_name = project_name_
 
-    @property
-    def command_as_string(self):
+    def to_string(self):
         return self.create_directory_command + " " + self.project_name
 
     def execute(self):
