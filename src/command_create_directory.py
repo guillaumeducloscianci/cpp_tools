@@ -21,7 +21,7 @@ class CommandCreateDirectory(Command):
     def __init__(self, directory_name_):
         self.directory_name = directory_name_
 
-    def to_string(self):
+    def description(self):
         return self.unix_create_directory_command + " " + self.directory_name
 
     def execute(self):

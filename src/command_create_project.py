@@ -21,7 +21,7 @@ class CommandCreateProject(Command):
     def __init__(self, project_name_):
         self.project_name = project_name_
 
-    def to_string(self):
+    def description(self):
         return self.create_directory_command + " " + self.project_name
 
     def execute(self):

@@ -20,5 +20,5 @@ class Command(ABC):
         pass
 
     @abstractmethod
-    def to_string(self):
+    def description(self):
         pass

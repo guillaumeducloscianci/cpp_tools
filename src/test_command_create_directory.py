@@ -22,8 +22,8 @@ class TestCommandCreateDirectory(unittest.TestCase):
         self.command = CommandCreateDirectory(self.directory_name);
 
     def test_command_stored_arguments(self):
-        self.assertTrue(self.directory_name == self.command.directory_name)
+        self.assertEquals(self.directory_name, self.command.directory_name)
 
     def test_command_converts_to_string(self):
         self.expected = CommandCreateDirectory.unix_create_directory_command + " " + self.directory_name
-        self.assertTrue(self.expected == self.command.to_string())
+        self.assertEquals(self.expected, self.command.description())
