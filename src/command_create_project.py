@@ -14,6 +14,7 @@
 from command import Command
 import subprocess
 
+
 class CommandCreateProject(Command):
     create_directory_command = "mkdir"
 

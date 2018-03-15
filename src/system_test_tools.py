@@ -18,6 +18,9 @@ import subprocess
 def clean_testing_directory():
     subprocess.run(["gvfs-trash"] + glob.glob(get_testing_directory() + "/*"))
 
+def is_path_a_directory(path):
+	return os.path.isdir(path)
+
 def get_testing_directory():
     return get_script_directory() + "/../testing"
 

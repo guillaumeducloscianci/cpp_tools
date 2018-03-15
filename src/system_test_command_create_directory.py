@@ -12,7 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test_tools import get_testing_directory
+from system_test_tools import get_testing_directory, is_path_a_directory
 from command_create_directory import CommandCreateDirectory
 
 
@@ -24,5 +24,4 @@ class TestCommandCreateDirectory(unittest.TestCase):
 
     def test_execution(self):
         self.command.execute();
-        # self.assertTrue(self.directory_name == self.command.directory_name)
-    
+        self.assertTrue(is_path_a_directory(self.project_name))
