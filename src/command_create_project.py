@@ -18,6 +18,9 @@ from command_create_directory import CommandCreateDirectory
 class CommandCreateProject(Command):
     def __init__(self, project_name_):
         self.project_name = project_name_
+        suffixes = ["", "/include", "/src"]
+        self.directories = map(lambda suffix: self.project_name + suffix, suffixes)
+        self.commands = map(lambda directory: CommandCreateDirectory(directory), self.directories)
 
     @staticmethod
     def create_description_from_arguments(project_name):
@@ -27,6 +30,5 @@ class CommandCreateProject(Command):
         return self.create_description_from_arguments(self.project_name)
 
     def execute(self):
-        commands = [CommandCreateDirectory(self.project_name)]
-        for command in commands:
+        for command in self.commands: # Avoid functional style (map, list comprehension) when side effects are involved.
             command.execute()

@@ -13,11 +13,11 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-
 import unittest # See https://docs.python.org/3.5/library/unittest.html for details
 import test_command_create_directory
 import test_command_create_project
 import test_command_parser
+
 
 _test_suite = unittest.TestSuite()
 
