@@ -12,7 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from integration_test_tools import get_testing_directory
+from system_test_tools import get_testing_directory
 from command_create_project import CommandCreateProject
 
 
