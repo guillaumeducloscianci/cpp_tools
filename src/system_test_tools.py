@@ -15,14 +15,26 @@ import os
 import glob
 import subprocess
 
-def clean_testing_directory():
-    subprocess.run(["gvfs-trash"] + glob.glob(get_testing_directory() + "/*"))
+
+class SystemTest():
+    directory_name_relative_to_script = "/../testing"
+
+    @classmethod
+    def setup(cls, directory_name_relative_to_script_):
+        cls.directory_name_relative_to_script = directory_name_relative_to_script_
+        cls.clean_testing_directory()
+
+    @classmethod
+    def clean_testing_directory(cls):
+        subprocess.run(["gvfs-trash"] + glob.glob(cls.get_testing_directory() + "/*"))
+
+    @classmethod
+    def get_testing_directory(cls):
+        return get_script_directory() + cls.directory_name_relative_to_script
+
 
 def is_path_a_directory(path):
-	return os.path.isdir(path)
-
-def get_testing_directory():
-    return get_script_directory() + "/../testing"
+    return os.path.isdir(path)
 
 def get_script_directory():
     return os.path.dirname(os.path.realpath(__file__))

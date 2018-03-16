@@ -13,6 +13,7 @@
 
 import unittest # See https://docs.python.org/3.5/library/unittest.html for details
 
+
 class TestSuite:
 
     @staticmethod

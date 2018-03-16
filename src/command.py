@@ -13,6 +13,7 @@
 
 from abc import ABC, abstractmethod # Abstract base class module, see https://docs.python.org/3.5/library/abc.html
 
+
 class Command(ABC):
 
     @abstractmethod

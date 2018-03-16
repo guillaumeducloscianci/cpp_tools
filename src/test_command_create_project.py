@@ -14,6 +14,7 @@
 import unittest
 from command_create_project import CommandCreateProject
 
+
 class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):

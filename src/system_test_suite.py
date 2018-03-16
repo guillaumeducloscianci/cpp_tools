@@ -13,13 +13,14 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from system_test_tools import SystemTest
 from test_suite import TestSuite
-from system_test_tools import clean_testing_directory
 import system_test_command_create_directory
 import system_test_command_create_project
 
 if __name__ == '__main__':
-    clean_testing_directory()
+    SystemTest.setup("/../testing")
     modules = [system_test_command_create_project, system_test_command_create_directory]
     test_suite = TestSuite.create_from_modules(modules)
+    print(SystemTest.get_testing_directory() + "/abitrary_project_name")
     test_suite.run()

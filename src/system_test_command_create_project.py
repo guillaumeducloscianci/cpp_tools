@@ -12,14 +12,14 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test_tools import get_testing_directory, is_path_a_directory
+from system_test_tools import SystemTest, is_path_a_directory
 from command_create_project import CommandCreateProject
 
 
 class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
-        self.project_name = get_testing_directory() + "/abitrary_project_name"
+        self.project_name = SystemTest.get_testing_directory() + "/abitrary_project_name"
         self.command = CommandCreateProject(self.project_name);
 
     def test_execution(self):
