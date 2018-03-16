@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,13 +11,25 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from test_suite import TestSuite
-from system_test_tools import clean_testing_directory
-import system_test_command_create_directory
-import system_test_command_create_project
+import unittest # See https://docs.python.org/3.5/library/unittest.html for details
 
-if __name__ == '__main__':
-    clean_testing_directory()
-    modules = [system_test_command_create_project, system_test_command_create_directory]
-    test_suite = TestSuite.create_from_modules(modules)
-    test_suite.run()
+class TestSuite:
+
+    @staticmethod
+    def create_from_modules(modules):
+        test_suite = TestSuite()
+        test_suite.add_from_modules(modules)
+        return test_suite
+
+    def __init__(self):
+        self.test_suite = unittest.TestSuite()
+
+    def add_from_modules(self, modules):
+        for module in modules:
+            self.add_from_module(module)
+
+    def add_from_module(self, module):
+        self.test_suite.addTests(unittest.TestLoader().loadTestsFromModule(module))
+
+    def run(self, verbosity_=3):
+        unittest.TextTestRunner(verbosity=verbosity_).run(self.test_suite)

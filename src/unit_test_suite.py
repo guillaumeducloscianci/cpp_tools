@@ -13,26 +13,12 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest # See https://docs.python.org/3.5/library/unittest.html for details
+from test_suite import TestSuite
 import test_command_create_directory
 import test_command_create_project
 import test_command_parser
 
-
-_test_suite = unittest.TestSuite()
-
-def add_tests_from_modules(modules):
-    for module in modules:
-        add_tests_from_module(module)
-
-def add_tests_from_module(module):
-    _test_suite.addTests(unittest.TestLoader().loadTestsFromModule(module))
-
-def run_tests(verbosity_=3):
-    unittest.TextTestRunner(verbosity=verbosity_).run(_test_suite)
-
-
 if __name__ == '__main__':
     modules = [test_command_create_project, test_command_create_directory, test_command_parser]
-    add_tests_from_modules(modules)
-    run_tests()
+    test_suite = TestSuite.create_from_modules(modules)
+    test_suite.run()
