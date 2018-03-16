@@ -12,11 +12,10 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from command import Command
-import subprocess
+from pathlib import Path
 
 
 class CommandCreateDirectory(Command):
-    unix_create_directory_command = "mkdir"
 
     @staticmethod
     def create_description_from_arguments(directory_name):
@@ -29,4 +28,4 @@ class CommandCreateDirectory(Command):
         return self.create_description_from_arguments(self.directory_name)
 
     def execute(self):
-        subprocess.run([self.unix_create_directory_command, self.directory_name])
+    	Path(self.directory_name).mkdir()
