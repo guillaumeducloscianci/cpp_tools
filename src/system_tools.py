@@ -13,6 +13,9 @@
 
 import os
 
+# \todo: Refactor as a class SystemTools with class methods that support strings (os lib style) and Path objects
+#       (pathlib style)
+
 def is_path_a_directory(path):
     return os.path.isdir(path)
 

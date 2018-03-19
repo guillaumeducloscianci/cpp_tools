@@ -19,7 +19,7 @@ from command_create_directory import CommandCreateDirectory
 class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
-        self.directory_name = SystemTest.get_testing_directory() + "/abitrary_directory_name"
+        self.directory_name = SystemTest.get_testing_directory() + "/arbitrary_directory_name"
         self.command = CommandCreateDirectory(self.directory_name);
 
     def test_execution(self):

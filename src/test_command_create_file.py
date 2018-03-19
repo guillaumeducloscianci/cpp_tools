@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,17 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from system_test import SystemTest
-from test_suite import TestSuite
-import system_test_command_copy_file
-import system_test_command_create_directory
-import system_test_command_create_file
-import system_test_command_create_project
+import unittest
+from command_create_file import CommandCreateFile
 
-if __name__ == '__main__':
-    SystemTest.setup("/testing")
-    modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
-        system_test_command_create_project]
-    test_suite = TestSuite.create_from_modules(modules)
-    print(SystemTest.get_testing_directory() + "/arbitrary_project_name")
-    test_suite.run()
+
+class TestCommandCreateFile(unittest.TestCase):
+
+    def setUp(self):
+        self.file_name = "arbitrary_file_name"
+        self.file_content = "arbitrary content"
+        self.command = CommandCreateFile(self.file_name, self.file_content);
+
+    def test_command_stored_arguments(self):
+        self.assertEquals(self.file_name, self.command.file_name)
+
+    def test_command_converts_to_string(self):
+        self.expected = CommandCreateFile.create_description_from_arguments(self.file_name)
+        self.assertEquals(self.expected, self.command.description())

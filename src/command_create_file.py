@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,17 +11,22 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from system_test import SystemTest
-from test_suite import TestSuite
-import system_test_command_copy_file
-import system_test_command_create_directory
-import system_test_command_create_file
-import system_test_command_create_project
+from command import Command
+from pathlib import Path
 
-if __name__ == '__main__':
-    SystemTest.setup("/testing")
-    modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
-        system_test_command_create_project]
-    test_suite = TestSuite.create_from_modules(modules)
-    print(SystemTest.get_testing_directory() + "/arbitrary_project_name")
-    test_suite.run()
+
+class CommandCreateFile(Command):
+
+    @staticmethod
+    def create_description_from_arguments(file_name):
+        return "Create file " + file_name
+
+    def __init__(self, file_name_, file_content_):
+        self.file_name = file_name_
+        self.file_content = file_content_
+
+    def description(self):
+        return self.create_description_from_arguments(self.file_name)
+
+    def execute(self):
+        Path(self.file_name).open(mode='w').write(self.file_content)

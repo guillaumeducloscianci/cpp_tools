@@ -20,8 +20,8 @@ from command_copy_file import CommandCopyFile
 class TestCommandCopyFile(unittest.TestCase):
 
     def setUp(self):
-        self.source_name = SystemTest.get_testing_directory() + "/abitrary_file_to_copy" # \todo: Change + to / in all relevant files
-        self.destination_name = SystemTest.get_testing_directory() + "/abitrary_file_copied"
+        self.source_name = SystemTest.get_testing_directory() + "/arbitrary_file_to_copy" # \todo: Change + to / in all relevant files
+        self.destination_name = SystemTest.get_testing_directory() + "/arbitrary_file_copied"
         Path(self.source_name).open('a').write('File containing arbitrary content.')
         self.command = CommandCopyFile(self.source_name, self.destination_name);
 

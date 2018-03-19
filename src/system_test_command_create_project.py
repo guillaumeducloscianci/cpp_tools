@@ -29,7 +29,7 @@ class TestCommandCreateProject(unittest.TestCase):
         self.assertTrue(is_path_a_file(self.project_name + "/LICENSE.TXT"))
 
     def setUp(self):
-        self.project_name = SystemTest.get_testing_directory() + "/abitrary_project_name"
+        self.project_name = SystemTest.get_testing_directory() + "/arbitrary_project_name"
         self.command = CommandCreateProject(self.project_name);
 
     def test_execution(self):
