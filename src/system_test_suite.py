@@ -15,12 +15,13 @@
 
 from system_test_tools import SystemTest
 from test_suite import TestSuite
+import system_test_command_copy_file
 import system_test_command_create_directory
 import system_test_command_create_project
 
 if __name__ == '__main__':
     SystemTest.setup("/../testing")
-    modules = [system_test_command_create_project, system_test_command_create_directory]
+    modules = [system_test_command_copy_file, system_test_command_create_project, system_test_command_create_directory]
     test_suite = TestSuite.create_from_modules(modules)
     print(SystemTest.get_testing_directory() + "/abitrary_project_name")
     test_suite.run()

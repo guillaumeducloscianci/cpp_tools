@@ -36,5 +36,8 @@ class SystemTest():
 def is_path_a_directory(path):
     return os.path.isdir(path)
 
+def is_path_a_file(path):
+    return os.path.isfile(path)
+
 def get_script_directory():
     return os.path.dirname(os.path.realpath(__file__))

@@ -25,4 +25,3 @@ class TestCommandCreateProject(unittest.TestCase):
     def test_execution(self):
         self.command.execute();
         self.assertTrue(is_path_a_directory(self.project_name))
-    

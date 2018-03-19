@@ -11,21 +11,21 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command import Command
+import unittest
 from pathlib import Path
+from system_test_tools import SystemTest, is_path_a_file
+from command_copy_file import CommandCopyFile
 
 
-class CommandCreateDirectory(Command):
+class TestCommandCopyFile(unittest.TestCase):
 
-    @staticmethod
-    def create_description_from_arguments(directory_name):
-        return "Create directory " + directory_name
+    def setUp(self):
+        self.source_name = SystemTest.get_testing_directory() + "/abitrary_file_to_copy" # \todo: Change + to / in all relevant files
+        self.destination_name = SystemTest.get_testing_directory() + "/abitrary_file_copied"
+        Path(self.source_name).open('a').write('File containing arbitrary content.')
+        self.command = CommandCopyFile(self.source_name, self.destination_name);
 
-    def __init__(self, directory_name_):
-        self.directory_name = directory_name_
-
-    def description(self):
-        return self.create_description_from_arguments(self.directory_name)
-
-    def execute(self):
-        Path(self.directory_name).mkdir()
+    def test_execution(self):
+        self.assertFalse(is_path_a_file(self.destination_name))
+        self.command.execute();
+        self.assertTrue(is_path_a_file(self.destination_name))

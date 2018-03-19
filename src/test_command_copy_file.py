@@ -11,21 +11,21 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command import Command
-from pathlib import Path
+import unittest
+from command_copy_file import CommandCopyFile
 
 
-class CommandCreateDirectory(Command):
+class TestCommandCopyFile(unittest.TestCase):
 
-    @staticmethod
-    def create_description_from_arguments(directory_name):
-        return "Create directory " + directory_name
+    def setUp(self):
+        self.source_name = "arbitrary_source_name"
+        self.destination_name = "arbitrary_desitnation_name"
+        self.command = CommandCopyFile(self.source_name, self.destination_name);
 
-    def __init__(self, directory_name_):
-        self.directory_name = directory_name_
+    def test_command_stored_arguments(self):
+        self.assertEquals(self.source_name, self.command.source_name)
+        self.assertEquals(self.destination_name, self.command.destination_name)
 
-    def description(self):
-        return self.create_description_from_arguments(self.directory_name)
-
-    def execute(self):
-        Path(self.directory_name).mkdir()
+    def test_command_converts_to_string(self):
+        self.expected = CommandCopyFile.create_description_from_arguments(self.source_name, self.destination_name)
+        self.assertEquals(self.expected, self.command.description())

@@ -12,20 +12,21 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from command import Command
-from pathlib import Path
+from shutil import copy
 
 
-class CommandCreateDirectory(Command):
+class CommandCopyFile(Command):
 
     @staticmethod
-    def create_description_from_arguments(directory_name):
-        return "Create directory " + directory_name
+    def create_description_from_arguments(source_name, destination_name):
+        return "Copy " + source_name + " to " + destination_name
 
-    def __init__(self, directory_name_):
-        self.directory_name = directory_name_
+    def __init__(self, source_name_, destination_name_):
+        self.source_name = source_name_
+        self.destination_name = destination_name_
 
     def description(self):
-        return self.create_description_from_arguments(self.directory_name)
+        return self.create_description_from_arguments(self.source_name, self.destination_name)
 
     def execute(self):
-        Path(self.directory_name).mkdir()
+        copy(self.source_name, self.destination_name)

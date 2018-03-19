@@ -14,11 +14,12 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from test_suite import TestSuite
+import test_command_copy_file
 import test_command_create_directory
 import test_command_create_project
 import test_command_parser
 
 if __name__ == '__main__':
-    modules = [test_command_create_project, test_command_create_directory, test_command_parser]
+    modules = [test_command_copy_file, test_command_create_project, test_command_create_directory, test_command_parser]
     test_suite = TestSuite.create_from_modules(modules)
     test_suite.run()
