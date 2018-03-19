@@ -12,15 +12,18 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from command import Command
+from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
-
+from system_tools import get_project_directory
 
 class CommandCreateProject(Command):
+    project_directories = ["", "/include", "/src"]
+
     def __init__(self, project_name_):
         self.project_name = project_name_
-        suffixes = ["", "/include", "/src"]
-        self.directories = map(lambda suffix: self.project_name + suffix, suffixes)
-        self.commands = map(lambda directory: CommandCreateDirectory(directory), self.directories)
+        self.directories = map(lambda suffix: self.project_name + suffix, self.project_directories)
+        self.commands = list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
+        self.commands.append(CommandCopyFile(get_project_directory()+"/LICENSE.TXT", self.project_name+"/LICENSE.TXT"))
 
     @staticmethod
     def create_description_from_arguments(project_name):

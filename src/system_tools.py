@@ -11,23 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import glob
-import subprocess
-from system_tools import *
+import os
 
+def is_path_a_directory(path):
+    return os.path.isdir(path)
 
-class SystemTest():
-    directory_name = "/testing"
+def is_path_a_file(path):
+    return os.path.isfile(path)
 
-    @classmethod
-    def setup(cls, directory_name_):
-        cls.directory_name = directory_name_
-        cls.clean_testing_directory()
+def get_script_directory():
+    return os.path.dirname(os.path.realpath(__file__))
 
-    @classmethod
-    def clean_testing_directory(cls):
-        subprocess.run(["gvfs-trash"] + glob.glob(cls.get_testing_directory() + "/*"))
-
-    @classmethod
-    def get_testing_directory(cls):
-        return get_project_directory() + cls.directory_name
+def get_project_directory():
+    return os.path.dirname(os.path.realpath(__file__)) + "/.."

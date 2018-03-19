@@ -12,17 +12,28 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test_tools import SystemTest, is_path_a_directory
+from system_test_tools import SystemTest, is_path_a_directory, is_path_a_file
 from command_create_project import CommandCreateProject
 
 
 class TestCommandCreateProject(unittest.TestCase):
+
+    def assert_project_directory_does_not_exist(self):
+        self.assertFalse(is_path_a_directory(self.project_name))
+
+    def assert_has_a_project_directory_structure(self):
+        for directory_name in CommandCreateProject.project_directories:
+            self.assertTrue(is_path_a_directory(self.project_name + directory_name))
+
+    def assert_project_directory_contains_license(self):
+        self.assertTrue(is_path_a_file(self.project_name + "/LICENSE.TXT"))
 
     def setUp(self):
         self.project_name = SystemTest.get_testing_directory() + "/abitrary_project_name"
         self.command = CommandCreateProject(self.project_name);
 
     def test_execution(self):
-        self.assertFalse(is_path_a_directory(self.project_name))
+        self.assert_project_directory_does_not_exist()
         self.command.execute();
-        self.assertTrue(is_path_a_directory(self.project_name))
+        self.assert_has_a_project_directory_structure()
+        self.assert_project_directory_contains_license()
