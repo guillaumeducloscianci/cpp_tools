@@ -20,8 +20,11 @@ import test_command_create_file
 import test_command_create_project
 import test_command_parser
 
-if __name__ == '__main__':
+def create_unit_test_suite():
     modules = [test_command_copy_file, test_command_create_file, test_command_create_project,
         test_command_create_directory, test_command_parser]
-    test_suite = TestSuite.create_from_modules(modules)
+    return TestSuite.create_from_modules(modules)
+
+if __name__ == '__main__':
+    test_suite = create_unit_test_suite()
     test_suite.run()

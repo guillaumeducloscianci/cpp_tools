@@ -25,8 +25,8 @@ class TestCommandCreateProject(unittest.TestCase):
         for directory_name in CommandCreateProject.project_directories:
             self.assertTrue(is_path_a_directory(self.project_name + directory_name))
 
-    def assert_project_directory_contains_license(self):
-        self.assertTrue(is_path_a_file(self.project_name + "/LICENSE.TXT"))
+    def assert_project_directory_contains(self, file_name):
+        self.assertTrue(is_path_a_file(self.project_name + "/" + file_name))
 
     def setUp(self):
         self.project_name = SystemTest.get_testing_directory() + "/arbitrary_project_name"
@@ -36,4 +36,5 @@ class TestCommandCreateProject(unittest.TestCase):
         self.assert_project_directory_does_not_exist()
         self.command.execute();
         self.assert_has_a_project_directory_structure()
-        self.assert_project_directory_contains_license()
+        self.assert_project_directory_contains("LICENSE.TXT")
+        self.assert_project_directory_contains("README.md")

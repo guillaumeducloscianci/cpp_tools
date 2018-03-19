@@ -14,6 +14,7 @@
 from command import Command
 from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
+from command_create_file import CommandCreateFile
 from system_tools import get_project_directory
 
 class CommandCreateProject(Command):
@@ -22,12 +23,17 @@ class CommandCreateProject(Command):
     def __init__(self, project_name_):
         self.project_name = project_name_
         self.directories = map(lambda suffix: self.project_name + suffix, self.project_directories)
-        self.commands = list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
-        self.commands.append(CommandCopyFile(get_project_directory()+"/LICENSE.TXT", self.project_name+"/LICENSE.TXT"))
+        self.commands = self.create_commands()
 
     @staticmethod
     def create_description_from_arguments(project_name):
         return "Create project " + project_name
+
+    def create_commands(self):
+        commands = self.create_directory_structure_commands()
+        commands.append(self.create_license_command())
+        commands.append(self.create_readme_command())
+        return commands
 
     def description(self):
         return self.create_description_from_arguments(self.project_name)
@@ -35,3 +41,12 @@ class CommandCreateProject(Command):
     def execute(self):
         for command in self.commands: # Avoid functional style (map, list comprehension) when side effects are involved.
             command.execute()
+
+    def create_directory_structure_commands(self):
+        return list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
+
+    def create_license_command(self):
+        return CommandCopyFile(get_project_directory()+"/LICENSE.TXT", self.project_name+"/LICENSE.TXT")
+
+    def create_readme_command(self):
+        return CommandCreateFile(self.project_name + "/README.md", "## " + self.project_name + "\n")

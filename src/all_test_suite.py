@@ -15,17 +15,11 @@
 
 from system_test import SystemTest
 from test_suite import TestSuite
-import system_test_command_copy_file
-import system_test_command_create_directory
-import system_test_command_create_file
-import system_test_command_create_project
-
-def create_system_test_suite():
-    SystemTest.setup("/testing")
-    modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
-        system_test_command_create_project]
-    return TestSuite.create_from_modules(modules)
+from system_test_suite import create_system_test_suite
+from unit_test_suite import create_unit_test_suite
 
 if __name__ == '__main__':
-    test_suite = create_system_test_suite()
-    test_suite.run()
+    system_test_suite = create_system_test_suite()
+    unit_test_suite = create_unit_test_suite()
+    system_test_suite.run()
+    unit_test_suite.run()
