@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from system_test_tools import SystemTest
+from system_test import SystemTest
 from test_suite import TestSuite
 import system_test_command_copy_file
 import system_test_command_create_directory

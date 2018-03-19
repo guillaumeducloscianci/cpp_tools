@@ -13,7 +13,7 @@
 
 import unittest
 from pathlib import Path
-from system_test_tools import SystemTest, is_path_a_file
+from system_test import SystemTest, is_path_a_file
 from command_copy_file import CommandCopyFile
 
 

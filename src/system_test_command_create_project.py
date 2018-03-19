@@ -12,7 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test_tools import SystemTest, is_path_a_directory, is_path_a_file
+from system_test import SystemTest, is_path_a_directory, is_path_a_file
 from command_create_project import CommandCreateProject
 
 
