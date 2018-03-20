@@ -19,7 +19,7 @@ class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
         self.project_name = "arbitrary_name"
-        self.command = CommandCreateProject(self.project_name);
+        self.command = CommandCreateProject(self.project_name)
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.project_name, self.command.project_name)

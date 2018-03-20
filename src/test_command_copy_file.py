@@ -20,7 +20,7 @@ class TestCommandCopyFile(unittest.TestCase):
     def setUp(self):
         self.source_path = "/arbitrary/source/path"
         self.destination_path = "/arbitrary/desitnation/path"
-        self.command = CommandCopyFile(self.source_path, self.destination_path);
+        self.command = CommandCopyFile(self.source_path, self.destination_path)
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.source_path, str(self.command.source_path))

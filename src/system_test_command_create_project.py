@@ -30,11 +30,11 @@ class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
         self.project_name = SystemTest.get_testing_directory() + "/arbitrary_project_name"
-        self.command = CommandCreateProject(self.project_name);
+        self.command = CommandCreateProject(self.project_name)
 
     def test_execution(self):
         self.assert_project_directory_does_not_exist()
-        self.command.execute();
+        self.command.execute()
         self.assert_has_a_project_directory_structure()
         self.assert_project_directory_contains("LICENSE.TXT")
         self.assert_project_directory_contains("README.md")

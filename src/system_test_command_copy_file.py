@@ -29,5 +29,5 @@ class TestCommandCopyFile(unittest.TestCase):
 
     def test_execution(self):
         self.assertFalse(self.destination_path.is_file())
-        CommandCopyFile(self.source_path, self.destination_path).execute();
+        CommandCopyFile(self.source_path, self.destination_path).execute()
         self.assertTrue(self.destination_path.is_file())

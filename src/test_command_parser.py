@@ -17,7 +17,7 @@ from command_parser import CommandParser
 class TestCommandParser(unittest.TestCase):
 
     def setUp(self):
-        self.parser = CommandParser();
+        self.parser = CommandParser()
 
     def test_is_valid_command(self):
         arguments = ["create", "project"]

@@ -25,5 +25,5 @@ class TestCommandCreateDirectory(unittest.TestCase):
 
     def test_execution(self):
         self.assertFalse(self.directory_name.is_dir())
-        self.command.execute();
+        self.command.execute()
         self.assertTrue(self.directory_name.is_dir())

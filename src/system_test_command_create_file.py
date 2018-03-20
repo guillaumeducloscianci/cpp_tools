@@ -13,18 +13,17 @@
 
 import unittest
 from pathlib import Path
-from system_test import SystemTest, is_path_a_file
+from system_test import SystemTest
 from command_create_file import CommandCreateFile
 
 
 class TestCommandCreateFile(unittest.TestCase):
 
     def setUp(self):
-        self.file_name = SystemTest.get_testing_directory() + "/arbitrary_file_to_create" # \todo: Change + to / in all relevant files
+        self.file_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_to_create"
         self.file_content = "arbitrary content"
-        self.command = CommandCreateFile(self.file_name, self.file_content);
 
     def test_execution(self):
-        self.assertFalse(is_path_a_file(self.file_name))
-        self.command.execute();
-        self.assertTrue(is_path_a_file(self.file_name))
+        self.assertFalse(self.file_path.is_file())
+        CommandCreateFile(self.file_path, self.file_content).execute()
+        self.assertTrue(self.file_path.is_file())

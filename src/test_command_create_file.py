@@ -18,13 +18,13 @@ from command_create_file import CommandCreateFile
 class TestCommandCreateFile(unittest.TestCase):
 
     def setUp(self):
-        self.file_name = "arbitrary_file_name"
+        self.file_path = "/arbitrary/file/path"
         self.file_content = "arbitrary content"
-        self.command = CommandCreateFile(self.file_name, self.file_content);
+        self.command = CommandCreateFile(self.file_path, self.file_content)
 
     def test_command_stored_arguments(self):
-        self.assertEquals(self.file_name, self.command.file_name)
+        self.assertEquals(self.file_path, str(self.command.file_path))
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCreateFile.create_description_from_arguments(self.file_name)
+        self.expected = CommandCreateFile.create_description_from_arguments(self.file_path)
         self.assertEquals(self.expected, self.command.description())

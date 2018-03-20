@@ -19,7 +19,7 @@ class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
         self.directory_path = "/arbitrary/path"
-        self.command = CommandCreateDirectory(self.directory_path);
+        self.command = CommandCreateDirectory(self.directory_path)
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.directory_path, str(self.command.directory_path))

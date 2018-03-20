@@ -18,15 +18,15 @@ from pathlib import Path
 class CommandCreateFile(Command):
 
     @staticmethod
-    def create_description_from_arguments(file_name):
-        return "Create file " + file_name
+    def create_description_from_arguments(file_path):
+        return "Create file " + str(file_path)
 
-    def __init__(self, file_name_, file_content_):
-        self.file_name = file_name_
-        self.file_content = file_content_
+    def __init__(self, file_path_, file_content_):
+        self.file_path = Path(file_path_)
+        self.file_content = str(file_content_)
 
     def description(self):
-        return self.create_description_from_arguments(self.file_name)
+        return self.create_description_from_arguments(self.file_path)
 
     def execute(self):
-        Path(self.file_name).open(mode='w').write(self.file_content)
+        self.file_path.open(mode='w').write(self.file_content)
