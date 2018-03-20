@@ -12,17 +12,18 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test import SystemTest, is_path_a_directory
+from pathlib import Path
+from system_test import SystemTest
 from command_create_directory import CommandCreateDirectory
 
 
 class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
-        self.directory_name = SystemTest.get_testing_directory() + "/arbitrary_directory_name"
+        self.directory_name = Path(SystemTest.get_testing_directory()) / "arbitrary_directory_name"
         self.command = CommandCreateDirectory(self.directory_name);
 
     def test_execution(self):
-        self.assertFalse(is_path_a_directory(self.directory_name))
+        self.assertFalse(self.directory_name.is_dir())
         self.command.execute();
-        self.assertTrue(is_path_a_directory(self.directory_name))
+        self.assertTrue(self.directory_name.is_dir())

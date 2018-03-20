@@ -18,14 +18,14 @@ from pathlib import Path
 class CommandCreateDirectory(Command):
 
     @staticmethod
-    def create_description_from_arguments(directory_name):
-        return "Create directory " + directory_name
+    def create_description_from_arguments(directory_path):
+        return "Create directory " + str(directory_path)
 
-    def __init__(self, directory_name_):
-        self.directory_name = directory_name_
+    def __init__(self, directory_path_):
+        self.directory_path = Path(directory_path_)
 
     def description(self):
-        return self.create_description_from_arguments(self.directory_name)
+        return self.create_description_from_arguments(self.directory_path)
 
     def execute(self):
-        Path(self.directory_name).mkdir()
+        self.directory_path.mkdir()

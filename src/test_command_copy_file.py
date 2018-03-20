@@ -23,8 +23,8 @@ class TestCommandCopyFile(unittest.TestCase):
         self.command = CommandCopyFile(self.source_path, self.destination_path);
 
     def test_command_stored_arguments(self):
-        self.assertEquals(self.source_path, self.command.source_path)
-        self.assertEquals(self.destination_path, self.command.destination_path)
+        self.assertEquals(self.source_path, str(self.command.source_path))
+        self.assertEquals(self.destination_path, str(self.command.destination_path))
 
     def test_command_converts_to_string(self):
         self.expected = CommandCopyFile.create_description_from_arguments(self.source_path, self.destination_path)

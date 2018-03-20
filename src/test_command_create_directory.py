@@ -18,12 +18,12 @@ from command_create_directory import CommandCreateDirectory
 class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
-        self.directory_name = "arbitrary_name"
-        self.command = CommandCreateDirectory(self.directory_name);
+        self.directory_path = "/arbitrary/path"
+        self.command = CommandCreateDirectory(self.directory_path);
 
     def test_command_stored_arguments(self):
-        self.assertEquals(self.directory_name, self.command.directory_name)
+        self.assertEquals(self.directory_path, str(self.command.directory_path))
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCreateDirectory.create_description_from_arguments(self.directory_name)
+        self.expected = CommandCreateDirectory.create_description_from_arguments(self.directory_path)
         self.assertEquals(self.expected, self.command.description())
