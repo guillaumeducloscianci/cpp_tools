@@ -11,12 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
+from command_create_project import CommandCreateProject
+
 class CommandParser:
     def is_valid_command(self, arguments):
-        if (len(arguments) != 2):
+        if (len(arguments) < 2):
             return False
-        if (arguments[0] != "create"):
-            return False
-        if (arguments[1] != "project"):
+        if (arguments[0:2] != ["create", "project"]):
             return False
         return True
+
+    def parse(self, arguments):
+        if not self.is_valid_command(arguments):
+            print("Invalid syntax")
+            sys.exit(1)
+        return CommandCreateProject(arguments[2])
