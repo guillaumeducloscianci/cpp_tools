@@ -21,9 +21,8 @@ class TestCommandCreateDirectory(unittest.TestCase):
 
     def setUp(self):
         self.directory_name = Path(SystemTest.get_testing_directory()) / "arbitrary_directory_name"
-        self.command = CommandCreateDirectory(self.directory_name);
 
     def test_execution(self):
         self.assertFalse(self.directory_name.is_dir())
-        self.command.execute()
+        CommandCreateDirectory(self.directory_name).execute()
         self.assertTrue(self.directory_name.is_dir())

@@ -11,25 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import glob
-import subprocess
-from system_tools import cpp_tools_directory
+import unittest
+from command_create_git_repository import CommandCreateGitRepository
 
 
-class SystemTest():
-    directory_name = "testing"
+class TestCommandCreateDirectory(unittest.TestCase):
 
-    @classmethod
-    def setup(cls, directory_name_):
-        cls.directory_name = directory_name_
-        cls.clean_testing_directory()
+    def setUp(self):
+        self.repository_path = "/arbitrary/path"
+        self.command = CommandCreateGitRepository(self.repository_path)
 
-    @classmethod
-    def clean_testing_directory(cls):
-        #subprocess does not support Path objects.
-        directory = str(cls.get_testing_directory())
-        subprocess.run(["gvfs-trash"] + glob.glob(directory+"/*") + glob.glob(directory+"/.*"))
+    def test_command_stored_arguments(self):
+        self.assertEquals(self.repository_path, str(self.command.repository_path))
 
-    @classmethod
-    def get_testing_directory(cls):
-        return cpp_tools_directory/cls.directory_name
+    def test_command_converts_to_string(self):
+        self.expected = CommandCreateGitRepository.create_description_from_arguments(self.repository_path)
+        self.assertEquals(self.expected, self.command.description())

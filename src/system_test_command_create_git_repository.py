@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,23 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from system_test import SystemTest
-from test_suite import TestSuite
-import system_test_command_copy_file
-import system_test_command_create_directory
-import system_test_command_create_file
-import system_test_command_create_git_repository
-import system_test_command_create_project
-
+import unittest
 from pathlib import Path
-from command_create_project import CommandCreateProject
+from system_test import SystemTest
+from command_create_git_repository import CommandCreateGitRepository
 
-def create_system_test_suite():
-    SystemTest.setup("testing")
-    modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
-        system_test_command_create_git_repository, system_test_command_create_project]
-    return TestSuite.create_from_modules(modules)
 
-if __name__ == '__main__':
-    test_suite = create_system_test_suite()
-    test_suite.run()
+class TestCommandCreateDirectory(unittest.TestCase):
+
+    def setUp(self):
+        self.repository_path = Path(SystemTest.get_testing_directory())
+
+    def test_execution(self):
+        self.assertFalse((self.repository_path/".git").is_dir())
+        self.assertFalse((self.repository_path/".gitignore").is_file())
+        CommandCreateGitRepository(self.repository_path).execute()
+        self.assertTrue((self.repository_path/".git").is_dir())
+        self.assertTrue((self.repository_path/".gitignore").is_file())

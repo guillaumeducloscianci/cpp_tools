@@ -23,8 +23,8 @@ class TestCommandCopyFile(unittest.TestCase):
         self.source_path.open('a').write('File containing arbitrary content.')
 
     def setUp(self):
-        self.source_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_to_copy"
-        self.destination_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_copied"
+        self.source_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_copy"
+        self.destination_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_copied"
         self.create_source_file()
 
     def test_execution(self):
