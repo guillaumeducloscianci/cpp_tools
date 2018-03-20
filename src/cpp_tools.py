@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -14,18 +16,8 @@
 import sys
 
 from command_create_project import CommandCreateProject
+from command_parser import CommandParser
 
-
-class CommandParser:
-    def is_valid_command(self, arguments):
-        if (len(arguments) < 2):
-            return False
-        if (arguments[0:2] != ["create", "project"]):
-            return False
-        return True
-
-    def parse(self, arguments):
-        if not self.is_valid_command(arguments):
-            print("Invalid syntax")
-            sys.exit(1)
-        return CommandCreateProject(arguments[2])
+if __name__ == '__main__':
+    command = CommandParser().parse(sys.argv[1:])
+    command.execute()
