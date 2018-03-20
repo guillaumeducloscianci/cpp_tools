@@ -15,6 +15,7 @@ from command import Command
 from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
 from command_create_file import CommandCreateFile
+from command_create_git_repository import CommandCreateGitRepository
 from pathlib import Path
 from system_tools import cpp_tools_directory 
 
@@ -34,6 +35,7 @@ class CommandCreateProject(Command):
         commands = self.create_directory_structure_commands()
         commands.append(self.create_license_command())
         commands.append(self.create_readme_command())
+        commands.append(self.create_git_repository_command())
         return commands
 
     def description(self):
@@ -51,3 +53,6 @@ class CommandCreateProject(Command):
 
     def create_readme_command(self):
         return CommandCreateFile(self.project_path/"README.md", "## " + self.project_path.name + "\n")
+
+    def create_git_repository_command(self):
+        return CommandCreateGitRepository(self.project_path)

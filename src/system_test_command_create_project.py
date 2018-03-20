@@ -39,3 +39,4 @@ class TestCommandCreateProject(unittest.TestCase):
         self.assert_has_a_project_directory_structure()
         self.assert_project_directory_contains("LICENSE.TXT")
         self.assert_project_directory_contains("README.md")
+        self.assert_project_directory_contains(".gitignore")
