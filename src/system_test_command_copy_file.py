@@ -19,13 +19,15 @@ from command_copy_file import CommandCopyFile
 
 class TestCommandCopyFile(unittest.TestCase):
 
+    def create_source_file(self):
+        self.source_path.open('a').write('File containing arbitrary content.')
+
     def setUp(self):
-        self.source_name = SystemTest.get_testing_directory() + "/arbitrary_file_to_copy" # \todo: Change + to / in all relevant files
-        self.destination_name = SystemTest.get_testing_directory() + "/arbitrary_file_copied"
-        Path(self.source_name).open('a').write('File containing arbitrary content.')
-        self.command = CommandCopyFile(self.source_name, self.destination_name);
+        self.source_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_to_copy"
+        self.destination_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_copied"
+        self.create_source_file()
 
     def test_execution(self):
-        self.assertFalse(is_path_a_file(self.destination_name))
-        self.command.execute();
-        self.assertTrue(is_path_a_file(self.destination_name))
+        self.assertFalse(self.destination_path.is_file())
+        CommandCopyFile(self.source_path, self.destination_path).execute();
+        self.assertTrue(self.destination_path.is_file())

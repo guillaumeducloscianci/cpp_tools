@@ -18,14 +18,14 @@ from command_copy_file import CommandCopyFile
 class TestCommandCopyFile(unittest.TestCase):
 
     def setUp(self):
-        self.source_name = "arbitrary_source_name"
-        self.destination_name = "arbitrary_desitnation_name"
-        self.command = CommandCopyFile(self.source_name, self.destination_name);
+        self.source_path = "/arbitrary/source/path"
+        self.destination_path = "/arbitrary/desitnation/path"
+        self.command = CommandCopyFile(self.source_path, self.destination_path);
 
     def test_command_stored_arguments(self):
-        self.assertEquals(self.source_name, self.command.source_name)
-        self.assertEquals(self.destination_name, self.command.destination_name)
+        self.assertEquals(self.source_path, self.command.source_path)
+        self.assertEquals(self.destination_path, self.command.destination_path)
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCopyFile.create_description_from_arguments(self.source_name, self.destination_name)
+        self.expected = CommandCopyFile.create_description_from_arguments(self.source_path, self.destination_path)
         self.assertEquals(self.expected, self.command.description())
