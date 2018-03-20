@@ -11,19 +11,13 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import os
-
-# \todo: Refactor as a class SystemTools with class methods that support strings (os lib style) and Path objects
-#       (pathlib style)
+from pathlib import Path
 
 def is_path_a_directory(path):
-    return os.path.isdir(path)
+    return Path(path).is_dir()
 
 def is_path_a_file(path):
-    return os.path.isfile(path)
-
-def get_script_directory():
-    return os.path.dirname(os.path.realpath(__file__))
+    return Path(path).is_file()
 
 def get_project_directory():
-    return os.path.dirname(os.path.realpath(__file__)) + "/.."
+    return str(Path(__file__).resolve().parents[1])
