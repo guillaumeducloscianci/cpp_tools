@@ -16,7 +16,7 @@ from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
 from command_create_file import CommandCreateFile
 from pathlib import Path
-from system_tools import get_project_directory
+from system_tools import cpp_tools_directory 
 
 class CommandCreateProject(Command):
     project_directories = ["", "include", "src"]
@@ -47,7 +47,7 @@ class CommandCreateProject(Command):
         return list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
 
     def create_license_command(self):
-        return CommandCopyFile(Path(get_project_directory())/"LICENSE.TXT", self.project_path/"LICENSE.TXT")
+        return CommandCopyFile(cpp_tools_directory/"LICENSE.TXT", self.project_path/"LICENSE.TXT")
 
     def create_readme_command(self):
         return CommandCreateFile(self.project_path/"README.md", "## " + self.project_path.name + "\n")

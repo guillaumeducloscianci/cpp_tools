@@ -24,7 +24,7 @@ from pathlib import Path
 from command_create_project import CommandCreateProject
 
 def create_system_test_suite():
-    SystemTest.setup("/testing")
+    SystemTest.setup("testing")
     modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
         system_test_command_create_project]
     return TestSuite.create_from_modules(modules)

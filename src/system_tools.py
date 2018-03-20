@@ -13,11 +13,4 @@
 
 from pathlib import Path
 
-def is_path_a_directory(path):
-    return Path(path).is_dir()
-
-def is_path_a_file(path):
-    return Path(path).is_file()
-
-def get_project_directory():
-    return str(Path(__file__).resolve().parents[1])
+cpp_tools_directory = Path(__file__).resolve().parents[1]

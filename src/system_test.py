@@ -13,11 +13,11 @@
 
 import glob
 import subprocess
-from system_tools import *
+from system_tools import cpp_tools_directory
 
 
 class SystemTest():
-    directory_name = "/testing"
+    directory_name = "testing"
 
     @classmethod
     def setup(cls, directory_name_):
@@ -26,8 +26,9 @@ class SystemTest():
 
     @classmethod
     def clean_testing_directory(cls):
-        subprocess.run(["gvfs-trash"] + glob.glob(cls.get_testing_directory() + "/*"))
+        #subprocess does not support Path objects yet, revisit with Python 3.6 maybe?
+        subprocess.run(["gvfs-trash"] + glob.glob(str(cls.get_testing_directory()) + "/*"))
 
     @classmethod
     def get_testing_directory(cls):
-        return get_project_directory() + cls.directory_name
+        return cpp_tools_directory/cls.directory_name
