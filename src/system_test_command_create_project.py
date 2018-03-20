@@ -12,24 +12,25 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from system_test import SystemTest, is_path_a_directory, is_path_a_file
+from pathlib import Path
+from system_test import SystemTest
 from command_create_project import CommandCreateProject
 
 
 class TestCommandCreateProject(unittest.TestCase):
 
     def assert_project_directory_does_not_exist(self):
-        self.assertFalse(is_path_a_directory(self.project_name))
+        self.assertFalse(self.project_name.is_dir())
 
     def assert_has_a_project_directory_structure(self):
         for directory_name in CommandCreateProject.project_directories:
-            self.assertTrue(is_path_a_directory(self.project_name + directory_name))
+            self.assertTrue((self.project_name/directory_name).is_dir())
 
     def assert_project_directory_contains(self, file_name):
-        self.assertTrue(is_path_a_file(self.project_name + "/" + file_name))
+        self.assertTrue((self.project_name/file_name).is_file())
 
     def setUp(self):
-        self.project_name = SystemTest.get_testing_directory() + "/arbitrary_project_name"
+        self.project_name = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
         self.command = CommandCreateProject(self.project_name)
 
     def test_execution(self):

@@ -15,19 +15,20 @@ from command import Command
 from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
 from command_create_file import CommandCreateFile
+from pathlib import Path
 from system_tools import get_project_directory
 
 class CommandCreateProject(Command):
-    project_directories = ["", "/include", "/src"]
+    project_directories = ["", "include", "src"]
 
-    def __init__(self, project_name_):
-        self.project_name = project_name_
-        self.directories = map(lambda suffix: self.project_name + suffix, self.project_directories)
+    def __init__(self, project_path_):
+        self.project_path = Path(project_path_)
+        self.directories = map(lambda directory: self.project_path/directory, self.project_directories)
         self.commands = self.create_commands()
 
     @staticmethod
-    def create_description_from_arguments(project_name):
-        return "Create project " + project_name
+    def create_description_from_arguments(project_path):
+        return "Create project " + str(project_path)
 
     def create_commands(self):
         commands = self.create_directory_structure_commands()
@@ -36,7 +37,7 @@ class CommandCreateProject(Command):
         return commands
 
     def description(self):
-        return self.create_description_from_arguments(self.project_name)
+        return self.create_description_from_arguments(self.project_path)
 
     def execute(self):
         for command in self.commands: # Avoid functional style (map, list comprehension) when side effects are involved.
@@ -46,7 +47,7 @@ class CommandCreateProject(Command):
         return list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
 
     def create_license_command(self):
-        return CommandCopyFile(get_project_directory()+"/LICENSE.TXT", self.project_name+"/LICENSE.TXT")
+        return CommandCopyFile(Path(get_project_directory())/"LICENSE.TXT", self.project_path/"LICENSE.TXT")
 
     def create_readme_command(self):
-        return CommandCreateFile(self.project_name + "/README.md", "## " + self.project_name + "\n")
+        return CommandCreateFile(self.project_path/"README.md", "## " + self.project_path.name + "\n")

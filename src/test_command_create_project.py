@@ -18,12 +18,12 @@ from command_create_project import CommandCreateProject
 class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
-        self.project_name = "arbitrary_name"
-        self.command = CommandCreateProject(self.project_name)
+        self.project_path = "/arbitrary/path"
+        self.command = CommandCreateProject(self.project_path)
 
     def test_command_stored_arguments(self):
-        self.assertEquals(self.project_name, self.command.project_name)
+        self.assertEquals(self.project_path, str(self.command.project_path))
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCreateProject.create_description_from_arguments(self.project_name)
+        self.expected = CommandCreateProject.create_description_from_arguments(self.project_path)
         self.assertEquals(self.expected, self.command.description())
