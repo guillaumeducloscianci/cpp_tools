@@ -15,12 +15,17 @@ import unittest
 from pathlib import Path
 from system_test import SystemTest
 from command_create_cmakelists import CommandCreateCMakeLists
+from command_create_directory import CommandCreateDirectory
 
 
 class TestCommandCreateCMakeLists(unittest.TestCase):
 
+    def create_source_dir(self):
+        CommandCreateDirectory(self.project_path/"src").execute()
+
     def setUp(self):
         self.project_path = Path(SystemTest.get_testing_directory())
+        self.create_source_dir()
 
     def test_execution(self):
         self.assertFalse((self.project_path/"CMakeLists.txt").is_file())

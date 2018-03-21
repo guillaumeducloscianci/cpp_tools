@@ -38,4 +38,5 @@ class TestCommandCreateProject(unittest.TestCase):
         self.assert_project_directory_does_not_exist()
         self.command.execute()
         self.assert_has_a_project_directory_structure()
-        self.assert_project_directory_contains(["CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore"])
+        self.assert_project_directory_contains(
+            ["CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore"])
