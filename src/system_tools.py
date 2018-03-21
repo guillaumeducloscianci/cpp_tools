@@ -14,3 +14,4 @@
 from pathlib import Path
 
 cpp_tools_directory = Path(__file__).resolve().parents[1]
+cpp_tools_resources_directory = Path(__file__).resolve().parents[1]/"resources"
