@@ -12,18 +12,21 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
-from pathlib import Path
-from system_test import SystemTest
-from command_create_cmakelists import CommandCreateCMakeLists
+from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
 
 
-class TestCommandCreateCMakeLists(unittest.TestCase):
+class TestCommandSearchAndReplaceInFile(unittest.TestCase):
 
     def setUp(self):
-        self.project_path = Path(SystemTest.get_testing_directory())
+        self.target_path = "/arbitrary/file/path"
+        self.search_for = "search for"
+        self.replace_by = "replace by"
+        self.command = CommandSearchAndReplaceInFile(self.target_path, self.search_for, self.replace_by)
 
-    def test_execution(self):
-        self.assertFalse((self.project_path/"CMakeLists.txt").is_file())
-        CommandCreateCMakeLists(self.project_path).execute()
-        self.assertTrue((self.project_path/"CMakeLists.txt").is_file())
-        self.assertNotEqual(-1, (self.project_path/"CMakeLists.txt").open().read().find(self.project_path.name))
+    def test_command_stored_arguments(self):
+        self.assertEquals(self.target_path, str(self.command.target_path))
+
+    def test_command_converts_to_string(self):
+        self.expected = CommandSearchAndReplaceInFile.create_description_from_arguments(self.target_path, 
+            self.search_for, self.replace_by)
+        self.assertEquals(self.expected, self.command.description())

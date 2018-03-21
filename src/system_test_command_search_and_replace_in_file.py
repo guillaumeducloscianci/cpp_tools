@@ -13,17 +13,24 @@
 
 import unittest
 from pathlib import Path
+
 from system_test import SystemTest
-from command_create_cmakelists import CommandCreateCMakeLists
+from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
 
 
-class TestCommandCreateCMakeLists(unittest.TestCase):
+class TestCommandSearchAndReplaceInFile(unittest.TestCase):
+
+    def create_target_file(self):
+        self.target_path.open('w').write(self.search_for)
 
     def setUp(self):
-        self.project_path = Path(SystemTest.get_testing_directory())
+        self.target_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_search_and_replace"
+        self.search_for = "search for"
+        self.replace_by = "replace_by"
+        self.create_target_file()
 
     def test_execution(self):
-        self.assertFalse((self.project_path/"CMakeLists.txt").is_file())
-        CommandCreateCMakeLists(self.project_path).execute()
-        self.assertTrue((self.project_path/"CMakeLists.txt").is_file())
-        self.assertNotEqual(-1, (self.project_path/"CMakeLists.txt").open().read().find(self.project_path.name))
+        self.assertTrue(self.target_path.is_file())
+        self.assertEquals(-1,self.target_path.open().read().find(self.replace_by))
+        CommandSearchAndReplaceInFile(self.target_path, self.search_for, self.replace_by).execute()
+        self.assertNotEqual(-1, self.target_path.open().read().find(self.replace_by))

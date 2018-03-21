@@ -21,6 +21,7 @@ import system_test_command_create_directory
 import system_test_command_create_file
 import system_test_command_create_git_repository
 import system_test_command_create_project
+import system_test_command_search_and_replace_in_file
 
 from pathlib import Path
 from command_create_project import CommandCreateProject
@@ -29,7 +30,7 @@ def create_system_test_suite():
     SystemTest.setup("testing")
     modules = [system_test_command_copy_file, system_test_command_create_cmakelists, system_test_command_create_file,
         system_test_command_create_directory, system_test_command_create_git_repository,
-        system_test_command_create_project]
+        system_test_command_create_project, system_test_command_search_and_replace_in_file]
     return TestSuite.create_from_modules(modules)
 
 if __name__ == '__main__':

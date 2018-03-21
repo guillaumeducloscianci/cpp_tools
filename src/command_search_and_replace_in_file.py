@@ -14,24 +14,22 @@
 from pathlib import Path
 
 from command import Command
-from command_copy_file import CommandCopyFile
-from system_tools import cpp_tools_resources_directory
 
-class CommandCreateCMakeLists(Command):
+
+class CommandSearchAndReplaceInFile(Command):
 
     @staticmethod
-    def create_description_from_arguments(project_path):
-        return "Create CMakeLists.txt for " + str(project_path)
+    def create_description_from_arguments(target_path, search_for, replace_by):
+        return "Replace" + str(search_for) + " by " + str(replace_by) + " in " + str(target_path)
 
-    def __init__(self, project_path_):
-        self.project_path = Path(project_path_)
+    def __init__(self, target_path_, search_for_, replace_by_):
+        self.target_path = Path(target_path_)
+        self.search_for = str(search_for_)
+        self.replace_by = str(replace_by_)
 
     def description(self):
-        return self.create_description_from_arguments(self.project_path)
+        return self.create_description_from_arguments(self.target_path, self.search_for, self.replace_by)
 
     def execute(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
-        destination_path = self.project_path/"CMakeLists.txt"
-        CommandCopyFile(source_path, destination_path).execute()
-        file_content = destination_path.open().read().replace("project_name_", self.project_path.name)
-        destination_path.open('w').write(file_content)
+        file_content = self.target_path.open().read().replace(self.search_for, self.replace_by)
+        self.target_path.open('w').write(file_content)
