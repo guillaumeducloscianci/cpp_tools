@@ -15,6 +15,7 @@ from pathlib import Path
 
 from command import Command
 from command_copy_file import CommandCopyFile
+from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
 from system_tools import cpp_tools_resources_directory
 
 class CommandCreateCMakeLists(Command):
@@ -25,13 +26,16 @@ class CommandCreateCMakeLists(Command):
 
     def __init__(self, project_path_):
         self.project_path = Path(project_path_)
+        self.commands = self.create_commands()
+
+    def create_commands(self):
+        source_path = cpp_tools_resources_directory/"CMakeLists.template"
+        destination_path = self.project_path/"CMakeLists.txt"
+        return [CommandCopyFile(source_path, destination_path),
+            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)]
 
     def description(self):
         return self.create_description_from_arguments(self.project_path)
 
     def execute(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
-        destination_path = self.project_path/"CMakeLists.txt"
-        CommandCopyFile(source_path, destination_path).execute()
-        file_content = destination_path.open().read().replace("project_name_", self.project_path.name)
-        destination_path.open('w').write(file_content)
+        for command in self.commands: command.execute()
