@@ -28,15 +28,22 @@ class CommandCreateCMakeLists(Command):
         self.project_path = Path(project_path_)
         self.commands = self.create_commands()
 
-    def create_commands(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
-        destination_path = self.project_path/"CMakeLists.txt"
-        return [CommandCopyFile(source_path, destination_path),
-            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name),
-            CommandCopyFile(cpp_tools_resources_directory/"src_CMakeLists.txt", self.project_path/"src/CMakeLists.txt")]
-
     def description(self):
         return self.create_description_from_arguments(self.project_path)
 
     def execute(self):
         for command in self.commands: command.execute()
+
+    def create_commands(self):
+        return self.create_top_cmakelists_commands() + self.create_src_cmakelists_commands()
+
+    def create_top_cmakelists_commands(self):
+        source_path = cpp_tools_resources_directory/"CMakeLists.template"
+        destination_path = self.project_path/"CMakeLists.txt"
+        return [CommandCopyFile(source_path, destination_path),
+            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)]
+
+    def create_src_cmakelists_commands(self):
+        source_path = cpp_tools_resources_directory/"src_CMakeLists.txt"
+        destination_path = self.project_path/"src/CMakeLists.txt"
+        return [CommandCopyFile(source_path, destination_path)]
