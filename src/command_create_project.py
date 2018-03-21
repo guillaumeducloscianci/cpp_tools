@@ -11,13 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
+
 from command import Command
 from command_copy_file import CommandCopyFile
 from command_create_directory import CommandCreateDirectory
 from command_create_file import CommandCreateFile
+from command_create_cmakelists import CommandCreateCMakeLists
 from command_create_git_repository import CommandCreateGitRepository
-from pathlib import Path
 from system_tools import cpp_tools_resources_directory 
+
 
 class CommandCreateProject(Command):
     project_directories = ["", "include", "src"]
@@ -33,9 +36,12 @@ class CommandCreateProject(Command):
 
     def create_commands(self):
         commands = self.create_directory_structure_commands()
-        commands.append(self.create_license_command())
-        commands.append(self.create_readme_command())
-        commands.append(self.create_git_repository_command())
+        commands += [
+            self.create_license_command(),
+            self.create_readme_command(),
+            CommandCreateGitRepository(self.project_path),
+            CommandCreateCMakeLists(self.project_path)
+        ]
         return commands
 
     def description(self):
@@ -53,6 +59,3 @@ class CommandCreateProject(Command):
 
     def create_readme_command(self):
         return CommandCreateFile(self.project_path/"README.md", "## " + self.project_path.name + "\n")
-
-    def create_git_repository_command(self):
-        return CommandCreateGitRepository(self.project_path)
