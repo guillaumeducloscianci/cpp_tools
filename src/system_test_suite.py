@@ -16,6 +16,7 @@
 from system_test import SystemTest
 from test_suite import TestSuite
 import system_test_command_copy_file
+import system_test_command_create_cmakelists
 import system_test_command_create_directory
 import system_test_command_create_file
 import system_test_command_create_git_repository
@@ -26,8 +27,9 @@ from command_create_project import CommandCreateProject
 
 def create_system_test_suite():
     SystemTest.setup("testing")
-    modules = [system_test_command_copy_file, system_test_command_create_file, system_test_command_create_directory,
-        system_test_command_create_git_repository, system_test_command_create_project]
+    modules = [system_test_command_copy_file, system_test_command_create_cmakelists, system_test_command_create_file,
+        system_test_command_create_directory, system_test_command_create_git_repository,
+        system_test_command_create_project]
     return TestSuite.create_from_modules(modules)
 
 if __name__ == '__main__':

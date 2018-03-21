@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
@@ -13,22 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from test_suite import TestSuite
-import test_command_copy_file
-import test_command_create_cmakelists
-import test_command_create_directory
-import test_command_create_file
-import test_command_create_git_repository
-import test_command_create_project
-import test_command_parser
+import unittest
+from command_create_cmakelists import CommandCreateCMakeLists
 
-from command_parser import CommandParser
 
-def create_unit_test_suite():
-    modules = [test_command_copy_file, test_command_create_cmakelists, test_command_create_directory,
-        test_command_create_file, test_command_create_git_repository, test_command_create_project, test_command_parser]
-    return TestSuite.create_from_modules(modules)
+class TestCommandCreateCMakeLists(unittest.TestCase):
 
-if __name__ == '__main__':
-    test_suite = create_unit_test_suite()
-    test_suite.run()
+    def setUp(self):
+        self.project_path = "/arbitrary/project/path"
+        self.command = CommandCreateCMakeLists(self.project_path)
+
+    def test_command_stored_arguments(self):
+        self.assertEquals(self.project_path, str(self.command.project_path))
+
+    def test_command_converts_to_string(self):
+        self.expected = CommandCreateCMakeLists.create_description_from_arguments(self.project_path)
+        self.assertEquals(self.expected, self.command.description())
