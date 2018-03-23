@@ -20,23 +20,27 @@ from command_create_project import CommandCreateProject
 class TestCommandCreateProject(unittest.TestCase):
 
     def assert_project_directory_does_not_exist(self):
-        self.assertFalse(self.project_name.is_dir())
+        self.assertFalse(self.project_path.is_dir())
 
     def assert_has_a_project_directory_structure(self):
         for directory_name in CommandCreateProject.project_directories:
-            self.assertTrue((self.project_name/directory_name).is_dir())
+            self.assertTrue((self.project_path/directory_name).is_dir())
 
     def assert_project_directory_contains(self, file_names):
         for file_name in file_names:
-            self.assertTrue((self.project_name/file_name).is_file(), msg=file_name + " not found.")
+            self.assertTrue((self.project_path/file_name).is_file(), msg=file_name + " not found.")
 
     def setUp(self):
-        self.project_name = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
-        self.command = CommandCreateProject(self.project_name)
+        self.project_path = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
+        self.command = CommandCreateProject(self.project_path)
 
     def test_execution(self):
         self.assert_project_directory_does_not_exist()
         self.command.execute()
         self.assert_has_a_project_directory_structure()
-        self.assert_project_directory_contains(
-            ["CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore"])
+        self.assert_project_directory_contains([
+            "CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore", 
+            ".templates/license_header.template"
+        ])
+        self.assertEqual(-1, Path(self.project_path/".templates/license_header.template").open().read().find("project_name_"))
+        self.assertNotEqual(-1, Path(self.project_path/".templates/license_header.template").open().read().find(self.project_path.name))
