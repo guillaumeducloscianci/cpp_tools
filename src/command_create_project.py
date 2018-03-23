@@ -27,7 +27,8 @@ from system_tools import cpp_tools_resources_directory
 class CommandCreateProject(Command):
     project_directories = ["", "include", "src", ".templates"]
 
-    def __init__(self, project_path_):
+    def __init__(self, project_path_, author_):
+        self.author = author_
         self.project_path = Path(project_path_)
         self.directories = map(lambda directory: self.project_path/directory, self.project_directories)
         self.commands = self.create_commands()
@@ -65,4 +66,4 @@ class CommandCreateProject(Command):
 
     def create_license_template_command(self):
         destination_path = Path(self.project_path/".templates/license_header.template")
-        return CommandCreateLicenseHeaderTemplate(destination_path, self.project_path.name)
+        return CommandCreateLicenseHeaderTemplate(destination_path, self.project_path.name, self.author)

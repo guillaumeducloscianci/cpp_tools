@@ -31,8 +31,9 @@ class TestCommandCreateProject(unittest.TestCase):
             self.assertTrue((self.project_path/file_name).is_file(), msg=file_name + " not found.")
 
     def setUp(self):
+        self.author = "arbitrary_author"
         self.project_path = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
-        self.command = CommandCreateProject(self.project_path)
+        self.command = CommandCreateProject(self.project_path, self.author)
 
     def test_execution(self):
         self.assert_project_directory_does_not_exist()
@@ -42,5 +43,3 @@ class TestCommandCreateProject(unittest.TestCase):
             "CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore", 
             ".templates/license_header.template"
         ])
-        self.assertEqual(-1, Path(self.project_path/".templates/license_header.template").open().read().find("project_name_"))
-        self.assertNotEqual(-1, Path(self.project_path/".templates/license_header.template").open().read().find(self.project_path.name))
