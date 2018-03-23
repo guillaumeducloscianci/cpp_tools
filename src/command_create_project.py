@@ -19,6 +19,7 @@ from command_create_directory import CommandCreateDirectory
 from command_create_file import CommandCreateFile
 from command_create_cmakelists import CommandCreateCMakeLists
 from command_create_git_repository import CommandCreateGitRepository
+from command_create_license_header_template import CommandCreateLicenseHeaderTemplate
 from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
 from system_tools import cpp_tools_resources_directory 
 
@@ -36,9 +37,10 @@ class CommandCreateProject(Command):
         return "Create project " + str(project_path)
 
     def create_commands(self):
-        commands = self.create_directory_structure_commands() + self.create_template_commands()
+        commands = self.create_directory_structure_commands()
         commands += [
             self.create_license_command(),
+            self.create_license_template_command(),
             self.create_readme_command(),
             CommandCreateGitRepository(self.project_path),
             CommandCreateCMakeLists(self.project_path)
@@ -61,9 +63,6 @@ class CommandCreateProject(Command):
     def create_readme_command(self):
         return CommandCreateFile(self.project_path/"README.md", "## " + self.project_path.name + "\n")
 
-    def create_template_commands(self):
+    def create_license_template_command(self):
         destination_path = Path(self.project_path/".templates/license_header.template")
-        return [
-            CommandCopyFile(cpp_tools_resources_directory/"license_header.template", destination_path),
-            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)
-        ]
+        return CommandCreateLicenseHeaderTemplate(destination_path, self.project_path.name)
