@@ -20,10 +20,10 @@ from system_test import SystemTest
 class TestCommandSearchAndReplaceInFile(SystemTest):
 
     def test_execution(self):
-        self.assertFileExists(self.target_path)
-        self.assertFileDoesNotContain(self.target_path, self.replace_by)
+        self.assert_file_exists(self.target_path)
+        self.assert_file_does_not_contain(self.target_path, self.replace_by)
         CommandSearchAndReplaceInFile(self.target_path, self.search_for, self.replace_by).execute()
-        self.assertFileContains(self.target_path, self.replace_by)
+        self.assert_file_contains(self.target_path, self.replace_by)
 
     @classmethod
     def setUpClass(cls):

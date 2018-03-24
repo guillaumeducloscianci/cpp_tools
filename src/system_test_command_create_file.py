@@ -20,9 +20,9 @@ from system_test import SystemTest
 class TestCommandCreateFile(SystemTest):
 
     def test_execution(self):
-        self.assertFileDoesNotExist(self.file_path)
+        self.assert_file_does_not_exist(self.file_path)
         CommandCreateFile(self.file_path, self.file_content).execute()
-        self.assertFileExists(self.file_path)
+        self.assert_file_exists(self.file_path)
 
     def setUp(self):
         self.file_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_create"

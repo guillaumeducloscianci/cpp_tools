@@ -23,6 +23,6 @@ class TestCommandCreateDirectory(SystemTest):
         self.directory_path = Path(SystemTest.get_testing_directory())/"arbitrary_directory_name"
 
     def test_execution(self):
-        self.assertDirectoryDoesNotExist(self.directory_path)
+        self.assert_directory_does_not_exist(self.directory_path)
         CommandCreateDirectory(self.directory_path).execute()
-        self.assertDirectoryExists(self.directory_path)
+        self.assert_directory_exists(self.directory_path)

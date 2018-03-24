@@ -20,9 +20,9 @@ from system_test import SystemTest
 class TestCommandCopyFile(SystemTest):
 
     def test_execution(self):
-        self.assertFileDoesNotExist(self.destination_path)
+        self.assert_file_does_not_exist(self.destination_path)
         CommandCopyFile(self.source_path, self.destination_path).execute()
-        self.assertFileExists(self.destination_path)
+        self.assert_file_exists(self.destination_path)
 
     @classmethod
     def setUpClass(cls):
