@@ -11,24 +11,26 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
-from system_test import SystemTest
+
 from command_create_cmakelists import CommandCreateCMakeLists
 from command_create_directory import CommandCreateDirectory
+from system_test import SystemTest
 
 
-class TestCommandCreateCMakeLists(unittest.TestCase):
-
-    def create_source_dir(self):
-        CommandCreateDirectory(self.project_path/"src").execute()
-
-    def setUp(self):
-        self.project_path = Path(SystemTest.get_testing_directory())
-        self.create_source_dir()
+class TestCommandCreateCMakeLists(SystemTest):
 
     def test_execution(self):
-        self.assertFalse((self.project_path/"CMakeLists.txt").is_file())
+        self.assert_file_does_not_exist(self.project_path/"CMakeLists.txt")
         CommandCreateCMakeLists(self.project_path).execute()
-        self.assertTrue((self.project_path/"CMakeLists.txt").is_file())
-        self.assertNotEqual(-1, (self.project_path/"CMakeLists.txt").open().read().find(self.project_path.name))
+        self.assert_file_exists(self.project_path/"CMakeLists.txt")
+        self.assert_file_contains(self.project_path/"CMakeLists.txt", self.project_path.name)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.project_path = Path(SystemTest.get_testing_directory())
+        cls.create_source_dir()
+
+    @classmethod
+    def create_source_dir(cls):
+        CommandCreateDirectory(cls.project_path/"src").execute()

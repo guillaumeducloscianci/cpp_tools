@@ -11,19 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_create_cmakelists import CommandCreateCMakeLists
+from unit_test import UnitTest
 
 
-class TestCommandCreateCMakeLists(unittest.TestCase):
+class TestCommandCreateCMakeLists(UnitTest):
+
+    def test_variables(self):
+        self.assertEquals(self.project_path, str(self.command.project_path))
+
+    def test_description(self):
+        self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):
         self.project_path = "/arbitrary/project/path"
         self.command = CommandCreateCMakeLists(self.project_path)
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.project_path, str(self.command.project_path))
-
-    def test_command_converts_to_string(self):
-        self.expected = CommandCreateCMakeLists.create_description_from_arguments(self.project_path)
-        self.assertEquals(self.expected, self.command.description())

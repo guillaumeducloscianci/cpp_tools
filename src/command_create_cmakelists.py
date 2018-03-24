@@ -20,16 +20,12 @@ from system_tools import cpp_tools_resources_directory
 
 class CommandCreateCMakeLists(Command):
 
-    @staticmethod
-    def create_description_from_arguments(project_path):
-        return "Create CMakeLists.txt for " + str(project_path)
-
     def __init__(self, project_path_):
         self.project_path = Path(project_path_)
         self.commands = self.create_commands()
 
     def description(self):
-        return self.create_description_from_arguments(self.project_path)
+        return "Create CMakeLists.txt for " + str(self.project_path)
 
     def execute(self):
         for command in self.commands: command.execute()
