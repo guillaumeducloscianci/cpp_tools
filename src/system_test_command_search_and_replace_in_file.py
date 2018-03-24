@@ -11,26 +11,27 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
 
-from system_test import SystemTest
 from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
+from system_test import SystemTest
 
 
-class TestCommandSearchAndReplaceInFile(unittest.TestCase):
-
-    def create_target_file(self):
-        self.target_path.open('w').write(self.search_for)
-
-    def setUp(self):
-        self.target_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_search_and_replace"
-        self.search_for = "search for"
-        self.replace_by = "replace_by"
-        self.create_target_file()
+class TestCommandSearchAndReplaceInFile(SystemTest):
 
     def test_execution(self):
-        self.assertTrue(self.target_path.is_file())
-        self.assertEquals(-1,self.target_path.open().read().find(self.replace_by))
+        self.assertFileExists(self.target_path)
+        self.assertFileDoesNotContain(self.target_path, self.replace_by)
         CommandSearchAndReplaceInFile(self.target_path, self.search_for, self.replace_by).execute()
-        self.assertNotEqual(-1, self.target_path.open().read().find(self.replace_by))
+        self.assertFileContains(self.target_path, self.replace_by)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.target_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_search_and_replace"
+        cls.search_for = "search for"
+        cls.replace_by = "replace_by"
+        cls.create_target_file()
+
+    @classmethod
+    def create_target_file(cls):
+        cls.target_path.open('w').write(cls.search_for)

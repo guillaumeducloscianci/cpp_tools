@@ -11,22 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
+from unit_test import UnitTest
 
 
-class TestCommandSearchAndReplaceInFile(unittest.TestCase):
+class TestCommandSearchAndReplaceInFile(UnitTest):
+
+    def test_variables(self):
+        self.assertEquals(self.target_path, str(self.command.target_path))
+
+    def test_description(self):
+        self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):
         self.target_path = "/arbitrary/file/path"
         self.search_for = "search for"
         self.replace_by = "replace by"
         self.command = CommandSearchAndReplaceInFile(self.target_path, self.search_for, self.replace_by)
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.target_path, str(self.command.target_path))
-
-    def test_command_converts_to_string(self):
-        self.expected = CommandSearchAndReplaceInFile.create_description_from_arguments(self.target_path, 
-            self.search_for, self.replace_by)
-        self.assertEquals(self.expected, self.command.description())

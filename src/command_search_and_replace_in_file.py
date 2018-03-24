@@ -18,17 +18,13 @@ from command import Command
 
 class CommandSearchAndReplaceInFile(Command):
 
-    @staticmethod
-    def create_description_from_arguments(target_path, search_for, replace_by):
-        return "Replace" + str(search_for) + " by " + str(replace_by) + " in " + str(target_path)
-
     def __init__(self, target_path_, search_for_, replace_by_):
         self.target_path = Path(target_path_)
         self.search_for = str(search_for_)
         self.replace_by = str(replace_by_)
 
     def description(self):
-        return self.create_description_from_arguments(self.target_path, self.search_for, self.replace_by)
+        return "Replace" + str(self.search_for) + " by " + str(self.replace_by) + " in " + str(self.target_path)
 
     def execute(self):
         file_content = self.target_path.open().read().replace(self.search_for, self.replace_by)

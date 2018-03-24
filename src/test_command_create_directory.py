@@ -17,10 +17,10 @@ from unit_test import UnitTest
 
 class TestCommandCreateDirectory(UnitTest):
 
-    def test_command_stored_arguments(self):
+    def test_variables(self):
         self.assertEquals(self.directory_path, str(self.command.directory_path))
 
-    def test_command_description(self):
+    def test_description(self):
         self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):

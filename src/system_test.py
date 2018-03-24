@@ -42,8 +42,14 @@ class SystemTest(unittest.TestCase):
     def assertDirectoryExists(self, directory_path):
         self.assertTrue(self.directory_path.is_dir())
 
+    def assertFileDoesNotContain(self, file_path, content):
+        self.assertEquals(-1,file_path.open().read().find(content))
+
     def assertFileDoesNotExist(self, file_path):
         self.assertFalse(file_path.is_file())
+
+    def assertFileContains(self, file_path, content):
+        self.assertNotEquals(-1,file_path.open().read().find(content))
 
     def assertFileExists(self, file_path):
         self.assertTrue(file_path.is_file())
