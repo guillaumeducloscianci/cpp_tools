@@ -11,20 +11,10 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command_copy_file import CommandCopyFile
-from unit_test import UnitTest
+import unittest
 
 
-class TestCommandCopyFile(UnitTest):
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.source_path, str(self.command.source_path))
-        self.assertEquals(self.destination_path, str(self.command.destination_path))
-
-    def test_command_converts_to_string(self):
-        self.assertIsNotEmpty(self.command.description())
-
-    def setUp(self):
-        self.source_path = "/arbitrary/source/path"
-        self.destination_path = "/arbitrary/desitnation/path"
-        self.command = CommandCopyFile(self.source_path, self.destination_path)
+class UnitTest(unittest.TestCase):
+    
+    def assertIsNotEmpty(self, string):
+        self.assertNotEquals("", string)
