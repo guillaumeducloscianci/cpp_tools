@@ -13,14 +13,16 @@
 
 import glob
 import subprocess
+import unittest
+
 from system_tools import cpp_tools_directory
 
 
-class SystemTest():
+class SystemTest(unittest.TestCase):
     directory_name = "testing"
 
     @classmethod
-    def setup(cls, directory_name_):
+    def reset(cls, directory_name_):
         cls.directory_name = directory_name_
         cls.clean_testing_directory()
 
@@ -33,3 +35,9 @@ class SystemTest():
     @classmethod
     def get_testing_directory(cls):
         return cpp_tools_directory/cls.directory_name
+
+    def assertFileDoesNotExist(self, file_path):
+        self.assertFalse(file_path.is_file())
+
+    def assertFileExists(self, file_path):
+        self.assertTrue(file_path.is_file())

@@ -12,23 +12,17 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-import unittest
 
-from system_test import SystemTest
 from command_copy_file import CommandCopyFile
+from system_test import SystemTest
 
 
-class TestCommandCopyFile(unittest.TestCase):
+class TestCommandCopyFile(SystemTest):
 
-    def assertFileDoesNotExist(self, file_path):
-        self.assertFalse(file_path.is_file())
-
-    def assertFileExists(self, file_path):
-        self.assertTrue(file_path.is_file())
-
-    @classmethod
-    def create_source_file(self):
-        self.source_path.open('w').write("File containing arbitrary content.")
+    def test_execution(self):
+        self.assertFileDoesNotExist(self.destination_path)
+        CommandCopyFile(self.source_path, self.destination_path).execute()
+        self.assertFileExists(self.destination_path)
 
     @classmethod
     def setUpClass(cls):
@@ -36,7 +30,6 @@ class TestCommandCopyFile(unittest.TestCase):
         cls.destination_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_copied"
         cls.create_source_file()
 
-    def test_execution(self):
-        self.assertFileDoesNotExist(self.destination_path)
-        CommandCopyFile(self.source_path, self.destination_path).execute()
-        self.assertFileExists(self.destination_path)
+    @classmethod
+    def create_source_file(self):
+        self.source_path.open('w').write("File containing arbitrary content.")
