@@ -11,19 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_create_directory import CommandCreateDirectory
+from unit_test import UnitTest
 
 
-class TestCommandCreateDirectory(unittest.TestCase):
-
-    def setUp(self):
-        self.directory_path = "/arbitrary/path"
-        self.command = CommandCreateDirectory(self.directory_path)
+class TestCommandCreateDirectory(UnitTest):
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.directory_path, str(self.command.directory_path))
 
-    def test_command_converts_to_string(self):
-        self.expected = CommandCreateDirectory.create_description_from_arguments(self.directory_path)
-        self.assertEquals(self.expected, self.command.description())
+    def test_command_description(self):
+        self.assertIsNotEmpty(self.command.description())
+
+    def setUp(self):
+        self.directory_path = "/arbitrary/path"
+        self.command = CommandCreateDirectory(self.directory_path)

@@ -11,21 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command import Command
 from pathlib import Path
+
+from command import Command
 
 
 class CommandCreateDirectory(Command):
-
-    @staticmethod
-    def create_description_from_arguments(directory_path):
-        return "Create directory " + str(directory_path)
 
     def __init__(self, directory_path_):
         self.directory_path = Path(directory_path_)
 
     def description(self):
-        return self.create_description_from_arguments(self.directory_path)
+        return "Create directory " + str(self.directory_path)
 
     def execute(self):
         self.directory_path.mkdir()

@@ -11,18 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
-from system_test import SystemTest
+
 from command_create_directory import CommandCreateDirectory
+from system_test import SystemTest
 
 
-class TestCommandCreateDirectory(unittest.TestCase):
+class TestCommandCreateDirectory(SystemTest):
 
     def setUp(self):
-        self.directory_name = Path(SystemTest.get_testing_directory()) / "arbitrary_directory_name"
+        self.directory_path = Path(SystemTest.get_testing_directory())/"arbitrary_directory_name"
 
     def test_execution(self):
-        self.assertFalse(self.directory_name.is_dir())
-        CommandCreateDirectory(self.directory_name).execute()
-        self.assertTrue(self.directory_name.is_dir())
+        self.assertDirectoryDoesNotExist(self.directory_path)
+        CommandCreateDirectory(self.directory_path).execute()
+        self.assertDirectoryExists(self.directory_path)

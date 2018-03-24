@@ -21,7 +21,7 @@ class TestCommandCopyFile(UnitTest):
         self.assertEquals(self.source_path, str(self.command.source_path))
         self.assertEquals(self.destination_path, str(self.command.destination_path))
 
-    def test_command_converts_to_string(self):
+    def test_command_description(self):
         self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):
