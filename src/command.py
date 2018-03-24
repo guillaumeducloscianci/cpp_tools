@@ -17,9 +17,9 @@ from abc import ABC, abstractmethod # Abstract base class module, see https://do
 class Command(ABC):
 
     @abstractmethod
-    def execute(self):
+    def description(self):
         pass
 
     @abstractmethod
-    def description(self):
+    def execute(self):
         pass

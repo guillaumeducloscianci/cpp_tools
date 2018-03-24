@@ -19,7 +19,9 @@ class TestCommandCreateLicenseHeaderTemplate(unittest.TestCase):
 
     def setUp(self):
         self.destination_path = "/arbitrary/path"
-        self.command = CommandCreateLicenseHeaderTemplate(self.destination_path)
+        self.project_name = "arbitrary_project_name"
+        self.author_name = "arbitrary_author_name"
+        self.command = CommandCreateLicenseHeaderTemplate(self.destination_path, self.project_name, self.author_name)
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.destination_path, str(self.command.destination_path))

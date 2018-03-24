@@ -19,7 +19,8 @@ class TestCommandCreateProject(unittest.TestCase):
 
     def setUp(self):
         self.project_path = "/arbitrary/path"
-        self.command = CommandCreateProject(self.project_path)
+        self.author_name = "arbitrary_author_name"
+        self.command = CommandCreateProject(self.project_path, self.author_name)
 
     def test_command_stored_arguments(self):
         self.assertEquals(self.project_path, str(self.command.project_path))

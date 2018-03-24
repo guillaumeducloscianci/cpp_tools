@@ -21,9 +21,9 @@ class CommandCopyFile(Command):
     def create_description_from_arguments(source_path, destination_path):
         return "Copy " + str(source_path) + " to " + str(destination_path)
 
-    # path arguments can be either strings of Path objects from pathlib
+    # path arguments can be either strings or Path objects from pathlib
     def __init__(self, source_path_, destination_name_):
-        # arguments are converted to strings because copy does not support Path
+        # arguments are converted to strings because shutil.copy does not support Path objects
         self.source_path = str(source_path_)
         self.destination_path = str(destination_name_)
 

@@ -11,23 +11,32 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
+import unittest
+
 from system_test import SystemTest
 from command_copy_file import CommandCopyFile
 
 
 class TestCommandCopyFile(unittest.TestCase):
 
-    def create_source_file(self):
-        self.source_path.open('a').write('File containing arbitrary content.')
+    def assertFileDoesNotExist(self, file_path):
+        self.assertFalse(file_path.is_file())
 
-    def setUp(self):
-        self.source_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_copy"
-        self.destination_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_copied"
-        self.create_source_file()
+    def assertFileExists(self, file_path):
+        self.assertTrue(file_path.is_file())
+
+    @classmethod
+    def create_source_file(self):
+        self.source_path.open('w').write("File containing arbitrary content.")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.source_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_copy"
+        cls.destination_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_copied"
+        cls.create_source_file()
 
     def test_execution(self):
-        self.assertFalse(self.destination_path.is_file())
+        self.assertFileDoesNotExist(self.destination_path)
         CommandCopyFile(self.source_path, self.destination_path).execute()
-        self.assertTrue(self.destination_path.is_file())
+        self.assertFileExists(self.destination_path)

@@ -28,4 +28,4 @@ class CommandParser:
         if not self.is_valid_command(arguments):
             print("Invalid syntax")
             sys.exit(1)
-        return CommandCreateProject(arguments[2])
+        return CommandCreateProject(arguments[2], arguments[3])

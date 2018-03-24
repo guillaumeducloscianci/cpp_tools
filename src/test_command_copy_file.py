@@ -17,6 +17,9 @@ from command_copy_file import CommandCopyFile
 
 class TestCommandCopyFile(unittest.TestCase):
 
+    def assertIsNotEmpty(self, string):
+        self.assertNotEquals("", string)
+
     def setUp(self):
         self.source_path = "/arbitrary/source/path"
         self.destination_path = "/arbitrary/desitnation/path"
@@ -27,5 +30,4 @@ class TestCommandCopyFile(unittest.TestCase):
         self.assertEquals(self.destination_path, str(self.command.destination_path))
 
     def test_command_converts_to_string(self):
-        self.expected = CommandCopyFile.create_description_from_arguments(self.source_path, self.destination_path)
-        self.assertEquals(self.expected, self.command.description())
+        self.assertIsNotEmpty(self.command.description())
