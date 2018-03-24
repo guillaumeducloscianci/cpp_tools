@@ -11,19 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
-from system_test import SystemTest
+
 from command_create_file import CommandCreateFile
+from system_test import SystemTest
 
 
-class TestCommandCreateFile(unittest.TestCase):
-
-    def setUp(self):
-        self.file_path = Path(SystemTest.get_testing_directory()) / "arbitrary_file_to_create"
-        self.file_content = "arbitrary content"
+class TestCommandCreateFile(SystemTest):
 
     def test_execution(self):
-        self.assertFalse(self.file_path.is_file())
+        self.assertFileDoesNotExist(self.file_path)
         CommandCreateFile(self.file_path, self.file_content).execute()
-        self.assertTrue(self.file_path.is_file())
+        self.assertFileExists(self.file_path)
+
+    def setUp(self):
+        self.file_path = Path(SystemTest.get_testing_directory())/"arbitrary_file_to_create"
+        self.file_content = "arbitrary content"

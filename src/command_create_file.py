@@ -11,22 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command import Command
 from pathlib import Path
+
+from command import Command
 
 
 class CommandCreateFile(Command):
-
-    @staticmethod
-    def create_description_from_arguments(file_path):
-        return "Create file " + str(file_path)
 
     def __init__(self, file_path_, file_content_):
         self.file_path = Path(file_path_)
         self.file_content = str(file_content_)
 
     def description(self):
-        return self.create_description_from_arguments(self.file_path)
+        return "Create file " + str(self.file_path)
 
     def execute(self):
         self.file_path.open(mode='w').write(self.file_content)

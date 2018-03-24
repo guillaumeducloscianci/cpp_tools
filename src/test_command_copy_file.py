@@ -17,11 +17,11 @@ from unit_test import UnitTest
 
 class TestCommandCopyFile(UnitTest):
 
-    def test_command_stored_arguments(self):
+    def test_variables(self):
         self.assertEquals(self.source_path, str(self.command.source_path))
         self.assertEquals(self.destination_path, str(self.command.destination_path))
 
-    def test_command_description(self):
+    def test_description(self):
         self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):

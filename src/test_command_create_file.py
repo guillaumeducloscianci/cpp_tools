@@ -11,20 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_create_file import CommandCreateFile
+from unit_test import UnitTest
 
 
-class TestCommandCreateFile(unittest.TestCase):
+class TestCommandCreateFile(UnitTest):
+
+    def test_variables(self):
+        self.assertEquals(self.file_path, str(self.command.file_path))
+
+    def test_description(self):
+        self.assertIsNotEmpty(self.command.description())
 
     def setUp(self):
         self.file_path = "/arbitrary/file/path"
         self.file_content = "arbitrary content"
         self.command = CommandCreateFile(self.file_path, self.file_content)
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.file_path, str(self.command.file_path))
-
-    def test_command_converts_to_string(self):
-        self.expected = CommandCreateFile.create_description_from_arguments(self.file_path)
-        self.assertEquals(self.expected, self.command.description())
