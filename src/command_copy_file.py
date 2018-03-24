@@ -17,10 +17,6 @@ from shutil import copy
 
 class CommandCopyFile(Command):
 
-    @staticmethod
-    def create_description_from_arguments(source_path, destination_path):
-        return "Copy " + str(source_path) + " to " + str(destination_path)
-
     # path arguments can be either strings or Path objects from pathlib
     def __init__(self, source_path_, destination_name_):
         # arguments are converted to strings because shutil.copy does not support Path objects
@@ -28,7 +24,7 @@ class CommandCopyFile(Command):
         self.destination_path = str(destination_name_)
 
     def description(self):
-        return self.create_description_from_arguments(self.source_path, self.destination_path)
+        return "Copy " + self.source_path + " to " + self.destination_path
 
     def execute(self):
         copy(self.source_path, self.destination_path)
