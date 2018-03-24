@@ -26,11 +26,5 @@ class TestCommandCreateCMakeLists(SystemTest):
         self.assert_file_exists(self.project_path/"CMakeLists.txt")
         self.assert_file_contains(self.project_path/"CMakeLists.txt", self.project_path.name)
 
-    @classmethod
-    def setUpClass(cls):
-        cls.project_path = Path(SystemTest.get_testing_directory())
-        cls.create_source_dir()
-
-    @classmethod
-    def create_source_dir(cls):
-        CommandCreateDirectory(cls.project_path/"src").execute()
+    def setUp(self):
+        self.project_path = Path(SystemTest.get_testing_directory())

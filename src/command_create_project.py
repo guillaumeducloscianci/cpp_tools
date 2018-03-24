@@ -43,8 +43,9 @@ class CommandCreateProject(Command):
             self.create_license_command(),
             self.create_license_template_command(),
             self.create_readme_command(),
-            CommandCreateGitRepository(self.project_path),
-            CommandCreateCMakeLists(self.project_path)
+            CommandCreateCMakeLists(self.project_path),
+            self.create_src_cmakelists_command(),
+            CommandCreateGitRepository(self.project_path)
         ]
         return commands
 
@@ -67,3 +68,8 @@ class CommandCreateProject(Command):
     def create_license_template_command(self):
         destination_path = Path(self.project_path/".templates/license_header.template")
         return CommandCreateLicenseHeaderTemplate(destination_path, self.project_path.name, self.author)
+
+    def create_src_cmakelists_command(self):
+        source_path = cpp_tools_resources_directory/"src_CMakeLists.txt"
+        destination_path = self.project_path/"src/CMakeLists.txt"
+        return CommandCopyFile(source_path, destination_path)
