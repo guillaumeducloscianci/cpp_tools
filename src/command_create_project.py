@@ -33,9 +33,12 @@ class CommandCreateProject(Command):
         self.directories = map(lambda directory: self.project_path/directory, self.project_directories)
         self.commands = self.create_commands()
 
-    @staticmethod
-    def create_description_from_arguments(project_path):
-        return "Create project " + str(project_path)
+    def description(self):
+        return "Create project " + str(self.project_path)
+
+    def execute(self):
+        for command in self.commands: # Avoid functional style (map, list comprehension) when side effects are involved.
+            command.execute()
 
     def create_commands(self):
         commands = self.create_directory_structure_commands()
@@ -48,13 +51,6 @@ class CommandCreateProject(Command):
             CommandCreateGitRepository(self.project_path)
         ]
         return commands
-
-    def description(self):
-        return self.create_description_from_arguments(self.project_path)
-
-    def execute(self):
-        for command in self.commands: # Avoid functional style (map, list comprehension) when side effects are involved.
-            command.execute()
 
     def create_directory_structure_commands(self):
         return list(map(lambda directory: CommandCreateDirectory(directory), self.directories))
