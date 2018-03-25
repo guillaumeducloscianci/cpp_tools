@@ -20,10 +20,6 @@ from system_tools import cpp_tools_resources_directory
 
 class CommandCreateLicenseHeaderTemplate(Command):
 
-    @staticmethod
-    def create_description_from_arguments(destination_path):
-        return "Create license header template for " + str(destination_path)
-
     def __init__(self, destination_path_, project_name_, author_):
         self.destination_path = Path(destination_path_)
         self.project_name = str(project_name_)
@@ -31,7 +27,7 @@ class CommandCreateLicenseHeaderTemplate(Command):
         self.commands = self.create_commands()
 
     def description(self):
-        return self.create_description_from_arguments(self.destination_path)
+        return "Create license header template for " + str(self.destination_path)
 
     def execute(self):
         for command in self.commands: command.execute()

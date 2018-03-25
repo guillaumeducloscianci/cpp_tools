@@ -11,21 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_create_license_header_template import CommandCreateLicenseHeaderTemplate
+from unit_test import UnitTest
 
 
-class TestCommandCreateLicenseHeaderTemplate(unittest.TestCase):
+class TestCommandCreateLicenseHeaderTemplate(UnitTest):
+
+    def test_variables(self):
+        self.assertEquals(self.destination_path, str(self.command.destination_path))
+
+    def test_description(self):
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.destination_path = "/arbitrary/path"
         self.project_name = "arbitrary_project_name"
         self.author_name = "arbitrary_author_name"
         self.command = CommandCreateLicenseHeaderTemplate(self.destination_path, self.project_name, self.author_name)
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.destination_path, str(self.command.destination_path))
-
-    def test_command_converts_to_string(self):
-        self.expected = CommandCreateLicenseHeaderTemplate.create_description_from_arguments(self.destination_path)
-        self.assertEquals(self.expected, self.command.description())
