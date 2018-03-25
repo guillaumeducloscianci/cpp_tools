@@ -11,19 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_create_git_repository import CommandCreateGitRepository
+from unit_test import UnitTest
 
 
-class TestCommandCreateDirectory(unittest.TestCase):
+class TestCommandCreateDirectory(UnitTest):
+
+    def test_variables(self):
+        self.assertEquals(self.repository_path, str(self.command.repository_path))
+
+    def test_description(self):
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.repository_path = "/arbitrary/path"
         self.command = CommandCreateGitRepository(self.repository_path)
-
-    def test_command_stored_arguments(self):
-        self.assertEquals(self.repository_path, str(self.command.repository_path))
-
-    def test_command_converts_to_string(self):
-        self.expected = CommandCreateGitRepository.create_description_from_arguments(self.repository_path)
-        self.assertEquals(self.expected, self.command.description())

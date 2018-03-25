@@ -22,7 +22,7 @@ class TestCommandCopyFile(UnitTest):
         self.assertEquals(self.destination_path, str(self.command.destination_path))
 
     def test_description(self):
-        self.assertIsNotEmpty(self.command.description())
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.source_path = "/arbitrary/source/path"

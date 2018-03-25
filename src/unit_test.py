@@ -16,5 +16,5 @@ import unittest
 
 class UnitTest(unittest.TestCase):
     
-    def assertIsNotEmpty(self, string):
+    def assert_is_not_empty(self, string):
         self.assertNotEquals("", string)

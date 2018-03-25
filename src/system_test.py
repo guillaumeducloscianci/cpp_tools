@@ -37,10 +37,10 @@ class SystemTest(unittest.TestCase):
         return cpp_tools_directory/cls.directory_name
 
     def assert_directory_does_not_exist(self, directory_path):
-        self.assertFalse(self.directory_path.is_dir())
+        self.assertFalse(directory_path.is_dir())
 
     def assert_directory_exists(self, directory_path):
-        self.assertTrue(self.directory_path.is_dir())
+        self.assertTrue(directory_path.is_dir())
 
     def assert_file_does_not_contain(self, file_path, content):
         self.assertEquals(-1,file_path.open().read().find(content))

@@ -21,7 +21,7 @@ class TestCommandCreateDirectory(UnitTest):
         self.assertEquals(self.directory_path, str(self.command.directory_path))
 
     def test_description(self):
-        self.assertIsNotEmpty(self.command.description())
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.directory_path = "/arbitrary/path"

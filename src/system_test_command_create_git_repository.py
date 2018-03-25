@@ -11,20 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from pathlib import Path
-from system_test import SystemTest
+
 from command_create_git_repository import CommandCreateGitRepository
+from system_test import SystemTest
 
 
-class TestCommandCreateDirectory(unittest.TestCase):
+class TestCommandCreateDirectory(SystemTest):
+
+    def test_execution(self):
+        self.assert_directory_does_not_exist(self.repository_path/".git")
+        self.assert_file_does_not_exist(self.repository_path/".gitignore")
+        CommandCreateGitRepository(self.repository_path).execute()
+        self.assert_directory_exists(self.repository_path/".git")
+        self.assert_file_exists(self.repository_path/".gitignore")
 
     def setUp(self):
         self.repository_path = Path(SystemTest.get_testing_directory())
-
-    def test_execution(self):
-        self.assertFalse((self.repository_path/".git").is_dir())
-        self.assertFalse((self.repository_path/".gitignore").is_file())
-        CommandCreateGitRepository(self.repository_path).execute()
-        self.assertTrue((self.repository_path/".git").is_dir())
-        self.assertTrue((self.repository_path/".gitignore").is_file())

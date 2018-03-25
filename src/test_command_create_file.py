@@ -21,7 +21,7 @@ class TestCommandCreateFile(UnitTest):
         self.assertEquals(self.file_path, str(self.command.file_path))
 
     def test_description(self):
-        self.assertIsNotEmpty(self.command.description())
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.file_path = "/arbitrary/file/path"

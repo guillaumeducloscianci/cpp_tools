@@ -20,15 +20,11 @@ from command_create_file import CommandCreateFile
 
 class CommandCreateGitRepository(Command):
 
-    @staticmethod
-    def create_description_from_arguments(repository_path):
-        return "Create git repository in " + str(repository_path)
-
     def __init__(self, repository_path_):
         self.repository_path = Path(repository_path_)
 
     def description(self):
-        return self.create_description_from_arguments(self.repository_path)
+        return "Create git repository in " + str(self.repository_path)
 
     def execute(self):
         subprocess.run(["git", "-C", str(self.repository_path), "init"], stdout=subprocess.DEVNULL)

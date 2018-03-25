@@ -21,7 +21,7 @@ class TestCommandSearchAndReplaceInFile(UnitTest):
         self.assertEquals(self.target_path, str(self.command.target_path))
 
     def test_description(self):
-        self.assertIsNotEmpty(self.command.description())
+        self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.target_path = "/arbitrary/file/path"
