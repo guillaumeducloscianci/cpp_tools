@@ -46,7 +46,7 @@ class CommandCreateProject(Command):
             self.create_license_command(),
             self.create_license_template_command(),
             self.create_readme_command(),
-            CommandCreateCMakeLists(self.project_path),
+            CommandCreateCMakeLists(self.project_path, self.project_path/".templates"/"license_header.template"),
             self.create_src_cmakelists_command(),
             CommandCreateGitRepository(self.project_path)
         ]

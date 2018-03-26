@@ -28,4 +28,4 @@ class CommandCreateGitRepository(Command):
 
     def execute(self):
         subprocess.run(["git", "-C", str(self.repository_path), "init"], stdout=subprocess.DEVNULL)
-        CommandCreateFile(self.repository_path/".gitignore", "").execute()
+        CommandCreateFile(self.repository_path/".gitignore", ".templates").execute()

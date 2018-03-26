@@ -54,3 +54,6 @@ class SystemTest(unittest.TestCase):
 
     def assert_file_exists(self, file_path):
         self.assertTrue(Path(file_path).is_file())
+
+    def assert_file_has_license_header(self, file_path):
+        self.assertNotEquals(-1,Path(file_path).open().read().find("free software"))

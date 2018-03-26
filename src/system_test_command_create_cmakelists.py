@@ -15,6 +15,7 @@ from pathlib import Path
 
 from command_create_cmakelists import CommandCreateCMakeLists
 from command_create_directory import CommandCreateDirectory
+from system_tools import cpp_tools_resources_directory
 from system_test import SystemTest
 
 
@@ -22,9 +23,11 @@ class TestCommandCreateCMakeLists(SystemTest):
 
     def test_execution(self):
         self.assert_file_does_not_exist(self.project_path/"CMakeLists.txt")
-        CommandCreateCMakeLists(self.project_path).execute()
+        CommandCreateCMakeLists(self.project_path, self.license_header_template_path).execute()
         self.assert_file_exists(self.project_path/"CMakeLists.txt")
+        self.assert_file_has_license_header(self.project_path/"CMakeLists.txt")
         self.assert_file_contains(self.project_path/"CMakeLists.txt", self.project_path.name)
 
     def setUp(self):
         self.project_path = Path(SystemTest.get_testing_directory())
+        self.license_header_template_path = cpp_tools_resources_directory/"license_header.template"

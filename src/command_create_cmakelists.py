@@ -14,15 +14,18 @@
 from pathlib import Path
 
 from command import Command
+from command_append_file_to_file import CommandAppendFileToFile
 from command_copy_file import CommandCopyFile
+from command_create_file_with_header import CommandCreateFileWithHeader
 from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
 from system_tools import cpp_tools_resources_directory
 
 
 class CommandCreateCMakeLists(Command):
 
-    def __init__(self, project_path_):
+    def __init__(self, project_path_, license_header_template_path_):
         self.project_path = Path(project_path_)
+        self.license_header_template_path = license_header_template_path_
         self.commands = self.create_commands()
 
     def description(self):
@@ -32,7 +35,10 @@ class CommandCreateCMakeLists(Command):
         for command in self.commands: command.execute()
 
     def create_commands(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
+        cmakelists_template_path = cpp_tools_resources_directory/"CMakeLists.template"
         destination_path = self.project_path/"CMakeLists.txt"
-        return [CommandCopyFile(source_path, destination_path),
-            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)]
+        return [
+            CommandCreateFileWithHeader(destination_path, self.license_header_template_path),
+            CommandAppendFileToFile(cmakelists_template_path, destination_path),
+            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)
+        ]
