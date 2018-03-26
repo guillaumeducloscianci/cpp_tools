@@ -17,10 +17,10 @@ from unit_test import UnitTest
 
 class TestFileTemplate(UnitTest):
 
-    def test_instantiation(self):
-        self.assert_equals(self.instance, FileTemplate(self.template).instantiate(self.token_to_value))
+    def test_instantiate_with(self):
+        self.assert_equals(self.instance, FileTemplate(self.template).instantiate_with(self.replacement_rules))
 
     def setUp(self):
         self.template = "Arbitrary text with tokens_ to replace_."
         self.instance = "Arbitrary text with replaced to tokens."
-        self.token_to_value = {"tokens_": "replaced", "replace_": "tokens"}
+        self.replacement_rules = {"tokens_": "replaced", "replace_": "tokens"}

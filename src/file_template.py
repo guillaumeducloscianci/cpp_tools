@@ -17,9 +17,9 @@ class FileTemplate():
     def __init__(self, template_):
         self.template = str(template_)
 
-    def instantiate(self, replacements_dictonnary):
+    def instantiate_with(self, replacements_rules):
         instance = self.template
-        for token, value in replacements_dictonnary.items():
+        for token, value in replacements_rules.items():
             instance = instance.replace(token, value)
         return instance
         
