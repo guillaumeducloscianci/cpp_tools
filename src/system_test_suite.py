@@ -27,6 +27,7 @@ import system_test_command_create_project
 import system_test_command_search_and_replace_in_file
 import system_test_directory
 import system_test_file
+import system_test_project
 import system_test_top_level_cmakelists
 
 from pathlib import Path
@@ -38,6 +39,8 @@ def create_system_test_suite():
         system_test_directory,
         system_test_file,
         system_test_top_level_cmakelists,
+        
+        system_test_project,
 
         system_test_command_append_file_to_file,
         system_test_command_copy_file,
