@@ -17,7 +17,7 @@ from system_test import SystemTest
 
 class TestProject(SystemTest):
 
-    def test_create(self):
+    def test_create_directory_structure(self):
         self.assert_directory_does_not_exist(self.path)
         Project(self.parameters).create_directory_structure()
         self.assert_has_a_project_directory_structure()
@@ -30,3 +30,20 @@ class TestProject(SystemTest):
     def assert_has_a_project_directory_structure(self):
         for directory in Project.directories:
             self.assert_directory_exists(self.path/directory)
+
+class TestProjectWithDirectoryStructure(SystemTest):            
+
+    def test_create_license_file(self):
+        self.project.create_license_file()
+        self.assert_project_directory_contains(["LICENSE.TXT"])
+
+    @classmethod
+    def setUpClass(cls):
+        cls.path = SystemTest.get_testing_directory()/"arbitrary_project_with_directory_structure"
+        cls.author = "arbitrary_author"
+        cls.project = Project(Parameters(cls.path, cls.author))
+        cls.project.create_directory_structure()
+
+    def assert_project_directory_contains(self, file_names):
+        for file_name in file_names:
+            self.assert_file_exists(self.path/file_name)

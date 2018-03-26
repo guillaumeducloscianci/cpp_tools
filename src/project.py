@@ -14,6 +14,8 @@
 from pathlib import Path
 
 from directory import Directory
+from file import File
+from system_tools import cpp_tools_resources_directory 
 
 
 class Parameters():
@@ -32,6 +34,9 @@ class Project():
     def create_directory_structure(self):
         for directory in self.create_directory_paths():
             Directory().create(directory)
+
+    def create_license_file(self):
+        File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.parameters.path/"LICENSE.TXT")
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.parameters.path/directory, self.directories))
