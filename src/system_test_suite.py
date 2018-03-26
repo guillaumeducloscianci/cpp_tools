@@ -25,6 +25,7 @@ import system_test_command_create_git_repository
 import system_test_command_create_license_header_template
 import system_test_command_create_project
 import system_test_command_search_and_replace_in_file
+import system_test_directory
 import system_test_file
 import system_test_top_level_cmakelists
 
@@ -34,6 +35,7 @@ from command_create_project import CommandCreateProject
 def create_system_test_suite():
     SystemTest.reset("testing")
     modules = [
+        system_test_directory,
         system_test_file,
         system_test_top_level_cmakelists,
 
