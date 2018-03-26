@@ -37,6 +37,9 @@ class SystemTest(unittest.TestCase):
     def get_testing_directory(cls):
         return cpp_tools_directory/cls.directory_name
 
+    def assert_equals(self, lhs, rhs):
+        self.assertEquals(lhs, rhs)
+
     def assert_directory_does_not_exist(self, directory_path):
         self.assertFalse(Path(directory_path).is_dir())
 
