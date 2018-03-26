@@ -19,10 +19,12 @@ class TestCommandCreateCMakeLists(UnitTest):
 
     def test_variables(self):
         self.assertEquals(self.project_path, str(self.command.project_path))
+        self.assertEquals(self.license_header_template_path, str(self.command.license_header_template_path))
 
     def test_description(self):
         self.assert_is_not_empty(self.command.description())
 
     def setUp(self):
         self.project_path = "/arbitrary/project/path"
-        self.command = CommandCreateCMakeLists(self.project_path)
+        self.license_header_template_path = "/arbitrary/template/path"
+        self.command = CommandCreateCMakeLists(self.project_path, self.license_header_template_path)
