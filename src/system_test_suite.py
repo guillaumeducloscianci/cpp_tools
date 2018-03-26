@@ -15,6 +15,7 @@
 
 from system_test import SystemTest
 from test_suite import TestSuite
+import system_test_command_append_file_to_file
 import system_test_command_copy_file
 import system_test_command_create_cmakelists
 import system_test_command_create_directory
@@ -31,6 +32,7 @@ from command_create_project import CommandCreateProject
 def create_system_test_suite():
     SystemTest.reset("testing")
     modules = [
+        system_test_command_append_file_to_file,
         system_test_command_copy_file,
         system_test_command_create_directory,
         system_test_command_create_file,

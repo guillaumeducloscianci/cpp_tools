@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from test_suite import TestSuite
+import test_command_append_file_to_file
 import test_command_copy_file
 import test_command_create_cmakelists
 import test_command_create_directory
@@ -29,6 +30,7 @@ from command_parser import CommandParser
 
 def create_unit_test_suite():
     modules = [
+        test_command_append_file_to_file,
         test_command_copy_file,
         test_command_create_directory,
         test_command_create_file,
