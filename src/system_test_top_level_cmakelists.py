@@ -11,19 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
+from top_level_cmakelists import TopLevelCMakeLists
+from unit_test import UnitTest
 
+class TestTopLevelCMakeLists(UnitTest):
 
-class UnitTest(unittest.TestCase):
+    def test_instantiate_with(self):
+        instantiation = TopLevelCMakeLists.instantiate_with(self.project_name)
+        for token, value in TopLevelCMakeLists.create_replacement_rules(self.project_name).items():
+            self.assert_string_does_not_contain(instantiation, token)
+            self.assert_string_contains(instantiation, value)
 
-    def assert_equals(self, lhs, rhs):
-        self.assertEquals(lhs, rhs)
-
-    def assert_is_not_empty(self, string):
-        self.assertNotEquals("", string)
-
-    def assert_string_does_not_contain(self, string, content):
-        self.assertEquals(-1,string.find(str(content)))
-
-    def assert_string_contains(self, string, content):
-        self.assertNotEquals(-1,string.find(str(content)))
+    def setUp(self):
+        self.project_name = "arbitrary name"

@@ -11,19 +11,17 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
+from file import File
+from file_template import FileTemplate
+from system_tools import cpp_tools_resources_directory
 
+class TopLevelCMakeLists():
+    template_file_name = "CMakeLists.template"
 
-class UnitTest(unittest.TestCase):
+    @classmethod
+    def instantiate_with(cls, project_name, template_path=cpp_tools_resources_directory/template_file_name):
+        return FileTemplate(File.read(template_path)).instantiate_with(cls.create_replacement_rules(project_name))
 
-    def assert_equals(self, lhs, rhs):
-        self.assertEquals(lhs, rhs)
-
-    def assert_is_not_empty(self, string):
-        self.assertNotEquals("", string)
-
-    def assert_string_does_not_contain(self, string, content):
-        self.assertEquals(-1,string.find(str(content)))
-
-    def assert_string_contains(self, string, content):
-        self.assertNotEquals(-1,string.find(str(content)))
+    @classmethod
+    def create_replacement_rules(cls, project_name):
+        return {"project_name_": project_name}

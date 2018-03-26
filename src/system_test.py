@@ -31,7 +31,7 @@ class SystemTest(UnitTest):
     def clean_testing_directory(cls):
         #subprocess does not support Path objects.
         directory = str(cls.get_testing_directory())
-        subprocess.run(["gvfs-trash"] + glob.glob(directory+"/*") + glob.glob(directory+"/.*"))
+        subprocess.run(["gvfs-trash"] + glob.glob(directory+"/*") + glob.glob(directory+"/.*")) # \todo: use pathlib directly?
 
     @classmethod
     def get_testing_directory(cls):
