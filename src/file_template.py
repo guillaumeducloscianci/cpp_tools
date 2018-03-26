@@ -11,13 +11,15 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 
+class FileTemplate():
+    
+    def __init__(self, template_):
+        self.template = str(template_)
 
-class UnitTest(unittest.TestCase):
-
-    def assert_equals(self, lhs, rhs):
-        self.assertEquals(lhs, rhs)
-
-    def assert_is_not_empty(self, string):
-        self.assertNotEquals("", string)
+    def instantiate(self, replacements_dictonnary):
+        instance = self.template
+        for token, value in replacements_dictonnary.items():
+            instance = instance.replace(token, value)
+        return instance
+        

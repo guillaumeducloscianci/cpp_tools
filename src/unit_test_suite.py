@@ -25,6 +25,7 @@ import test_command_create_license_header_template
 import test_command_create_project
 import test_command_search_and_replace_in_file
 import test_command_parser
+import test_file_template
 
 from command_parser import CommandParser
 
@@ -42,7 +43,8 @@ def create_unit_test_suite():
         test_command_create_license_header_template,
         test_command_create_project,
 
-        test_command_parser
+        test_command_parser,
+        test_file_template,
     ]
     return TestSuite.create_from_modules(modules)
 

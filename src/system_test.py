@@ -14,12 +14,12 @@
 from pathlib import Path
 import glob
 import subprocess
-import unittest
+from unit_test import UnitTest
 
 from system_tools import cpp_tools_directory
 
 
-class SystemTest(unittest.TestCase):
+class SystemTest(UnitTest):
     directory_name = "testing"
 
     @classmethod
@@ -36,9 +36,6 @@ class SystemTest(unittest.TestCase):
     @classmethod
     def get_testing_directory(cls):
         return cpp_tools_directory/cls.directory_name
-
-    def assert_equals(self, lhs, rhs):
-        self.assertEquals(lhs, rhs)
 
     def assert_directory_does_not_exist(self, directory_path):
         self.assertFalse(Path(directory_path).is_dir())

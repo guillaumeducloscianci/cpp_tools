@@ -11,13 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
+from file_template import FileTemplate
+from unit_test import UnitTest
 
 
-class UnitTest(unittest.TestCase):
+class TestFileTemplate(UnitTest):
 
-    def assert_equals(self, lhs, rhs):
-        self.assertEquals(lhs, rhs)
+    def test_instantiation(self):
+        self.assert_equals(self.instance, FileTemplate(self.template).instantiate(self.token_to_value))
 
-    def assert_is_not_empty(self, string):
-        self.assertNotEquals("", string)
+    def setUp(self):
+        self.template = "Arbitrary text with tokens_ to replace_."
+        self.instance = "Arbitrary text with replaced to tokens."
+        self.token_to_value = {"tokens_": "replaced", "replace_": "tokens"}
