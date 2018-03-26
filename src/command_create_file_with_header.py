@@ -11,28 +11,28 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from pathlib import Path
 
 from command import Command
 from command_copy_file import CommandCopyFile
 from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
-from system_tools import cpp_tools_resources_directory
 
 
-class CommandCreateCMakeLists(Command):
+class CommandCreateFileWithHeader(Command):
 
-    def __init__(self, project_path_):
-        self.project_path = Path(project_path_)
+    def __init__(self, destination_path_, license_header_template_path_):
+        self.destination_path = Path(destination_path_)
+        self.license_header_template_path = Path(license_header_template_path_)
         self.commands = self.create_commands()
 
     def description(self):
-        return "Create CMakeLists.txt for " + str(self.project_path)
+        return ("Create file " + str(self.destination_path) + " with licencse header from "
+            + str(self.license_header_template_path))
 
     def execute(self):
         for command in self.commands: command.execute()
 
     def create_commands(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
-        destination_path = self.project_path/"CMakeLists.txt"
-        return [CommandCopyFile(source_path, destination_path),
-            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)]
+        return [CommandCopyFile(self.license_header_template_path, self.destination_path),
+            CommandSearchAndReplaceInFile(self.destination_path, "year_", datetime.now().year)]

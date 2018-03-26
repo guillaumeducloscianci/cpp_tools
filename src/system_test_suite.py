@@ -19,6 +19,7 @@ import system_test_command_copy_file
 import system_test_command_create_cmakelists
 import system_test_command_create_directory
 import system_test_command_create_file
+import system_test_command_create_file_with_header
 import system_test_command_create_git_repository
 import system_test_command_create_license_header_template
 import system_test_command_create_project
@@ -30,10 +31,16 @@ from command_create_project import CommandCreateProject
 def create_system_test_suite():
     SystemTest.reset("testing")
     modules = [
-        system_test_command_copy_file, system_test_command_create_cmakelists, system_test_command_create_directory,
-        system_test_command_create_file, system_test_command_create_git_repository,
-        system_test_command_create_license_header_template, system_test_command_create_project,
-        system_test_command_search_and_replace_in_file
+        system_test_command_copy_file,
+        system_test_command_create_directory,
+        system_test_command_create_file,
+        system_test_command_search_and_replace_in_file,
+
+        system_test_command_create_cmakelists,
+        system_test_command_create_file_with_header,
+        system_test_command_create_git_repository,
+        system_test_command_create_license_header_template,
+        system_test_command_create_project,
     ]
     return TestSuite.create_from_modules(modules)
 

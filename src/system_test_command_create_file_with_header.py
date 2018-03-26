@@ -11,28 +11,22 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from pathlib import Path
 
-from command import Command
-from command_copy_file import CommandCopyFile
-from command_search_and_replace_in_file import CommandSearchAndReplaceInFile
+from command_create_file_with_header import CommandCreateFileWithHeader
+from system_test import SystemTest
 from system_tools import cpp_tools_resources_directory
 
 
-class CommandCreateCMakeLists(Command):
+class TestCommandCreateFileWithHeader(SystemTest):
 
-    def __init__(self, project_path_):
-        self.project_path = Path(project_path_)
-        self.commands = self.create_commands()
+    def test_execution(self):
+        self.assert_file_does_not_exist(self.destination_path)
+        CommandCreateFileWithHeader(self.destination_path, self.license_header_template_path).execute()
+        self.assert_file_exists(self.destination_path)
+        self.assert_file_contains(self.destination_path, datetime.now().year)
 
-    def description(self):
-        return "Create CMakeLists.txt for " + str(self.project_path)
-
-    def execute(self):
-        for command in self.commands: command.execute()
-
-    def create_commands(self):
-        source_path = cpp_tools_resources_directory/"CMakeLists.template"
-        destination_path = self.project_path/"CMakeLists.txt"
-        return [CommandCopyFile(source_path, destination_path),
-            CommandSearchAndReplaceInFile(destination_path, "project_name_", self.project_path.name)]
+    def setUp(self):
+        self.destination_path = Path(SystemTest.get_testing_directory())/"file_with_header.txt"
+        self.license_header_template_path = cpp_tools_resources_directory/"license_header.template"
