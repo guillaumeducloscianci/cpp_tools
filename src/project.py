@@ -15,6 +15,7 @@ from pathlib import Path
 
 from directory import Directory
 from file import File
+from file_template import FileTemplate
 from system_tools import cpp_tools_resources_directory 
 
 
@@ -37,6 +38,13 @@ class Project():
 
     def create_license_file(self):
         File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.parameters.path/"LICENSE.TXT")
+
+    def create_license_header_template(self):
+        replacement_rules = {"project_name_": self.parameters.path.name, "author_": self.parameters.author}
+        destination_path = self.parameters.path/".templates"/"license_header.template"
+        template_path = cpp_tools_resources_directory/"license_header.template"
+        content = FileTemplate(File.read(template_path)).instantiate_with(replacement_rules)
+        File.write(destination_path, content)
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.parameters.path/directory, self.directories))

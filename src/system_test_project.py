@@ -31,11 +31,16 @@ class TestProject(SystemTest):
         for directory in Project.directories:
             self.assert_directory_exists(self.path/directory)
 
+
 class TestProjectWithDirectoryStructure(SystemTest):            
 
     def test_create_license_file(self):
         self.project.create_license_file()
-        self.assert_project_directory_contains(["LICENSE.TXT"])
+        self.assert_project_directory_contains("LICENSE.TXT")
+
+    def test_create_license_header_template(self):
+        self.project.create_license_header_template()
+        self.assert_project_directory_contains(".templates/license_header.template")
 
     @classmethod
     def setUpClass(cls):
@@ -44,6 +49,5 @@ class TestProjectWithDirectoryStructure(SystemTest):
         cls.project = Project(Parameters(cls.path, cls.author))
         cls.project.create_directory_structure()
 
-    def assert_project_directory_contains(self, file_names):
-        for file_name in file_names:
-            self.assert_file_exists(self.path/file_name)
+    def assert_project_directory_contains(self, file_name):
+        self.assert_file_exists(self.path/file_name)
