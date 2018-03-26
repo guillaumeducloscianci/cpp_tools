@@ -21,6 +21,13 @@ class TestFile(SystemTest):
         File.write(self.path, self.content)
         self.assert_equals(self.content, File.read(self.path))
 
+    def test_copy(self):
+        copy_path = self.path.parent/"arbitrary_file.copy"
+        File.write(self.path, self.content)
+        self.assert_file_does_not_exist(copy_path)
+        File.copy(self.path, copy_path)
+        self.assert_file_exists(copy_path)
+
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_file"
         self.content = "Arbitrary content."

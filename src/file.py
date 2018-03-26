@@ -12,9 +12,14 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-
+from shutil import copy
 
 class File():
+
+    @staticmethod
+    def copy(source_path, destination_path):
+        # arguments are converted to strings because shutil.copy does not support Path objects
+        copy(str(source_path), str(destination_path))
 
     @staticmethod
     def read(path):
