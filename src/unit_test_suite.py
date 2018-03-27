@@ -16,20 +16,17 @@
 from test_suite import TestSuite
 import test_command_create_project
 import test_command_parser
-
 import test_file_template
 import test_top_level_cmakelists
 
 from command_parser import CommandParser
 
 def create_unit_test_suite():
-    modules = [        
-        test_command_create_project,
-
-        test_command_parser,
-        test_file_template,
-        test_top_level_cmakelists,
-    ]
+    # Order is important. It represents ascending dependencies between modules.
+    modules = [ test_file_template ]
+    modules += [ test_top_level_cmakelists ]
+    modules += [ test_command_create_project ]
+    modules += [ test_command_parser ]
     return TestSuite.create_from_modules(modules)
 
 if __name__ == '__main__':

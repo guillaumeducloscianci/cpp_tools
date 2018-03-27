@@ -21,19 +21,16 @@ import system_test_file
 import system_test_project
 import system_test_top_level_cmakelists
 
-from pathlib import Path
-from command_create_project import CommandCreateProject
-
 def create_system_test_suite():
-    SystemTest.reset("testing")
+    # Order is important. It represents ascending dependencies between modules.
     modules = [
         system_test_directory,
-        system_test_file,
-        system_test_top_level_cmakelists,
-        
-        system_test_project,
-        system_test_command_create_project,
+        system_test_file
     ]
+    modules += [ system_test_top_level_cmakelists ]
+    modules += [ system_test_project ]
+    modules += [ system_test_command_create_project ]
+    SystemTest.reset("testing")
     return TestSuite.create_from_modules(modules)
 
 if __name__ == '__main__':
