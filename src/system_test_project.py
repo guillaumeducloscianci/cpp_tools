@@ -62,6 +62,11 @@ class TestProjectWithLicenseHeaderTemplate(TestProjectWithDirectoryStructure):
     def test_create_top_level_cmakelists(self):
         self.project.create_top_level_cmakelists()
         self.assert_project_directory_contains("CMakeLists.txt")
+        self.assert_file_contains(self.path/"CMakeLists.txt", self.path.name)
+
+    def test_create_src_cmakelists(self):
+        self.project.create_src_cmakelists()
+        self.assert_project_directory_contains("src/CMakeLists.txt")
 
     @classmethod
     def setUpClass(cls):
