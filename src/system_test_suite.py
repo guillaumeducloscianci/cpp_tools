@@ -19,7 +19,6 @@ import system_test_command_append_file_to_file
 import system_test_command_copy_file
 import system_test_command_create_directory
 import system_test_command_create_file
-import system_test_command_create_file_with_header
 import system_test_command_create_license_header_template
 import system_test_command_create_project
 import system_test_command_search_and_replace_in_file
@@ -46,7 +45,6 @@ def create_system_test_suite():
         system_test_command_create_file,
         system_test_command_search_and_replace_in_file,
 
-        system_test_command_create_file_with_header,
         system_test_command_create_license_header_template,
         system_test_command_create_project,
     ]
