@@ -14,8 +14,8 @@
 from pathlib import Path
 
 from system_test import SystemTest
-from command_create_project import CommandCreateProject
-
+from command_create_project import CommandCreateProject, ProjectParameters
+from project import Project
 
 class TestCommandCreateProject(SystemTest):
 
@@ -31,10 +31,10 @@ class TestCommandCreateProject(SystemTest):
     def setUp(self):
         self.author = "arbitrary_author"
         self.project_path = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
-        self.command = CommandCreateProject(self.project_path, self.author)
+        self.command = CommandCreateProject(ProjectParameters(self.project_path, self.author))
 
     def assert_has_a_project_directory_structure(self):
-        for directory_name in CommandCreateProject.project_directories:
+        for directory_name in Project.directories:
             self.assert_directory_exists(self.project_path/directory_name)
 
     def assert_project_directory_contains(self, file_names):

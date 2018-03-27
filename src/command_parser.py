@@ -13,7 +13,7 @@
 
 import sys
 
-from command_create_project import CommandCreateProject
+from command_create_project import CommandCreateProject, ProjectParameters
 
 
 class CommandParser:
@@ -28,4 +28,4 @@ class CommandParser:
         if not self.is_valid_command(arguments):
             print("Invalid syntax")
             sys.exit(1)
-        return CommandCreateProject(arguments[2], arguments[3])
+        return CommandCreateProject(ProjectParameters(arguments[2], arguments[3]))
