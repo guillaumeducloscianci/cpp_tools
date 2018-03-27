@@ -16,13 +16,13 @@ from project import Project, ProjectParameters
 from system_test import SystemTest
 
 
-class TestProjectBase(SystemTest):
+class TestProjectTools(SystemTest):
 
     @classmethod
     def setup_base(cls):
         cls.author = "arbitrary_author"
         cls.path = SystemTest.get_testing_directory()/"arbitrary_project"
-        cls.parameters = ProjectParameters(cls.path, cls.author)
+        cls.project = Project(ProjectParameters(cls.path, cls.author))
 
     @classmethod
     def tear_down_base(cls):
@@ -36,11 +36,11 @@ class TestProjectBase(SystemTest):
         self.assert_file_exists(self.path/file_name)
 
 
-class TestProject(TestProjectBase):
+class TestProjectDirectoryStructure(TestProjectTools):
 
     def test_create_directory_structure(self):
         self.assert_directory_does_not_exist(self.path)
-        Project(self.parameters).create_directory_structure()
+        self.project.create_directory_structure()
         self.assert_has_a_project_directory_structure()
 
     @classmethod
@@ -52,7 +52,7 @@ class TestProject(TestProjectBase):
         cls.tear_down_base()
 
 
-class TestProjectWithDirectoryStructure(TestProjectBase):
+class TestProjectWithDirectoryStructure(TestProjectTools):
 
     def test_create_gitignore_file(self):
         self.project.create_gitignore_file()
@@ -77,7 +77,6 @@ class TestProjectWithDirectoryStructure(TestProjectBase):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.project = Project(cls.parameters)
         cls.project.create_directory_structure()
 
     @classmethod
@@ -85,7 +84,7 @@ class TestProjectWithDirectoryStructure(TestProjectBase):
         cls.tear_down_base()
 
 
-class TestProjectWithLicenseHeaderTemplate(TestProjectBase):
+class TestProjectWithLicenseHeaderTemplate(TestProjectTools):
 
     def test_create_top_level_cmakelists(self):
         self.project.create_top_level_cmakelists()
@@ -103,9 +102,30 @@ class TestProjectWithLicenseHeaderTemplate(TestProjectBase):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.project = Project(cls.parameters)
         cls.project.create_directory_structure()
         cls.project.create_license_header_template()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
+
+
+class TestProjectCreation(TestProjectTools):
+
+    def test_create(self):
+        self.project.create()
+        self.assert_has_a_project_directory_structure()
+        for file in self.expected_files:
+            self.assert_project_directory_contains(file)
+        for file in self.expected_files_with_header:
+            self.assert_file_has_license_header(self.path/file)
+
+    @classmethod
+    def setUpClass(cls):
+        cls.setup_base()
+        cls.expected_files_with_header = ["CMakeLists.txt", "src/CMakeLists.txt"]
+        cls.expected_files = (["LICENSE.TXT", "README.md", ".gitignore", ".templates/license_header.template"]
+            + cls.expected_files_with_header)
 
     @classmethod
     def tearDownClass(cls):

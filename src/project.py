@@ -36,6 +36,15 @@ class Project():
         self.path = parameters.path
         self.author = parameters.author
 
+    def create(self):
+        self.create_directory_structure() # Must appear first, before any file creation
+        self.create_gitignore_file()
+        self.create_license_file()
+        self.create_license_header_template() # Must appear before top level cmakelists creation
+        self.create_readme_file()
+        self.create_src_cmakelists()
+        self.create_top_level_cmakelists()
+
     def create_directory_structure(self):
         for directory in self.create_directory_paths():
             Directory().create(directory)
