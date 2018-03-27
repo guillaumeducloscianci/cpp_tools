@@ -31,32 +31,36 @@ class Parameters():
 class Project():
     directories = ["", "include", "src", ".templates"]
 
-    def __init__(self, parameters_):
-        self.parameters = parameters_
+    def __init__(self, parameters):
+        self.path = parameters.path
+        self.author = parameters.author
 
     def create_directory_structure(self):
         for directory in self.create_directory_paths():
             Directory().create(directory)
 
     def create_license_file(self):
-        File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.parameters.path/"LICENSE.TXT")
+        File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.path/"LICENSE.TXT")
 
     def create_license_header_template(self):
-        replacement_rules = {"project_name_": self.parameters.path.name, "author_": self.parameters.author}
-        destination_path = self.parameters.path/".templates"/"license_header.template"
+        replacement_rules = {"project_name_": self.path.name, "author_": self.author}
+        destination_path = self.path/".templates"/"license_header.template"
         content = FileTemplate(File.read(self.create_license_header_path())).instantiate_with(replacement_rules)
         File.write(destination_path, content)
 
+    def create_readme_file(self):
+        File.write(self.path/"README.md", "## " + self.path.name + "\n")
+
     def create_top_level_cmakelists(self):
-        cmakelists_path = self.parameters.path/"CMakeLists.txt"
-        body = TopLevelCMakeLists.instantiate_with(self.parameters.path.name)
+        cmakelists_path = self.path/"CMakeLists.txt"
+        body = TopLevelCMakeLists.instantiate_with(self.path.name)
         File.write(cmakelists_path, self.create_license_header() + body)
 
     def create_src_cmakelists(self):
-        File.copy(cpp_tools_resources_directory/"src_CMakeLists.txt", self.parameters.path/"src"/"CMakeLists.txt")
+        File.copy(cpp_tools_resources_directory/"src_CMakeLists.txt", self.path/"src"/"CMakeLists.txt")
 
     def create_directory_paths(self):
-        return list(map(lambda directory: self.parameters.path/directory, self.directories))
+        return list(map(lambda directory: self.path/directory, self.directories))
 
     def create_license_header(self):
         replacement_rules = {"year_": str(datetime.now().year)}

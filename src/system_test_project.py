@@ -42,6 +42,10 @@ class TestProjectWithDirectoryStructure(SystemTest):
         self.project.create_license_header_template()
         self.assert_project_directory_contains(".templates/license_header.template")
 
+    def test_create_readme_file(self):
+        self.project.create_readme_file()
+        self.assert_project_directory_contains("README.md")
+
     @classmethod
     def setUpClass(cls):
         cls.setUpClassFromProjectName("arbitrary_project_with_directory_structure")
