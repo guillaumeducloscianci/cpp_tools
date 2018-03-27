@@ -12,11 +12,10 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-import glob
-import subprocess
 from unit_test import UnitTest
 
 from system_tools import cpp_tools_directory
+from directory import remove_path
 
 
 class SystemTest(UnitTest):
@@ -29,9 +28,8 @@ class SystemTest(UnitTest):
 
     @classmethod
     def clean_testing_directory(cls):
-        #subprocess does not support Path objects.
-        directory = str(cls.get_testing_directory())
-        subprocess.run(["gvfs-trash"] + glob.glob(directory+"/*") + glob.glob(directory+"/.*")) # \todo: use pathlib directly?
+        for path in cls.get_testing_directory().iterdir():
+            remove_path(path)
 
     @classmethod
     def get_testing_directory(cls):

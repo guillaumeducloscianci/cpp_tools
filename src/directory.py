@@ -13,7 +13,7 @@
 
 from pathlib import Path
 
-def delete_path(path):
+def remove_path(path):
     if Path(path).is_dir():
         Directory.remove(path)
     else:
@@ -28,5 +28,5 @@ class Directory():
     @staticmethod
     def remove(path):
         for p in Path(path).iterdir():
-            delete_path(p)
+            remove_path(p)
         Path(path).rmdir()
