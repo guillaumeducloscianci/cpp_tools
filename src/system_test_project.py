@@ -19,18 +19,14 @@ from system_test import SystemTest
 class TestProjectBase(SystemTest):
 
     @classmethod
-    def setUpClass(cls):
-        cls.setup_base()
-
-    @classmethod
-    def tearDownClass(cls):
-        Directory.remove(cls.path)
-
-    @classmethod
     def setup_base(cls):
         cls.author = "arbitrary_author"
         cls.path = SystemTest.get_testing_directory()/"arbitrary_project"
         cls.parameters = ProjectParameters(cls.path, cls.author)
+
+    @classmethod
+    def tear_down_base(cls):
+        Directory.remove(cls.path)
 
     def assert_has_a_project_directory_structure(self):
         for directory in Project.directories:
@@ -46,6 +42,14 @@ class TestProject(TestProjectBase):
         self.assert_directory_does_not_exist(self.path)
         Project(self.parameters).create_directory_structure()
         self.assert_has_a_project_directory_structure()
+
+    @classmethod
+    def setUpClass(cls):
+        cls.setup_base()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
 
 
 class TestProjectWithDirectoryStructure(TestProjectBase):
@@ -76,6 +80,10 @@ class TestProjectWithDirectoryStructure(TestProjectBase):
         cls.project = Project(cls.parameters)
         cls.project.create_directory_structure()
 
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
+
 
 class TestProjectWithLicenseHeaderTemplate(TestProjectBase):
 
@@ -98,3 +106,7 @@ class TestProjectWithLicenseHeaderTemplate(TestProjectBase):
         cls.project = Project(cls.parameters)
         cls.project.create_directory_structure()
         cls.project.create_license_header_template()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
