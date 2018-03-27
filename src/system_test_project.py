@@ -79,4 +79,3 @@ class TestProjectWithLicenseHeaderTemplate(TestProjectWithDirectoryStructure):
     @classmethod
     def setUpClass(cls):
         cls.setUpClassFromProjectName("arbitrary_project_with_license_header")
-    
