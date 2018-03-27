@@ -39,6 +39,7 @@ class Project():
     def create(self):
         self.create_directory_structure() # Must appear first, before any file creation
         self.create_gitignore_file()
+        self.create_git_repository()
         self.create_license_file()
         self.create_license_header_template() # Must appear before top level cmakelists creation
         self.create_readme_file()

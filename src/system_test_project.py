@@ -119,6 +119,7 @@ class TestProjectCreation(TestProjectTools):
             self.assert_project_directory_contains(file)
         for file in self.expected_files_with_header:
             self.assert_file_has_license_header(self.path/file)
+        self.assert_directory_exists(self.path/".git")
 
     @classmethod
     def setUpClass(cls):
