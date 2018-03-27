@@ -32,7 +32,7 @@ class TestProject(SystemTest):
             self.assert_directory_exists(self.path/directory)
 
 
-class TestProjectWithDirectoryStructure(SystemTest):            
+class TestProjectWithDirectoryStructure(SystemTest):
 
     def test_create_license_file(self):
         self.project.create_license_file()
@@ -44,10 +44,26 @@ class TestProjectWithDirectoryStructure(SystemTest):
 
     @classmethod
     def setUpClass(cls):
-        cls.path = SystemTest.get_testing_directory()/"arbitrary_project_with_directory_structure"
+        cls.setUpClassFromProjectName("arbitrary_project_with_directory_structure")
+
+    def assert_project_directory_contains(self, file_name):
+        self.assert_file_exists(self.path/file_name)
+
+    @classmethod
+    def setUpClassFromProjectName(cls, name):
+        cls.path = SystemTest.get_testing_directory()/name
         cls.author = "arbitrary_author"
         cls.project = Project(Parameters(cls.path, cls.author))
         cls.project.create_directory_structure()
 
-    def assert_project_directory_contains(self, file_name):
-        self.assert_file_exists(self.path/file_name)
+
+class TestProjectWithLicenseHeaderTemplate(TestProjectWithDirectoryStructure):
+
+    def test_create_top_level_cmakelists(self):
+        self.project.create_top_level_cmakelists()
+        self.assert_project_directory_contains("CMakeLists.txt")
+
+    @classmethod
+    def setUpClass(cls):
+        cls.setUpClassFromProjectName("arbitrary_project_with_license_header")
+    

@@ -11,11 +11,13 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from pathlib import Path
 
 from directory import Directory
 from file import File
 from file_template import FileTemplate
+from top_level_cmakelists import TopLevelCMakeLists
 from system_tools import cpp_tools_resources_directory 
 
 
@@ -42,9 +44,20 @@ class Project():
     def create_license_header_template(self):
         replacement_rules = {"project_name_": self.parameters.path.name, "author_": self.parameters.author}
         destination_path = self.parameters.path/".templates"/"license_header.template"
-        template_path = cpp_tools_resources_directory/"license_header.template"
-        content = FileTemplate(File.read(template_path)).instantiate_with(replacement_rules)
+        content = FileTemplate(File.read(self.create_license_header_path())).instantiate_with(replacement_rules)
         File.write(destination_path, content)
+
+    def create_top_level_cmakelists(self):
+        cmakelists_path = self.parameters.path/"CMakeLists.txt"
+        body = TopLevelCMakeLists.instantiate_with(self.parameters.path.name)
+        File.write(cmakelists_path, self.create_license_header() + body)
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.parameters.path/directory, self.directories))
+
+    def create_license_header(self):
+        replacement_rules = {"year_": str(datetime.now().year)}
+        return FileTemplate(File.read(self.create_license_header_path())).instantiate_with(replacement_rules)
+
+    def create_license_header_path(self):
+        return cpp_tools_resources_directory/"license_header.template"
