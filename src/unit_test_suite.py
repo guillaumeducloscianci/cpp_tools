@@ -18,7 +18,6 @@ import test_command_append_file_to_file
 import test_command_copy_file
 import test_command_create_directory
 import test_command_create_file
-import test_command_create_license_header_template
 import test_command_create_project
 import test_command_search_and_replace_in_file
 import test_command_parser
@@ -36,7 +35,6 @@ def create_unit_test_suite():
         test_command_create_file,
         test_command_search_and_replace_in_file,
         
-        test_command_create_license_header_template,
         test_command_create_project,
 
         test_command_parser,
