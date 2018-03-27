@@ -22,6 +22,10 @@ class File():
         copy(str(source_path), str(destination_path))
 
     @staticmethod
+    def remove(path):
+        Path(path).unlink()
+
+    @staticmethod
     def read(path):
         return Path(path).open().read()
 
