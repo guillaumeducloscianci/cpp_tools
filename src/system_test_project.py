@@ -50,6 +50,10 @@ class TestProjectWithDirectoryStructure(SystemTest):
         self.project.create_gitignore_file()
         self.assert_project_directory_contains(".gitignore")
 
+    def test_create_git_repository(self):
+        self.project.create_git_repository()
+        self.assert_directory_exists(self.path/".git")
+
     @classmethod
     def setUpClass(cls):
         cls.setUpClassFromProjectName("arbitrary_project_with_directory_structure")

@@ -13,6 +13,7 @@
 
 from datetime import datetime
 from pathlib import Path
+import subprocess
 
 from directory import Directory
 from file import File
@@ -41,6 +42,9 @@ class Project():
 
     def create_gitignore_file(self):
         File.write(self.path/".gitignore", ".templates")
+
+    def create_git_repository(self):
+        subprocess.run(["git", "-C", str(self.path), "init"], stdout=subprocess.DEVNULL)
 
     def create_license_file(self):
         File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.path/"LICENSE.TXT")
