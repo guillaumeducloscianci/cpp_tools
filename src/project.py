@@ -57,7 +57,8 @@ class Project():
         File.write(cmakelists_path, self.create_license_header() + body)
 
     def create_src_cmakelists(self):
-        File.copy(cpp_tools_resources_directory/"src_CMakeLists.txt", self.path/"src"/"CMakeLists.txt")
+        content = self.create_license_header() + File.read(cpp_tools_resources_directory/"src_CMakeLists.txt")
+        File.write(self.path/"src"/"CMakeLists.txt", content)
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.path/directory, self.directories))
