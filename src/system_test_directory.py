@@ -12,6 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from directory import Directory
+from file import File
 from system_test import SystemTest
 
 
@@ -24,3 +25,27 @@ class TestDirectory(SystemTest):
 
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_directory"
+
+    def tearDown(self):
+        self.path.rmdir()
+
+
+class TestDirectoryActingOnExistingDirectoy(SystemTest):
+
+    def test_remove_empty_directory(self):
+        Directory.remove(self.path)
+        self.assert_directory_does_not_exist(self.path)
+
+    def test_remove_directory_not_empty(self):
+        File.write(self.path/"file_in_directory", "arbitrary content")
+        Directory.remove(self.path)
+        self.assert_directory_does_not_exist(self.path)
+
+    def test_remove_nested_directory(self):
+        Directory.create(self.path/"nested")
+        Directory.remove(self.path)
+        self.assert_directory_does_not_exist(self.path)
+
+    def setUp(self):
+        self.path = SystemTest.get_testing_directory()/"arbitrary_directory"
+        Directory.create(self.path)

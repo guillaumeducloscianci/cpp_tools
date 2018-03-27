@@ -13,9 +13,20 @@
 
 from pathlib import Path
 
+def delete_path(path):
+    if Path(path).is_dir():
+        Directory.remove(path)
+    else:
+        Path(path).unlink()
 
 class Directory():
 
     @staticmethod
     def create(path):
-        return Path(path).mkdir()
+        Path(path).mkdir()
+
+    @staticmethod
+    def remove(path):
+        for p in Path(path).iterdir():
+            delete_path(p)
+        Path(path).rmdir()
