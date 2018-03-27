@@ -11,14 +11,14 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from command_create_project import CommandCreateProject
+from command_create_project import CommandCreateProject, ProjectParameters
 from unit_test import UnitTest
 
 
 class TestCommandCreateProject(UnitTest):
 
     def test_variables(self):
-        self.assertEquals(self.project_path, str(self.command.project_path))
+        self.assertEquals(self.project_path, str(self.command.project.path))
 
     def test_description(self):
         self.assert_is_not_empty(self.command.description())
@@ -26,4 +26,4 @@ class TestCommandCreateProject(UnitTest):
     def setUp(self):
         self.project_path = "/arbitrary/path"
         self.author_name = "arbitrary_author_name"
-        self.command = CommandCreateProject(self.project_path, self.author_name)
+        self.command = CommandCreateProject(ProjectParameters(self.project_path, self.author_name))

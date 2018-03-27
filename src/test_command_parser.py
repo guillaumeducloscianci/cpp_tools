@@ -35,4 +35,4 @@ class TestCommandParser(unittest.TestCase):
         project_name = "arbitrary_project_name"
         author_name = "author_name"
         arguments = ["create", "project", project_name, author_name]
-        self.assertTrue(project_name, str(self.parser.parse(arguments).project_path.name))
+        self.assertTrue(project_name, str(self.parser.parse(arguments).project.path.name))
