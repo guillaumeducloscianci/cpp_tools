@@ -21,7 +21,7 @@ from top_level_cmakelists import TopLevelCMakeLists
 from system_tools import cpp_tools_resources_directory 
 
 
-class Parameters():
+class ProjectParameters():
 
     def __init__(self, path_, author_):
         self.path = Path(path_)
@@ -39,6 +39,9 @@ class Project():
         for directory in self.create_directory_paths():
             Directory().create(directory)
 
+    def create_gitignore_file(self):
+        File.write(self.path/".gitignore", ".templates")
+
     def create_license_file(self):
         File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.path/"LICENSE.TXT")
 
@@ -51,14 +54,14 @@ class Project():
     def create_readme_file(self):
         File.write(self.path/"README.md", "## " + self.path.name + "\n")
 
+    def create_src_cmakelists(self):
+        content = self.create_license_header() + File.read(cpp_tools_resources_directory/"src_CMakeLists.txt")
+        File.write(self.path/"src"/"CMakeLists.txt", content)
+
     def create_top_level_cmakelists(self):
         cmakelists_path = self.path/"CMakeLists.txt"
         body = TopLevelCMakeLists.instantiate_with(self.path.name)
         File.write(cmakelists_path, self.create_license_header() + body)
-
-    def create_src_cmakelists(self):
-        content = self.create_license_header() + File.read(cpp_tools_resources_directory/"src_CMakeLists.txt")
-        File.write(self.path/"src"/"CMakeLists.txt", content)
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.path/directory, self.directories))

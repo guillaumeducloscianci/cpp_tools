@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from project import Project, Parameters
+from project import Project, ProjectParameters
 from system_test import SystemTest
 
 
@@ -25,7 +25,7 @@ class TestProject(SystemTest):
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_project"
         self.author = "arbitrary_author"
-        self.parameters = Parameters(self.path, self.author)
+        self.parameters = ProjectParameters(self.path, self.author)
 
     def assert_has_a_project_directory_structure(self):
         for directory in Project.directories:
@@ -46,6 +46,10 @@ class TestProjectWithDirectoryStructure(SystemTest):
         self.project.create_readme_file()
         self.assert_project_directory_contains("README.md")
 
+    def test_create_gitignore_file(self):
+        self.project.create_gitignore_file()
+        self.assert_project_directory_contains(".gitignore")
+
     @classmethod
     def setUpClass(cls):
         cls.setUpClassFromProjectName("arbitrary_project_with_directory_structure")
@@ -57,7 +61,7 @@ class TestProjectWithDirectoryStructure(SystemTest):
     def setUpClassFromProjectName(cls, name):
         cls.path = SystemTest.get_testing_directory()/name
         cls.author = "arbitrary_author"
-        cls.project = Project(Parameters(cls.path, cls.author))
+        cls.project = Project(ProjectParameters(cls.path, cls.author))
         cls.project.create_directory_structure()
 
 
