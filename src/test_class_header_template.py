@@ -11,14 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from class_header_template import ClassHeaderTemplate
+from unit_test import UnitTest
 
-class FileTemplate():
-    
-    def __init__(self, template_):
-        self.template = str(template_)
 
-    def instantiate_with(self, replacements_rules):
-        instance = self.template
-        for token, value in replacements_rules.items():
-            instance = instance.replace(token, value)
-        return instance
+class TestClassHeaderTemplate(UnitTest):
+
+    def test_create_replacement_rules(self):
+        self.assert_equals({"project_name_": self.project_name, "PROJECT_NAME_": self.project_name.upper()},
+            ClassHeaderTemplate.create_replacement_rules(self.project_name))
+
+    def setUp(self):
+        self.project_name = "arbitrary_name"
+        

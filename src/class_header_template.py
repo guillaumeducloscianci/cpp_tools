@@ -11,14 +11,17 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from file import File
+from file_template import FileTemplate
+from system_tools import cpp_tools_resources_directory
 
-class FileTemplate():
-    
-    def __init__(self, template_):
-        self.template = str(template_)
+class ClassHeaderTemplate():
+    file_template = FileTemplate(File.read(cpp_tools_resources_directory/"class_header.template"))
 
-    def instantiate_with(self, replacements_rules):
-        instance = self.template
-        for token, value in replacements_rules.items():
-            instance = instance.replace(token, value)
-        return instance
+    @classmethod
+    def instantiate_with(cls, project_name):
+        return cls.file_template.instantiate_with(cls.create_replacement_rules(project_name))
+
+    @staticmethod
+    def create_replacement_rules(project_name):
+        return {"project_name_": str(project_name), "PROJECT_NAME_": str(project_name).upper()}

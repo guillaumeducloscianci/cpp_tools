@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from test_suite import TestSuite
+import test_class_header_template
 import test_command_create_project
 import test_command_parser
 import test_file_template
@@ -24,7 +25,10 @@ from command_parser import CommandParser
 def create_unit_test_suite():
     # Order is important. It represents ascending dependencies between modules.
     modules = [ test_file_template ]
-    modules += [ test_top_level_cmakelists ]
+    modules += [
+        test_class_header_template,
+        test_top_level_cmakelists
+    ]
     modules += [ test_command_create_project ]
     modules += [ test_command_parser ]
     return TestSuite.create_from_modules(modules)

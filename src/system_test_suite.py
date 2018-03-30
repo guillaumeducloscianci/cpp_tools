@@ -15,6 +15,7 @@
 
 from system_test import SystemTest
 from test_suite import TestSuite
+import system_test_class_header_template
 import system_test_command_create_project
 import system_test_directory
 import system_test_file
@@ -27,7 +28,10 @@ def create_system_test_suite():
         system_test_directory,
         system_test_file
     ]
-    modules += [ system_test_top_level_cmakelists ]
+    modules += [
+        system_test_class_header_template,
+        system_test_top_level_cmakelists
+    ]
     modules += [ system_test_project ]
     modules += [ system_test_command_create_project ]
     SystemTest.reset("testing")
