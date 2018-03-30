@@ -14,6 +14,7 @@
 from class_header_template import ClassHeaderTemplate
 from unit_test import UnitTest
 
+
 class TestClassHeaderTemplate(UnitTest):
 
     def test_instantiate_with(self):

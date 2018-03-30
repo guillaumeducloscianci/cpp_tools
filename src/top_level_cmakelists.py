@@ -15,6 +15,7 @@ from file import File
 from file_template import FileTemplate
 from system_tools import cpp_tools_resources_directory
 
+
 class TopLevelCMakeLists():
     template_file_name = "CMakeLists.template"
 

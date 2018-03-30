@@ -14,6 +14,7 @@
 from top_level_cmakelists import TopLevelCMakeLists
 from unit_test import UnitTest
 
+
 class TestTopLevelCMakeLists(UnitTest):
 
     def test_instantiate_with(self):

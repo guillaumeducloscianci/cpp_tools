@@ -15,6 +15,7 @@ from file import File
 from file_template import FileTemplate
 from system_tools import cpp_tools_resources_directory
 
+
 class ClassHeaderTemplate():
     file_template = FileTemplate(File.read(cpp_tools_resources_directory/"class_header.template"))
 
