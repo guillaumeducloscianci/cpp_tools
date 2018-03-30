@@ -63,10 +63,11 @@ class Project():
         replacement_rules = {"project_name_": self.path.name, "author_": self.author}
         license_header_template = cpp_tools_resources_directory/"license_header.template"
         content = FileTemplate(File.read(license_header_template)).instantiate_with(replacement_rules)
-        File.write(self.create_license_header_path(), content)
+        File.write(self.create_license_header_template_path(), content)
 
     def create_readme_file(self):
-        File.write(self.path/"README.md", "## " + self.path.name + "\n")
+        content = "## " + self.path.name + "\n"
+        File.write(self.path/"README.md", content)
 
     def create_src_cmakelists(self):
         content = self.create_license_header() + File.read(cpp_tools_resources_directory/"src_CMakeLists.txt")
@@ -81,7 +82,7 @@ class Project():
 
     def create_license_header(self):
         replacement_rules = {"year_": str(datetime.now().year)}
-        return FileTemplate(File.read(self.create_license_header_path())).instantiate_with(replacement_rules)
+        return FileTemplate(File.read(self.create_license_header_template_path())).instantiate_with(replacement_rules)
 
-    def create_license_header_path(self):
+    def create_license_header_template_path(self):
         return self.path/".templates"/"license_header.template"

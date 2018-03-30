@@ -1,0 +1,3 @@
+#include <project_name_/class_name_.h>
+
+using namespace project_name_;

@@ -1,0 +1,12 @@
+#include <gtest/gtest.h> // ::testing
+#include <project_name_/class_name_.h>
+
+using namespace project_name_;
+
+class Testclass_name_: public ::testing::Test {
+public:
+};
+
+TEST_F(Testclass_name_, fail) {
+    FAIL();
+}
