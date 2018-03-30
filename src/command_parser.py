@@ -11,21 +11,28 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import argparse
 import sys
 
 from command_create_project import CommandCreateProject, ProjectParameters
 
 
 class CommandParser:
-    def is_valid_command(self, arguments):
-        if (len(arguments) < 2):
-            return False
-        if (arguments[0:2] != ["create", "project"]):
-            return False
-        return True
 
-    def parse(self, arguments):
-        if not self.is_valid_command(arguments):
-            print("Invalid syntax")
-            sys.exit(1)
-        return CommandCreateProject(ProjectParameters(arguments[2], arguments[3]))
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(description="cpp_tools, a c++ development tool.")
+        subparsers = self.parser.add_subparsers()
+        self.add_create_project_parser(subparsers)
+
+    def add_create_project_parser(self, subparsers):
+        parser_create = subparsers.add_parser("create")
+        subparsers_create = parser_create.add_subparsers()
+        parser_create_project = subparsers_create.add_parser("project")
+        parser_create_project.add_argument("--name", type=str)
+        parser_create_project.add_argument("--author", type=str)
+        parser_create_project.set_defaults(
+            func=lambda args: CommandCreateProject(ProjectParameters(args.name, args.author)))
+
+    def parse(self, arguments=sys.argv[1:]):
+        args = self.parser.parse_args(arguments)
+        return args.func(args)

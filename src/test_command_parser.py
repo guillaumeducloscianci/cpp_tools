@@ -19,20 +19,8 @@ class TestCommandParser(unittest.TestCase):
     def setUp(self):
         self.parser = CommandParser()
 
-    def test_is_valid_command(self):
-        arguments = ["create", "project"]
-        self.assertTrue(self.parser.is_valid_command(arguments))
-
-    def test_is_valid_command_false_first_arg(self):
-        arguments = ["asdf", "project"]
-        self.assertFalse(self.parser.is_valid_command(arguments))
-
-    def test_is_valid_command_false_second_arg(self):
-        arguments = ["create", "asdf"]
-        self.assertFalse(self.parser.is_valid_command(arguments))
-
     def test_command_parser_returns_a_command_create_project(self):
         project_name = "arbitrary_project_name"
         author_name = "author_name"
-        arguments = ["create", "project", project_name, author_name]
+        arguments = ["create", "project", "--name", project_name, "--author", author_name]
         self.assertTrue(project_name, str(self.parser.parse(arguments).project.path.name))
