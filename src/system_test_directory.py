@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from directory import Directory
+from directory import Directory, create_symbolic_link
 from file import File
 from system_test import SystemTest
 
@@ -49,3 +49,20 @@ class TestDirectoryActingOnExistingDirectoy(SystemTest):
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_directory"
         Directory.create(self.path)
+
+
+class TestCreateSymbolicLink(SystemTest):
+
+    def test_create_symbolic_link(self):
+        self.assert_directory_does_not_exist(self.link_path)
+        create_symbolic_link(self.link_path, self.target_path)
+        self.assert_directory_exists(self.link_path.resolve())
+
+    def setUp(self):
+        self.target_path = SystemTest.get_testing_directory()/"arbitrary_directory"
+        self.link_path = SystemTest.get_testing_directory()/"arbitrary_link"
+        Directory.create(self.target_path)
+
+    def tearDown(self):
+        self.link_path.unlink()
+        self.target_path.rmdir()

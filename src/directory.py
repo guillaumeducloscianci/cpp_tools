@@ -13,6 +13,9 @@
 
 from pathlib import Path
 
+def create_symbolic_link(link_path, target_path):
+    Path(link_path).symlink_to(target_path, target_path.is_dir())
+
 def remove_path(path):
     if Path(path).is_dir():
         Directory.remove(path)
