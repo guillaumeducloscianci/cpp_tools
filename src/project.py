@@ -73,9 +73,8 @@ class Project():
         File.write(self.path/"src"/"CMakeLists.txt", content)
 
     def create_top_level_cmakelists(self):
-        cmakelists_path = self.path/"CMakeLists.txt"
-        body = TopLevelCMakeLists.instantiate_with(self.path.name)
-        File.write(cmakelists_path, self.create_license_header() + body)
+        content = self.create_license_header() + TopLevelCMakeLists.instantiate_with(self.path.name)
+        File.write(self.path/"CMakeLists.txt", content)
 
     def create_directory_paths(self):
         return list(map(lambda directory: self.path/directory, self.directories))

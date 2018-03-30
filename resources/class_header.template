@@ -1,0 +1,12 @@
+#ifndef PROJECT_NAME_CLASS_NAME_H
+#define PROJECT_NAME_CLASS_NAME_H
+
+namespace project_name_ {
+
+class class_name_ {
+
+};
+
+} /* project_name_ */
+
+#endif PROJECT_NAME_CLASS_NAME_H
