@@ -2,5 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(project_name_)
 
+enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIR})
+
 include_directories(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(src)
