@@ -15,7 +15,7 @@ from file import File
 from system_test import SystemTest
 
 
-class TestFile(SystemTest):
+class TestFileReadWrite(SystemTest):
 
     def test_read_and_write(self):
         File.write(self.path, self.content)
@@ -25,14 +25,11 @@ class TestFile(SystemTest):
         self.path = SystemTest.get_testing_directory()/"arbitrary_file"
         self.content = "Arbitrary content."
 
+    def tearDown(self):
+        self.path.unlink()
 
-class TestFileActingOnExistingFile(SystemTest):
 
-    def test_copy(self):
-        copy_path = self.path.parent/"arbitrary_file.copy"
-        self.assert_file_does_not_exist(copy_path)
-        File.copy(self.path, copy_path)
-        self.assert_file_exists(copy_path)
+class TestFileRemove(SystemTest):
 
     def test_remove(self):
         self.assert_file_exists(self.path)
@@ -43,3 +40,21 @@ class TestFileActingOnExistingFile(SystemTest):
         self.path = SystemTest.get_testing_directory()/"arbitrary_file"
         self.content = "Arbitrary content."
         File.write(self.path, self.content)
+
+
+class TestFileCopy(SystemTest):
+
+    def test_copy(self):
+        self.assert_file_does_not_exist(self.copy_path)
+        File.copy(self.path, self.copy_path)
+        self.assert_file_exists(self.copy_path)
+
+    def setUp(self):
+        self.path = SystemTest.get_testing_directory()/"arbitrary_file"
+        self.copy_path = self.path.parent/"arbitrary_file.copy"
+        self.content = "Arbitrary content."
+        File.write(self.path, self.content)
+
+    def tearDown(self):
+        for p in [self.path, self.copy_path]: p.unlink()
+        

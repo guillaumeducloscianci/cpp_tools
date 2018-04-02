@@ -13,10 +13,12 @@
 
 from pathlib import Path
 
+from command_create_project import CommandCreateProject, ProjectParameters
+from directory import Directory
+from project import Project
 from system_test import SystemTest
 from system_test_project import TestProjectTools
-from command_create_project import CommandCreateProject, ProjectParameters
-from project import Project
+
 
 class TestCommandCreateProject(TestProjectTools):
 
@@ -37,3 +39,6 @@ class TestCommandCreateProject(TestProjectTools):
             "CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore", 
             ".templates/license_header.template"
         ]
+
+    def tearDown(self):
+        Directory.remove(self.path)
