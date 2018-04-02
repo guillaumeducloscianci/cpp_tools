@@ -30,11 +30,12 @@ class ProjectParameters():
 
 
 class Project():
-    directories = ["", "include", "src", ".templates"]
+    common_directories = ["", "include", "src", ".templates"]
 
     def __init__(self, parameters):
         self.path = parameters.path
         self.author = parameters.author
+        self.directories = self.common_directories + ["include/" + self.path.name]
 
     def create(self):
         self.create_directory_structure() # Must appear first, before any file creation

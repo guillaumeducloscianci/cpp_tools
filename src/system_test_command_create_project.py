@@ -14,29 +14,26 @@
 from pathlib import Path
 
 from system_test import SystemTest
+from system_test_project import TestProjectTools
 from command_create_project import CommandCreateProject, ProjectParameters
 from project import Project
 
-class TestCommandCreateProject(SystemTest):
+class TestCommandCreateProject(TestProjectTools):
 
     def test_execution(self):
-        self.assert_directory_does_not_exist(self.project_path)
+        self.assert_directory_does_not_exist(self.path)
         self.command.execute()
         self.assert_has_a_project_directory_structure()
-        self.assert_project_directory_contains([
-            "CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore", 
-            ".templates/license_header.template"
-        ])
+        for file_name in self.expected_files:
+            self.assert_project_directory_contains(file_name)
 
     def setUp(self):
         self.author = "arbitrary_author"
-        self.project_path = Path(SystemTest.get_testing_directory())/"arbitrary_project_name"
-        self.command = CommandCreateProject(ProjectParameters(self.project_path, self.author))
-
-    def assert_has_a_project_directory_structure(self):
-        for directory_name in Project.directories:
-            self.assert_directory_exists(self.project_path/directory_name)
-
-    def assert_project_directory_contains(self, file_names):
-        for file_name in file_names:
-            self.assert_file_exists(self.project_path/file_name)
+        self.path = Path(SystemTest.get_testing_directory())/"arbitrary_project"
+        parameters = ProjectParameters(self.path, self.author)
+        self.project = Project(parameters)
+        self.command = CommandCreateProject(parameters)
+        self.expected_files = [
+            "CMakeLists.txt", "src/CMakeLists.txt", "LICENSE.TXT", "README.md", ".gitignore", 
+            ".templates/license_header.template"
+        ]
