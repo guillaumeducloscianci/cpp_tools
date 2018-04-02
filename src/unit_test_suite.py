@@ -15,6 +15,7 @@
 
 from test_suite import TestSuite
 import test_class_header_template
+import test_class_source_template
 import test_command_create_project
 import test_command_parser
 import test_file_template
@@ -27,6 +28,7 @@ def create_unit_test_suite():
     modules = [ test_file_template ]
     modules += [
         test_class_header_template,
+        test_class_source_template,
         test_top_level_cmakelists
     ]
     modules += [ test_command_create_project ]
