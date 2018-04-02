@@ -11,17 +11,18 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from class_source_template import ClassSourceTemplate
-from unit_test import UnitTest
+from file import File
+from file_template import FileTemplate
+from system_tools import cpp_tools_resources_directory
 
 
-class TestClassSourceTemplate(UnitTest):
+class ClassTestsTemplate():
+    file_template = FileTemplate(File.read(cpp_tools_resources_directory/"class_tests.template"))
 
-    def test_instantiate_with(self):
-        instantiation = ClassSourceTemplate.instantiate_with(self.project_name)
-        for token, value in ClassSourceTemplate.create_replacement_rules(self.project_name).items():
-            self.assert_string_does_not_contain(instantiation, token)
-            self.assert_string_contains(instantiation, value)
+    @classmethod
+    def instantiate_with(cls, project_name):
+        return cls.file_template.instantiate_with(cls.create_replacement_rules(project_name))
 
-    def setUp(self):
-        self.project_name = "arbitrary_name"
+    @staticmethod
+    def create_replacement_rules(project_name):
+        return {"project_name_": str(project_name)}

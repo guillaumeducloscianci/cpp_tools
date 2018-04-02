@@ -17,6 +17,7 @@ from system_test import SystemTest
 from test_suite import TestSuite
 import system_test_class_header_template
 import system_test_class_source_template
+import system_test_class_tests_template
 import system_test_command_create_project
 import system_test_directory
 import system_test_file
@@ -32,6 +33,7 @@ def create_system_test_suite():
     modules += [
         system_test_class_header_template,
         system_test_class_source_template,
+        system_test_class_tests_template,
         system_test_top_level_cmakelists
     ]
     modules += [ system_test_project ]

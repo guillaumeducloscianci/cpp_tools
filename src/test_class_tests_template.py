@@ -11,17 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from class_source_template import ClassSourceTemplate
+from class_tests_template import ClassTestsTemplate
 from unit_test import UnitTest
 
 
-class TestClassSourceTemplate(UnitTest):
+class TestClassTestsTemplate(UnitTest):
 
-    def test_instantiate_with(self):
-        instantiation = ClassSourceTemplate.instantiate_with(self.project_name)
-        for token, value in ClassSourceTemplate.create_replacement_rules(self.project_name).items():
-            self.assert_string_does_not_contain(instantiation, token)
-            self.assert_string_contains(instantiation, value)
+    def test_create_replacement_rules(self):
+        self.assert_equals({"project_name_": self.project_name},
+            ClassTestsTemplate.create_replacement_rules(self.project_name))
 
     def setUp(self):
         self.project_name = "arbitrary_name"
+        
