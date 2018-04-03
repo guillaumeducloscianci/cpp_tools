@@ -23,6 +23,12 @@ class TestClassCreator(SystemTest):
         self.assertEquals(self.classCreator.class_name, self.class_name)
         self.assertEquals(self.classCreator.project, self.project)
 
+    def test_create_license_header(self):
+        license_header = self.classCreator.create_license_header()
+        self.assert_string_does_not_contain(license_header, "#")
+        for delimiter in ["/* ", " */"]:
+            self.assert_string_contains(license_header, delimiter)
+
     def test_create_class_header(self):
         header_path = self.project.include_directory/(self.class_name+".h")
         self.assert_file_does_not_exist(header_path)

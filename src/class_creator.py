@@ -34,20 +34,25 @@ class ClassCreator():
     def create_header_file(self):
         template = FileTemplate(File.read(self.project.path/".templates"/"class_header.template"))
         replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}
-        content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
+        content = self.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.project.include_directory/(self.class_name+".h")
         File.write(path, content)
 
     def create_source_file(self):
         template = FileTemplate(File.read(self.project.path/".templates"/"class_source.template"))
         replacement_rules = {"class_name_": str(self.class_name)}
-        content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
+        content = self.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.project.path/"src"/(self.class_name+".cpp")
         File.write(path, content)
 
     def create_tests_file(self):
         template = FileTemplate(File.read(self.project.path/".templates"/"class_tests.template"))
         replacement_rules = {"class_name_": str(self.class_name)}
-        content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
+        content = self.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.project.path/"src"/(self.class_name+"_tests.cpp")
         File.write(path, content)
+
+    def create_license_header(self):
+        end_of_license = ">."
+        raw_license_header = self.project.create_license_header().replace("# ", "")
+        return "/* " + raw_license_header.replace(end_of_license, end_of_license + " */")
