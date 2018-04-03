@@ -54,6 +54,14 @@ class TestProjectDirectoryStructure(TestProjectTools):
 
 class TestProjectWithDirectoryStructure(TestProjectTools):
 
+    def test_create_class_templates(self):
+        self.project.create_class_templates()
+        templates = [
+            ".templates/class_header.template", ".templates/class_source.template", ".templates/class_tests.template"
+        ]
+        for template in templates:
+            self.assert_project_directory_contains(template)
+
     def test_create_gitignore_file(self):
         self.project.create_gitignore_file()
         self.assert_project_directory_contains(".gitignore")

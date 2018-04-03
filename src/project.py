@@ -38,6 +38,7 @@ class Project():
     def __init__(self, parameters):
         self.path = parameters.path
         self.author = parameters.author
+        self.include_directory = self.path/("include/"+self.path.name)
         self.directories = self.common_directories + ["include/" + self.path.name]
 
     def create(self):

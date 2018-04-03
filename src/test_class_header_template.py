@@ -18,7 +18,7 @@ from unit_test import UnitTest
 class TestClassHeaderTemplate(UnitTest):
 
     def test_create_replacement_rules(self):
-        self.assert_equals({"project_name_": self.project_name, "PROJECT_NAME_": self.project_name.upper()},
+        self.assert_equals({"project_name_": self.project_name, "PROJECT_NAME_": self.project_name.upper()+"_"},
             ClassHeaderTemplate.create_replacement_rules(self.project_name))
 
     def setUp(self):

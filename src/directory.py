@@ -22,6 +22,7 @@ def remove_path(path):
     else:
         Path(path).unlink()
 
+
 class Directory():
 
     @staticmethod

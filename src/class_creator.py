@@ -16,13 +16,15 @@ from file_template import FileTemplate
 from system_tools import cpp_tools_resources_directory
 
 
-class ClassHeaderTemplate():
-    file_template = FileTemplate(File.read(cpp_tools_resources_directory/"class_header.template"))
+class ClassCreator():
 
-    @classmethod
-    def instantiate_with(cls, project_name):
-        return cls.file_template.instantiate_with(cls.create_replacement_rules(project_name))
+    def __init__(self, class_name_, project_):
+        self.class_name = class_name_
+        self.project = project_ # \todo: Project directory structure should be a class
 
-    @staticmethod
-    def create_replacement_rules(project_name):
-        return {"project_name_": str(project_name), "PROJECT_NAME_": str(project_name).upper()+"_"}
+    def create_header_file(self):
+        template = FileTemplate(File.read(self.project.path/".templates"/"class_header.template"))
+        replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}
+        content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
+        path = self.project.include_directory/(self.class_name+".h")
+        File.write(path, content)
