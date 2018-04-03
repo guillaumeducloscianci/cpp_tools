@@ -29,6 +29,12 @@ class TestClassCreator(SystemTest):
         self.classCreator.create_header_file()
         self.assert_header_is_properly_formatted(header_path)
 
+    def test_create_class_source(self):
+        source_path = self.project.path/"src"/(self.class_name+".cpp")
+        self.assert_file_does_not_exist(source_path)
+        self.classCreator.create_source_file()
+        self.assert_source_is_properly_formatted(source_path)
+
     @classmethod
     def setUpClass(cls):
         cls.class_name = "arbitrary_class"
@@ -37,9 +43,9 @@ class TestClassCreator(SystemTest):
         cls.project.create()
         cls.classCreator = ClassCreator(cls.class_name, cls.project)
 
-    @classmethod
-    def tearDownClass(cls):
-        Directory.remove(cls.path)
+    # @classmethod
+    # def tearDownClass(cls):
+    #     Directory.remove(cls.path)
 
     def assert_header_is_properly_formatted(self, header_path):
         self.assert_file_exists(header_path)
@@ -47,6 +53,12 @@ class TestClassCreator(SystemTest):
         should_contain = [self.class_name, self.class_name.upper()+"_"]
         should_not_contain = ["class_name_", "CLASS_NAME_"]
         for content in should_contain:
-            self.assert_file_contains(header_path, self.class_name)
+            self.assert_file_contains(header_path, content)
         for content in should_not_contain:
-            self.assert_file_does_not_contain(header_path, content)     
+            self.assert_file_does_not_contain(header_path, content)
+
+    def assert_source_is_properly_formatted(self, source_path):
+        self.assert_file_exists(source_path)
+        self.assert_file_has_license_header(source_path)
+        self.assert_file_contains(source_path, self.class_name)
+        self.assert_file_does_not_contain(source_path, "class_name_")

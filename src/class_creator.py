@@ -28,3 +28,10 @@ class ClassCreator():
         content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.project.include_directory/(self.class_name+".h")
         File.write(path, content)
+
+    def create_source_file(self):
+        template = FileTemplate(File.read(self.project.path/".templates"/"class_source.template"))
+        replacement_rules = {"class_name_": str(self.class_name)}
+        content = self.project.create_license_header() + template.instantiate_with(replacement_rules)
+        path = self.project.path/"src"/(self.class_name+".cpp")
+        File.write(path, content)
