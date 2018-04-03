@@ -11,10 +11,12 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
 import argparse
 import sys
 
-from command_create_project import CommandCreateProject, ProjectParameters
+from command_create_project import CommandCreateProject, ProjectParameters, Project
+from command_create_class import CommandCreateClass
 
 
 class CommandParser:
@@ -22,16 +24,23 @@ class CommandParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(description="cpp_tools, a c++ development tool.")
         subparsers = self.parser.add_subparsers()
-        self.add_create_project_parser(subparsers)
-
-    def add_create_project_parser(self, subparsers):
         parser_create = subparsers.add_parser("create")
         subparsers_create = parser_create.add_subparsers()
-        parser_create_project = subparsers_create.add_parser("project")
+        self.add_create_project_parser(subparsers_create)
+        self.add_create_class_parser(subparsers_create)
+
+    def add_create_project_parser(self, subparsers):
+        parser_create_project = subparsers.add_parser("project")
         parser_create_project.add_argument("--name", type=str)
         parser_create_project.add_argument("--author", type=str)
         parser_create_project.set_defaults(
             func=lambda args: CommandCreateProject(ProjectParameters(args.name, args.author)))
+
+    def add_create_class_parser(self, subparsers):
+        parser_create_class = subparsers.add_parser("class")
+        parser_create_class.add_argument("--name", type=str)
+        parser_create_class.set_defaults(
+            func=lambda args: CommandCreateClass(args.name, Project(ProjectParameters(Path(".").resolve(), "")))) # \todo: Project directory structure should be a class
 
     def parse(self, arguments=sys.argv[1:]):
         args = self.parser.parse_args(arguments)
