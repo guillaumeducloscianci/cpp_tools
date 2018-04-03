@@ -125,8 +125,10 @@ class TestProjectCreation(TestProjectTools):
     def setUpClass(cls):
         cls.setup_base()
         cls.expected_files_with_header = ["CMakeLists.txt", "src/CMakeLists.txt"]
-        cls.expected_files = (["LICENSE.TXT", "README.md", ".gitignore", ".templates/license_header.template"]
-            + cls.expected_files_with_header)
+        cls.expected_files_templates = list(map(lambda name: ".templates/" + name + ".template", 
+            ["license_header", "class_header", "class_source", "class_tests"]))
+        cls.expected_files = (["LICENSE.TXT", "README.md", ".gitignore"]
+            + cls.expected_files_with_header + cls.expected_files_templates)
 
     @classmethod
     def tearDownClass(cls):

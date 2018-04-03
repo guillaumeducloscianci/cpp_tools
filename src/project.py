@@ -15,6 +15,9 @@ from datetime import datetime
 from pathlib import Path
 import subprocess
 
+from class_header_template import ClassHeaderTemplate
+from class_source_template import ClassSourceTemplate
+from class_tests_template import ClassTestsTemplate
 from directory import Directory
 from file import File
 from file_template import FileTemplate
@@ -42,10 +45,17 @@ class Project():
         self.create_gitignore_file()
         self.create_git_repository()
         self.create_license_file()
+        self.create_class_templates()
         self.create_license_header_template() # Must appear before top level cmakelists creation
         self.create_readme_file()
         self.create_src_cmakelists()
         self.create_top_level_cmakelists()
+
+    def create_class_templates(self):
+        path = lambda suffix: self.path/(".templates/class_" + str(suffix) + ".template")
+        suffixToTemplate = {"header": ClassHeaderTemplate, "source": ClassSourceTemplate, "tests": ClassTestsTemplate}
+        for suffix, template in suffixToTemplate.items():
+            File.write(path(suffix), template.instantiate_with(self.path.name))
 
     def create_directory_structure(self):
         for directory in self.create_directory_paths():
