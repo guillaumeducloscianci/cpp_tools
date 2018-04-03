@@ -12,16 +12,16 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from command import Command
-from project import Project, ProjectParameters
+from class_creator import ClassCreator
 
 
-class CommandCreateProject(Command):
+class CommandCreateClass(Command):
 
-    def __init__(self, parameters):
-        self.project = Project(parameters)
+    def __init__(self, class_name, project):
+        self.class_creator = ClassCreator(class_name, project)
 
     def description(self):
-        return "Create project " + str(self.project.path) + "by author" + str(self.project.author)
+        return "Create class " + str(self.class_creator.class_name)
 
     def execute(self):
-        self.project.create()
+        self.class_creator.create()

@@ -19,7 +19,7 @@ from system_test import SystemTest
 class TestClassCreatorTools(SystemTest):
     
     @classmethod
-    def setUpClass(cls):
+    def setup_base(cls):
         cls.class_name = "arbitrary_class"
         cls.path = SystemTest.get_testing_directory()/"arbitrary_project_name"
         cls.project = Project(ProjectParameters(cls.path, "arbitrary_author"))
@@ -27,7 +27,7 @@ class TestClassCreatorTools(SystemTest):
         cls.classCreator = ClassCreator(cls.class_name, cls.project)
 
     @classmethod
-    def tearDownClass(cls):
+    def tear_down_base(cls):
         Directory.remove(cls.path)
 
     def assert_header_is_properly_formatted(self, header_path):
@@ -48,6 +48,18 @@ class TestClassCreatorTools(SystemTest):
 
     def assert_tests_is_properly_formatted(self, tests_path):
         self.assert_source_is_properly_formatted(tests_path)
+
+    def assert_class_does_not_exist(self):
+        self.assert_file_does_not_exist(self.header_path)
+        self.assert_file_does_not_exist(self.source_path)
+        self.assert_file_does_not_exist(self.tests_path)
+        for file_name in self.file_names: self.assert_file_does_not_contain(self.src_cmakelist_path, file_name)
+
+    def assert_class_exists(self):
+        self.assert_header_is_properly_formatted(self.header_path)
+        self.assert_source_is_properly_formatted(self.source_path)
+        self.assert_tests_is_properly_formatted(self.tests_path)
+        for file_name in self.file_names: self.assert_file_contains(self.src_cmakelist_path, file_name)
 
 
 class TestClassCreator(TestClassCreatorTools):
@@ -87,21 +99,31 @@ class TestClassCreator(TestClassCreatorTools):
         self.classCreator.add_to_cmakelists()
         for file_name in file_names: self.assert_file_contains(src_cmakelist_path, file_name)
 
+    @classmethod
+    def setUpClass(cls):
+        cls.setup_base()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
+
 
 class TestClassCreatorCreate(TestClassCreatorTools):
 
     def test_create(self):
-        header_path = self.project.include_directory/(self.class_name+".h")
-        source_path = self.project.path/"src"/(self.class_name+".cpp")
-        tests_path = self.project.path/"src"/(self.class_name+"_tests.cpp")
-        src_cmakelist_path = self.project.path/"src"/"CMakeLists.txt"
-        file_names = [ self.class_name+".cpp", self.class_name+"_tests.cpp" ]
-        self.assert_file_does_not_exist(header_path)
-        self.assert_file_does_not_exist(source_path)
-        self.assert_file_does_not_exist(tests_path)
-        for file_name in file_names: self.assert_file_does_not_contain(src_cmakelist_path, file_name)
+        self.assert_class_does_not_exist()
         self.classCreator.create()
-        self.assert_header_is_properly_formatted(header_path)
-        self.assert_source_is_properly_formatted(source_path)
-        self.assert_tests_is_properly_formatted(tests_path)
-        for file_name in file_names: self.assert_file_contains(src_cmakelist_path, file_name)
+        self.assert_class_exists()
+
+    @classmethod
+    def setUpClass(cls):
+        cls.setup_base()
+        cls.header_path = cls.project.include_directory/(cls.class_name+".h")
+        cls.source_path = cls.project.path/"src"/(cls.class_name+".cpp")
+        cls.tests_path = cls.project.path/"src"/(cls.class_name+"_tests.cpp")
+        cls.src_cmakelist_path = cls.project.path/"src"/"CMakeLists.txt"
+        cls.file_names = [ cls.class_name+".cpp", cls.class_name+"_tests.cpp" ]
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tear_down_base()
