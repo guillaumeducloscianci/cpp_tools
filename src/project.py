@@ -77,7 +77,7 @@ class Project():
         File.write(self.create_license_header_template_path(), content)
 
     def create_readme_file(self):
-        content = "## " + self.path.name + "\n"
+        content = "# " + self.path.name + "\n"
         File.write(self.path/"README.md", content)
 
     def create_src_cmakelists(self):
