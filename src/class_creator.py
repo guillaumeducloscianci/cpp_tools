@@ -22,6 +22,12 @@ class ClassCreator():
         self.class_name = class_name_
         self.project = project_ # \todo: Project directory structure should be a class
 
+    def create(self):
+        self.create_header_file()
+        self.create_source_file()
+        self.create_tests_file()
+        self.add_to_cmakelists()
+
     def add_to_cmakelists(self):
         end_of_source_files = ") # add_library"
         end_of_test_files = ") # add_tests"

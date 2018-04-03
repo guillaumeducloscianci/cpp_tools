@@ -16,8 +16,41 @@ from directory import Directory
 from project import Project, ProjectParameters
 from system_test import SystemTest
 
+class TestClassCreatorTools(SystemTest):
+    
+    @classmethod
+    def setUpClass(cls):
+        cls.class_name = "arbitrary_class"
+        cls.path = SystemTest.get_testing_directory()/"arbitrary_project_name"
+        cls.project = Project(ProjectParameters(cls.path, "arbitrary_author"))
+        cls.project.create()
+        cls.classCreator = ClassCreator(cls.class_name, cls.project)
 
-class TestClassCreator(SystemTest):
+    @classmethod
+    def tearDownClass(cls):
+        Directory.remove(cls.path)
+
+    def assert_header_is_properly_formatted(self, header_path):
+        self.assert_file_exists(header_path)
+        self.assert_file_has_license_header(header_path)
+        should_contain = [self.class_name, self.class_name.upper()+"_"]
+        should_not_contain = ["class_name_", "CLASS_NAME_"]
+        for content in should_contain:
+            self.assert_file_contains(header_path, content)
+        for content in should_not_contain:
+            self.assert_file_does_not_contain(header_path, content)
+
+    def assert_source_is_properly_formatted(self, source_path):
+        self.assert_file_exists(source_path)
+        self.assert_file_has_license_header(source_path)
+        self.assert_file_contains(source_path, self.class_name)
+        self.assert_file_does_not_contain(source_path, "class_name_")
+
+    def assert_tests_is_properly_formatted(self, tests_path):
+        self.assert_source_is_properly_formatted(tests_path)
+
+
+class TestClassCreator(TestClassCreatorTools):
 
     def test_variables(self):
         self.assertEquals(self.classCreator.class_name, self.class_name)
@@ -54,33 +87,21 @@ class TestClassCreator(SystemTest):
         self.classCreator.add_to_cmakelists()
         for file_name in file_names: self.assert_file_contains(src_cmakelist_path, file_name)
 
-    @classmethod
-    def setUpClass(cls):
-        cls.class_name = "arbitrary_class"
-        cls.path = SystemTest.get_testing_directory()/"arbitrary_project_name"
-        cls.project = Project(ProjectParameters(cls.path, "arbitrary_author"))
-        cls.project.create()
-        cls.classCreator = ClassCreator(cls.class_name, cls.project)
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     Directory.remove(cls.path)
+class TestClassCreatorCreate(TestClassCreatorTools):
 
-    def assert_header_is_properly_formatted(self, header_path):
-        self.assert_file_exists(header_path)
-        self.assert_file_has_license_header(header_path)
-        should_contain = [self.class_name, self.class_name.upper()+"_"]
-        should_not_contain = ["class_name_", "CLASS_NAME_"]
-        for content in should_contain:
-            self.assert_file_contains(header_path, content)
-        for content in should_not_contain:
-            self.assert_file_does_not_contain(header_path, content)
-
-    def assert_source_is_properly_formatted(self, source_path):
-        self.assert_file_exists(source_path)
-        self.assert_file_has_license_header(source_path)
-        self.assert_file_contains(source_path, self.class_name)
-        self.assert_file_does_not_contain(source_path, "class_name_")
-
-    def assert_tests_is_properly_formatted(self, tests_path):
-        self.assert_source_is_properly_formatted(tests_path)
+    def test_create(self):
+        header_path = self.project.include_directory/(self.class_name+".h")
+        source_path = self.project.path/"src"/(self.class_name+".cpp")
+        tests_path = self.project.path/"src"/(self.class_name+"_tests.cpp")
+        src_cmakelist_path = self.project.path/"src"/"CMakeLists.txt"
+        file_names = [ self.class_name+".cpp", self.class_name+"_tests.cpp" ]
+        self.assert_file_does_not_exist(header_path)
+        self.assert_file_does_not_exist(source_path)
+        self.assert_file_does_not_exist(tests_path)
+        for file_name in file_names: self.assert_file_does_not_contain(src_cmakelist_path, file_name)
+        self.classCreator.create()
+        self.assert_header_is_properly_formatted(header_path)
+        self.assert_source_is_properly_formatted(source_path)
+        self.assert_tests_is_properly_formatted(tests_path)
+        for file_name in file_names: self.assert_file_contains(src_cmakelist_path, file_name)
