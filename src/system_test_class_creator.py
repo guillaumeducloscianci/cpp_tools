@@ -41,6 +41,13 @@ class TestClassCreator(SystemTest):
         self.classCreator.create_tests_file()
         self.assert_tests_is_properly_formatted(tests_path)
 
+    def test_add_to_cmakelists(self):
+        src_cmakelist_path = self.project.path/"src"/"CMakeLists.txt"
+        file_names = [ self.class_name+".cpp", self.class_name+"_tests.cpp" ]
+        for file_name in file_names: self.assert_file_does_not_contain(src_cmakelist_path, file_name)
+        self.classCreator.add_to_cmakelists()
+        for file_name in file_names: self.assert_file_contains(src_cmakelist_path, file_name)
+
     @classmethod
     def setUpClass(cls):
         cls.class_name = "arbitrary_class"
@@ -49,9 +56,9 @@ class TestClassCreator(SystemTest):
         cls.project.create()
         cls.classCreator = ClassCreator(cls.class_name, cls.project)
 
-    @classmethod
-    def tearDownClass(cls):
-        Directory.remove(cls.path)
+    # @classmethod
+    # def tearDownClass(cls):
+    #     Directory.remove(cls.path)
 
     def assert_header_is_properly_formatted(self, header_path):
         self.assert_file_exists(header_path)

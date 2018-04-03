@@ -22,6 +22,15 @@ class ClassCreator():
         self.class_name = class_name_
         self.project = project_ # \todo: Project directory structure should be a class
 
+    def add_to_cmakelists(self):
+        end_of_source_files = ") # add_library"
+        end_of_test_files = ") # add_tests"
+        content = File.read(self.project.path/"src"/"CMakeLists.txt")
+        content = content.replace(end_of_source_files, "    "+self.class_name+".cpp\n"+end_of_source_files)
+        content = content.replace(end_of_test_files, "    "+self.class_name+"_tests.cpp\n"+end_of_test_files)
+        File.write(self.project.path/"src"/"CMakeLists.txt", content)
+        return content
+
     def create_header_file(self):
         template = FileTemplate(File.read(self.project.path/".templates"/"class_header.template"))
         replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}

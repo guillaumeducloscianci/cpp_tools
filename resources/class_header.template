@@ -9,4 +9,4 @@ class class_name_ {
 
 } /* project_name_ */
 
-#endif PROJECT_NAME_CLASS_NAME_H
+#endif /* PROJECT_NAME_CLASS_NAME_H */
