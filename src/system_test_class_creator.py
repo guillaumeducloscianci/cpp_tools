@@ -14,6 +14,7 @@
 from class_creator import ClassCreator
 from directory import Directory
 from project import Project, ProjectParameters
+from project_directories import ProjectDirectories
 from system_test import SystemTest
 
 class TestClassCreatorTools(SystemTest):
@@ -21,14 +22,13 @@ class TestClassCreatorTools(SystemTest):
     @classmethod
     def setup_base(cls):
         cls.class_name = "arbitrary_class"
-        cls.path = SystemTest.get_testing_directory()/"arbitrary_project_name"
-        cls.project = Project(ProjectParameters(cls.path, "arbitrary_author"))
-        cls.project.create()
-        cls.classCreator = ClassCreator(cls.class_name, cls.project)
+        cls.path = ProjectDirectories(SystemTest.get_testing_directory()/"arbitrary_project_name")
+        Project(ProjectParameters(cls.path.root, "arbitrary_author")).create()
+        cls.classCreator = ClassCreator(cls.class_name, cls.path)
 
     @classmethod
     def tear_down_base(cls):
-        Directory.remove(cls.path)
+        Directory.remove(cls.path.root)
 
     def assert_header_is_properly_formatted(self, header_path):
         self.assert_file_exists(header_path)
@@ -66,7 +66,7 @@ class TestClassCreator(TestClassCreatorTools):
 
     def test_variables(self):
         self.assertEquals(self.classCreator.class_name, self.class_name)
-        self.assertEquals(self.classCreator.project, self.project)
+        self.assertEquals(self.classCreator.path, self.path)
 
     def test_create_license_header(self):
         license_header = self.classCreator.create_license_header()
@@ -75,25 +75,25 @@ class TestClassCreator(TestClassCreatorTools):
             self.assert_string_contains(license_header, delimiter)
 
     def test_create_class_header(self):
-        header_path = self.project.path.to_include_directory/(self.class_name+".h")
+        header_path = self.path.to_include_directory/(self.class_name+".h")
         self.assert_file_does_not_exist(header_path)
         self.classCreator.create_header_file()
         self.assert_header_is_properly_formatted(header_path)
 
     def test_create_class_source(self):
-        source_path = self.project.path/"src"/(self.class_name+".cpp")
+        source_path = self.path.to_source_directory/(self.class_name+".cpp")
         self.assert_file_does_not_exist(source_path)
         self.classCreator.create_source_file()
         self.assert_source_is_properly_formatted(source_path)
 
     def test_create_class_tests(self):
-        tests_path = self.project.path/"src"/(self.class_name+"_tests.cpp")
+        tests_path = self.path.to_source_directory/(self.class_name+"_tests.cpp")
         self.assert_file_does_not_exist(tests_path)
         self.classCreator.create_tests_file()
         self.assert_tests_is_properly_formatted(tests_path)
 
     def test_add_to_cmakelists(self):
-        src_cmakelist_path = self.project.path/"src"/"CMakeLists.txt"
+        src_cmakelist_path = self.path.to_source_directory/"CMakeLists.txt"
         file_names = [ self.class_name+".cpp", self.class_name+"_tests.cpp" ]
         for file_name in file_names: self.assert_file_does_not_contain(src_cmakelist_path, file_name)
         self.classCreator.add_to_cmakelists()
@@ -118,10 +118,10 @@ class TestClassCreatorCreate(TestClassCreatorTools):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.header_path = cls.project.path.to_include_directory/(cls.class_name+".h")
-        cls.source_path = cls.project.path/"src"/(cls.class_name+".cpp")
-        cls.tests_path = cls.project.path/"src"/(cls.class_name+"_tests.cpp")
-        cls.src_cmakelist_path = cls.project.path/"src"/"CMakeLists.txt"
+        cls.header_path = cls.path.to_include_directory/(cls.class_name+".h")
+        cls.source_path = cls.path.to_source_directory/(cls.class_name+".cpp")
+        cls.tests_path = cls.path.to_source_directory/(cls.class_name+"_tests.cpp")
+        cls.src_cmakelist_path = cls.path.to_source_directory/"CMakeLists.txt"
         cls.file_names = [ cls.class_name+".cpp", cls.class_name+"_tests.cpp" ]
 
     @classmethod

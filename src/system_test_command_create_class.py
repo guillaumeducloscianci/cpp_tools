@@ -22,7 +22,7 @@ from system_test_class_creator import TestClassCreatorTools
 class TestCommandCreateClass(TestClassCreatorTools):
 
     def test_execution(self):
-        command = CommandCreateClass(self.class_name, self.project)
+        command = CommandCreateClass(self.class_name, self.path)
         self.assert_class_does_not_exist()
         command.execute()
         self.assert_class_exists()
@@ -30,10 +30,10 @@ class TestCommandCreateClass(TestClassCreatorTools):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.header_path = cls.project.path.to_include_directory/(cls.class_name+".h")
-        cls.source_path = cls.project.path/"src"/(cls.class_name+".cpp")
-        cls.tests_path = cls.project.path/"src"/(cls.class_name+"_tests.cpp")
-        cls.src_cmakelist_path = cls.project.path/"src"/"CMakeLists.txt"
+        cls.header_path = cls.path.to_include_directory/(cls.class_name+".h")
+        cls.source_path = cls.path.to_source_directory/(cls.class_name+".cpp")
+        cls.tests_path = cls.path.to_source_directory/(cls.class_name+"_tests.cpp")
+        cls.src_cmakelist_path = cls.path.to_source_directory/"CMakeLists.txt"
         cls.file_names = [ cls.class_name+".cpp", cls.class_name+"_tests.cpp" ]
 
     @classmethod

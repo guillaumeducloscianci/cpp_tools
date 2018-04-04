@@ -13,14 +13,15 @@
 
 from file import File
 from file_template import FileTemplate
+from project import Project, ProjectParameters
 from system_tools import cpp_tools_resources_directory
 
 
 class ClassCreator():
 
-    def __init__(self, class_name_, project_):
+    def __init__(self, class_name_, project_directories):
         self.class_name = class_name_
-        self.project = project_ # \todo: Project directory structure should be a class
+        self.path = project_directories
 
     def create(self):
         self.create_header_file()
@@ -31,34 +32,34 @@ class ClassCreator():
     def add_to_cmakelists(self):
         end_of_source_files = ") # add_library"
         end_of_test_files = ") # add_tests"
-        content = File.read(self.project.path/"src"/"CMakeLists.txt")
+        content = File.read(self.path.to_source_directory/"CMakeLists.txt")
         content = content.replace(end_of_source_files, "    "+self.class_name+".cpp\n"+end_of_source_files)
         content = content.replace(end_of_test_files, "    "+self.class_name+"_tests.cpp\n"+end_of_test_files)
-        File.write(self.project.path/"src"/"CMakeLists.txt", content)
+        File.write(self.path.to_source_directory/"CMakeLists.txt", content)
         return content
 
     def create_header_file(self):
-        template = FileTemplate(File.read(self.project.path/".templates"/"class_header.template"))
+        template = FileTemplate(File.read(self.path.to_templates_directory/"class_header.template"))
         replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}
         content = self.create_license_header() + template.instantiate_with(replacement_rules)
-        path = self.project.path.to_include_directory/(self.class_name+".h")
+        path = self.path.to_include_directory/(self.class_name+".h")
         File.write(path, content)
 
     def create_source_file(self):
-        template = FileTemplate(File.read(self.project.path/".templates"/"class_source.template"))
+        template = FileTemplate(File.read(self.path.to_templates_directory/"class_source.template"))
         replacement_rules = {"class_name_": str(self.class_name)}
         content = self.create_license_header() + template.instantiate_with(replacement_rules)
-        path = self.project.path/"src"/(self.class_name+".cpp")
+        path = self.path.to_source_directory/(self.class_name+".cpp")
         File.write(path, content)
 
     def create_tests_file(self):
-        template = FileTemplate(File.read(self.project.path/".templates"/"class_tests.template"))
+        template = FileTemplate(File.read(self.path.to_templates_directory/"class_tests.template"))
         replacement_rules = {"class_name_": str(self.class_name)}
         content = self.create_license_header() + template.instantiate_with(replacement_rules)
-        path = self.project.path/"src"/(self.class_name+"_tests.cpp")
+        path = self.path.to_source_directory/(self.class_name+"_tests.cpp")
         File.write(path, content)
 
     def create_license_header(self):
         end_of_license = ">."
-        raw_license_header = self.project.create_license_header().replace("# ", "")
+        raw_license_header = Project(ProjectParameters(self.path.root, "")).create_license_header().replace("# ", "")
         return "/* " + raw_license_header.replace(end_of_license, end_of_license + " */")
