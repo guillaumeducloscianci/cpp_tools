@@ -22,6 +22,9 @@ class ProjectDirectories():
     def __truediv__(self, path):
         return self.root/path
 
+    def __str__(self):
+        return str(self.root)
+
     @property
     def to_include_directory(self):
         return self.root/"include"/self.root.name

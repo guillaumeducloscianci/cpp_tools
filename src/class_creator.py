@@ -41,7 +41,7 @@ class ClassCreator():
         template = FileTemplate(File.read(self.project.path/".templates"/"class_header.template"))
         replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}
         content = self.create_license_header() + template.instantiate_with(replacement_rules)
-        path = self.project.include_directory/(self.class_name+".h")
+        path = self.project.path.to_include_directory/(self.class_name+".h")
         File.write(path, content)
 
     def create_source_file(self):

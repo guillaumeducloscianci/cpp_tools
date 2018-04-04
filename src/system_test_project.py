@@ -29,7 +29,7 @@ class TestProjectTools(SystemTest):
         Directory.remove(cls.path)
 
     def assert_has_a_project_directory_structure(self):
-        for directory in self.project.directories:
+        for directory in self.project.path.list_top_down():
             self.assert_directory_exists(self.path/directory)
 
     def assert_project_directory_contains(self, file_name):

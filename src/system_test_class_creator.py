@@ -75,7 +75,7 @@ class TestClassCreator(TestClassCreatorTools):
             self.assert_string_contains(license_header, delimiter)
 
     def test_create_class_header(self):
-        header_path = self.project.include_directory/(self.class_name+".h")
+        header_path = self.project.path.to_include_directory/(self.class_name+".h")
         self.assert_file_does_not_exist(header_path)
         self.classCreator.create_header_file()
         self.assert_header_is_properly_formatted(header_path)
@@ -118,7 +118,7 @@ class TestClassCreatorCreate(TestClassCreatorTools):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.header_path = cls.project.include_directory/(cls.class_name+".h")
+        cls.header_path = cls.project.path.to_include_directory/(cls.class_name+".h")
         cls.source_path = cls.project.path/"src"/(cls.class_name+".cpp")
         cls.tests_path = cls.project.path/"src"/(cls.class_name+"_tests.cpp")
         cls.src_cmakelist_path = cls.project.path/"src"/"CMakeLists.txt"

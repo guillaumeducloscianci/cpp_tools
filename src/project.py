@@ -21,6 +21,7 @@ from class_tests_template import ClassTestsTemplate
 from directory import Directory
 from file import File
 from file_template import FileTemplate
+from project_directories import ProjectDirectories
 from top_level_cmakelists import TopLevelCMakeLists
 from system_tools import cpp_tools_resources_directory 
 
@@ -33,13 +34,10 @@ class ProjectParameters():
 
 
 class Project():
-    common_directories = ["", "include", "src", ".templates"]
-
     def __init__(self, parameters):
-        self.path = parameters.path
+        self.name = parameters.path.name
+        self.path = ProjectDirectories(parameters.path)
         self.author = parameters.author
-        self.include_directory = self.path/("include/"+self.path.name)
-        self.directories = self.common_directories + ["include/" + self.path.name]
 
     def create(self):
         self.create_directory_structure() # Must appear first, before any file creation
@@ -53,14 +51,13 @@ class Project():
         self.create_top_level_cmakelists()
 
     def create_class_templates(self):
-        path = lambda suffix: self.path/(".templates/class_" + str(suffix) + ".template")
+        path = lambda suffix: self.path.to_templates_directory/("class_" + str(suffix) + ".template")
         suffixToTemplate = {"header": ClassHeaderTemplate, "source": ClassSourceTemplate, "tests": ClassTestsTemplate}
         for suffix, template in suffixToTemplate.items():
-            File.write(path(suffix), template.instantiate_with(self.path.name))
+            File.write(path(suffix), template.instantiate_with(self.name))
 
     def create_directory_structure(self):
-        for directory in self.create_directory_paths():
-            Directory().create(directory)
+        for directory in self.path.list_top_down(): Directory().create(directory)
 
     def create_gitignore_file(self):
         File.write(self.path/".gitignore", ".templates")
@@ -72,29 +69,26 @@ class Project():
         File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.path/"LICENSE.TXT")
 
     def create_license_header_template(self):
-        replacement_rules = {"project_name_": self.path.name, "author_": self.author}
+        replacement_rules = {"project_name_": self.name, "author_": self.author}
         license_header_template = cpp_tools_resources_directory/"license_header.template"
         content = FileTemplate(File.read(license_header_template)).instantiate_with(replacement_rules)
         File.write(self.create_license_header_template_path(), content)
 
     def create_readme_file(self):
-        content = "# " + self.path.name + "\n"
+        content = "# " + self.name + "\n"
         File.write(self.path/"README.md", content)
 
     def create_src_cmakelists(self):
         content = self.create_license_header() + File.read(cpp_tools_resources_directory/"src_CMakeLists.txt")
-        File.write(self.path/"src"/"CMakeLists.txt", content)
+        File.write(self.path.to_source_directory/"CMakeLists.txt", content)
 
     def create_top_level_cmakelists(self):
-        content = self.create_license_header() + TopLevelCMakeLists.instantiate_with(self.path.name)
+        content = self.create_license_header() + TopLevelCMakeLists.instantiate_with(self.name)
         File.write(self.path/"CMakeLists.txt", content)
-
-    def create_directory_paths(self):
-        return list(map(lambda directory: self.path/directory, self.directories))
 
     def create_license_header(self):
         replacement_rules = {"year_": str(datetime.now().year)}
         return FileTemplate(File.read(self.create_license_header_template_path())).instantiate_with(replacement_rules)
 
     def create_license_header_template_path(self):
-        return self.path/".templates"/"license_header.template"
+        return self.path.to_templates_directory/"license_header.template"

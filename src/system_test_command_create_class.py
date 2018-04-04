@@ -30,7 +30,7 @@ class TestCommandCreateClass(TestClassCreatorTools):
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
-        cls.header_path = cls.project.include_directory/(cls.class_name+".h")
+        cls.header_path = cls.project.path.to_include_directory/(cls.class_name+".h")
         cls.source_path = cls.project.path/"src"/(cls.class_name+".cpp")
         cls.tests_path = cls.project.path/"src"/(cls.class_name+"_tests.cpp")
         cls.src_cmakelist_path = cls.project.path/"src"/"CMakeLists.txt"

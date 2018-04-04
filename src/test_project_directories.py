@@ -22,6 +22,15 @@ class TestProjectDirectories(UnitTest):
     def test_root_variable(self):
         self.assert_equals(self.raw_path, self.path.root)
 
+    def test_root_concatenation_with_string(self):
+        self.assert_equals(self.raw_path/"arbitrary_string", self.path/"arbitrary_string")
+
+    def test_root_concatenation_with_path(self):
+        self.assert_equals(self.raw_path/Path("arbitrary"), self.path/Path("arbitrary"))
+
+    def test_converstion_to_string(self):
+        self.assert_equals(str(self.raw_path), str(self.path))
+
     def test_path_to_include_directory(self):
         self.assert_equals(self.raw_path/"include"/self.raw_path.name, self.path.to_include_directory)
 
@@ -38,12 +47,6 @@ class TestProjectDirectories(UnitTest):
             self.path.to_include_directory
         ]
         self.assert_equals(expected, self.path.list_top_down())
-
-    def test_root_concatenation_with_string(self):
-        self.assert_equals(self.raw_path/"arbitrary_string", self.path/"arbitrary_string")
-
-    def test_root_concatenation_with_path(self):
-        self.assert_equals(self.raw_path/Path("arbitrary"), self.path/Path("arbitrary"))
 
     def setUp(self):
         self.raw_path = Path("arbitrary_path")
