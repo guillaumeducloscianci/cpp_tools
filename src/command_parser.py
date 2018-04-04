@@ -15,8 +15,10 @@ from pathlib import Path
 import argparse
 import sys
 
-from command_create_project import CommandCreateProject, ProjectParameters, Project
+from command_create_project import CommandCreateProject
 from command_create_class import CommandCreateClass
+from project import ProjectParameters
+from project_directories import ProjectDirectories
 
 
 class CommandParser:
@@ -40,7 +42,7 @@ class CommandParser:
         parser_create_class = subparsers.add_parser("class")
         parser_create_class.add_argument("--name", type=str)
         parser_create_class.set_defaults(
-            func=lambda args: CommandCreateClass(args.name, Project(ProjectParameters(Path(".").resolve(), "")))) # \todo: Project directory structure should be a class
+            func=lambda args: CommandCreateClass(args.name, ProjectDirectories(Path(".").resolve())))
 
     def parse(self, arguments=sys.argv[1:]):
         args = self.parser.parse_args(arguments)

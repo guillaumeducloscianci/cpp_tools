@@ -17,8 +17,8 @@ from class_creator import ClassCreator
 
 class CommandCreateClass(Command):
 
-    def __init__(self, class_name, project):
-        self.class_creator = ClassCreator(class_name, project)
+    def __init__(self, class_name, project_directories):
+        self.class_creator = ClassCreator(class_name, project_directories)
 
     def description(self):
         return "Create class " + str(self.class_creator.class_name)
