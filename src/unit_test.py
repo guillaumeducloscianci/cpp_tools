@@ -25,6 +25,9 @@ class UnitTest(unittest.TestCase):
     def assert_equals(self, lhs, rhs):
         self.assertEquals(lhs, rhs)
 
+    def assert_not_equals(self, lhs, rhs):
+        self.assertNotEquals(lhs, rhs)
+
     def assert_is_not_empty(self, string):
         self.assertNotEquals("", string)
 

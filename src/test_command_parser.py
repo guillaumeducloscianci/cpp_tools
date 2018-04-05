@@ -11,11 +11,11 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 from command_parser import CommandParser
+from unit_test import UnitTest
 
 
-class TestCommandParser(unittest.TestCase):
+class TestCommandParser(UnitTest):
 
     def setUp(self):
         self.parser = CommandParser()
@@ -24,9 +24,9 @@ class TestCommandParser(unittest.TestCase):
         project_name = "arbitrary_project_name"
         author_name = "author_name"
         arguments = ["create", "project", "--name", project_name, "--author", author_name]
-        self.assertTrue(project_name, str(self.parser.parse(arguments).project.name))
+        self.assert_equals(project_name, str(self.parser.parse(arguments).project.name))
 
     def test_command_parser_returns_a_command_create_class(self):
         class_name = "class_name"
         arguments = ["create", "class", "--name", class_name]
-        self.assertTrue(class_name, str(self.parser.parse(arguments).class_creator.class_name))
+        self.assert_equals(class_name, str(self.parser.parse(arguments).class_creator.class_name))

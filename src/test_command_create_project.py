@@ -18,7 +18,7 @@ from unit_test import UnitTest
 class TestCommandCreateProject(UnitTest):
 
     def test_variables(self):
-        self.assertEquals(self.project_path, str(self.command.project.path))
+        self.assert_equals(self.project_path, str(self.command.project.path))
 
     def test_description(self):
         self.assert_is_not_empty(self.command.description())

@@ -65,8 +65,8 @@ class TestClassCreatorTools(SystemTest):
 class TestClassCreator(TestClassCreatorTools):
 
     def test_variables(self):
-        self.assertEquals(self.classCreator.class_name, self.class_name)
-        self.assertEquals(self.classCreator.path, self.path)
+        self.assert_equals(self.classCreator.class_name, self.class_name)
+        self.assert_equals(self.classCreator.path, self.path)
 
     def test_create_license_header(self):
         license_header = self.classCreator.create_license_header()

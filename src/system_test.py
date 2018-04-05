@@ -36,22 +36,22 @@ class SystemTest(UnitTest):
         return cpp_tools_directory/cls.directory_name
 
     def assert_directory_does_not_exist(self, directory_path):
-        self.assertFalse(Path(directory_path).is_dir())
+        self.assert_false(Path(directory_path).is_dir())
 
     def assert_directory_exists(self, directory_path):
-        self.assertTrue(Path(directory_path).is_dir())
+        self.assert_true(Path(directory_path).is_dir())
 
     def assert_file_does_not_contain(self, file_path, content):
-        self.assertEquals(-1,Path(file_path).open().read().find(str(content)))
+        self.assert_equals(-1,Path(file_path).open().read().find(str(content)))
 
     def assert_file_does_not_exist(self, file_path):
-        self.assertFalse(Path(file_path).is_file())
+        self.assert_false(Path(file_path).is_file())
 
     def assert_file_contains(self, file_path, content):
-        self.assertNotEquals(-1,Path(file_path).open().read().find(str(content)))
+        self.assert_not_equals(-1,Path(file_path).open().read().find(str(content)))
 
     def assert_file_exists(self, file_path):
-        self.assertTrue(Path(file_path).is_file())
+        self.assert_true(Path(file_path).is_file())
 
     def assert_file_has_license_header(self, file_path):
-        self.assertNotEquals(-1,Path(file_path).open().read().find("free software"))
+        self.assert_not_equals(-1,Path(file_path).open().read().find("free software"))
