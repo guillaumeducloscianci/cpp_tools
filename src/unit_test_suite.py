@@ -18,6 +18,7 @@ import test_class_header
 import test_class_header_template
 import test_class_source
 import test_class_source_template
+import test_class_tests
 import test_class_tests_template
 import test_command_create_project
 import test_command_parser
@@ -43,7 +44,8 @@ def create_unit_test_suite():
     ]
     modules += [
         test_class_header,
-        test_class_source
+        test_class_source,
+        test_class_tests
     ]
     modules += [ test_command_create_project ]
     modules += [ test_command_parser ]

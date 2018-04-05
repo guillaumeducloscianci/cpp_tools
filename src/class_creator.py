@@ -13,6 +13,7 @@
 
 from class_header import ClassHeader
 from class_source import ClassSource
+from class_tests import ClassTests
 from file import File
 from file_template import FileTemplate
 from license_header import LicenseHeader
@@ -22,9 +23,9 @@ from system_tools import cpp_tools_resources_directory
 
 class ClassCreator():
 
-    def __init__(self, class_name_, project_directories):
+    def __init__(self, class_name_, project_paths):
         self.class_name = class_name_
-        self.path = project_directories
+        self.path = project_paths
 
     def create(self):
         self.create_header_file()
@@ -44,7 +45,7 @@ class ClassCreator():
     def create_header_file(self):
         path = self.path.to_include_directory/(self.class_name+".h")
         template = ClassHeader(File.read(self.path.to_class_header_template), self.create_license_header())
-        File.write(path, template.instantiate_with(self.class_name))
+        File.write(self.path.to_include_directory/(self.class_name+".h"), template.instantiate_with(self.class_name))
 
     def create_source_file(self):
         path = self.path.to_source_directory/(self.class_name+".cpp")
@@ -52,11 +53,9 @@ class ClassCreator():
         File.write(path, template.instantiate_with(self.class_name))
 
     def create_tests_file(self):
-        template = FileTemplate(File.read(self.path.to_templates_directory/"class_tests.template"))
-        replacement_rules = {"class_name_": str(self.class_name)}
-        content = self.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.path.to_source_directory/(self.class_name+"_tests.cpp")
-        File.write(path, content)
+        template = ClassTests(File.read(self.path.to_class_tests_template), self.create_license_header())
+        File.write(path, template.instantiate_with(self.class_name))
 
     def create_license_header(self):
         return LicenseHeader(File.read(self.path.to_license_header_template)).instantiate_for_cpp()

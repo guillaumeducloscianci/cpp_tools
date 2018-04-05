@@ -34,6 +34,10 @@ class ProjectDirectories():
         return self.root/".templates/class_source.template"
 
     @property
+    def to_class_tests_template(self):
+        return self.root/".templates/class_tests.template"
+
+    @property
     def to_license_header_template(self):
         return self.root/".templates/license_header.template"
 

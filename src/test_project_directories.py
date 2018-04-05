@@ -37,6 +37,9 @@ class TestProjectDirectories(UnitTest):
     def test_path_to_class_source_template(self):
         self.assert_equals(self.raw_path/".templates/class_source.template", self.path.to_class_source_template)
 
+    def test_path_to_class_tests_template(self):
+        self.assert_equals(self.raw_path/".templates/class_tests.template", self.path.to_class_tests_template)
+
     def test_path_to_license_header_template(self):
         self.assert_equals(self.raw_path/".templates/license_header.template", self.path.to_license_header_template)
 
