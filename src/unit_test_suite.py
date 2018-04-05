@@ -20,6 +20,7 @@ import test_class_tests_template
 import test_command_create_project
 import test_command_parser
 import test_file_template
+import test_license_header_template
 import test_top_level_cmakelists
 import test_project_directories
 
@@ -32,6 +33,7 @@ def create_unit_test_suite():
         test_class_header_template,
         test_class_source_template,
         test_class_tests_template,
+        test_license_header_template,
         test_project_directories,
         test_top_level_cmakelists
     ]

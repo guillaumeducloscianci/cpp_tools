@@ -21,6 +21,7 @@ from class_tests_template import ClassTestsTemplate
 from directory import Directory
 from file import File
 from file_template import FileTemplate
+from license_header_template import LicenseHeaderTemplate
 from project_directories import ProjectDirectories
 from top_level_cmakelists import TopLevelCMakeLists
 from system_tools import cpp_tools_resources_directory 
@@ -69,9 +70,7 @@ class Project():
         File.copy(cpp_tools_resources_directory/"GPL_v3.txt", self.path/"LICENSE.TXT")
 
     def create_license_header_template(self):
-        replacement_rules = {"project_name_": self.name, "author_": self.author}
-        license_header_template = cpp_tools_resources_directory/"license_header.template"
-        content = FileTemplate(File.read(license_header_template)).instantiate_with(replacement_rules)
+        content = LicenseHeaderTemplate().instantiate_with(self.name, self.author)
         File.write(self.create_license_header_template_path(), content)
 
     def create_readme_file(self):

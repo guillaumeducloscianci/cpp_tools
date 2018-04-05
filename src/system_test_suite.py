@@ -23,6 +23,7 @@ import system_test_command_create_class
 import system_test_command_create_project
 import system_test_directory
 import system_test_file
+import system_test_license_header_template
 import system_test_project
 import system_test_top_level_cmakelists
 
@@ -36,6 +37,7 @@ def create_system_test_suite():
         system_test_class_header_template,
         system_test_class_source_template,
         system_test_class_tests_template,
+        system_test_license_header_template,
         system_test_top_level_cmakelists
     ]
     modules += [ system_test_project ]
