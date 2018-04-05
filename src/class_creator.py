@@ -11,6 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from class_header import ClassHeader
 from file import File
 from file_template import FileTemplate
 from license_header import LicenseHeader
@@ -40,11 +41,9 @@ class ClassCreator():
         return content
 
     def create_header_file(self):
-        template = FileTemplate(File.read(self.path.to_templates_directory/"class_header.template"))
-        replacement_rules = {"class_name_": str(self.class_name), "CLASS_NAME_": str(self.class_name).upper()+"_"}
-        content = self.create_license_header() + template.instantiate_with(replacement_rules)
+        header_template = ClassHeader(File.read(self.path.to_class_header_template), self.create_license_header())
         path = self.path.to_include_directory/(self.class_name+".h")
-        File.write(path, content)
+        File.write(path, header_template.instantiate_with(self.class_name))
 
     def create_source_file(self):
         template = FileTemplate(File.read(self.path.to_templates_directory/"class_source.template"))

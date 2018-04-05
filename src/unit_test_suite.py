@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from test_suite import TestSuite
+import test_class_header
 import test_class_header_template
 import test_class_source_template
 import test_class_tests_template
@@ -34,11 +35,14 @@ def create_unit_test_suite():
         test_class_header_template,
         test_class_source_template,
         test_class_tests_template,
+        test_license_header,
         test_license_header_template,
         test_project_directories,
         test_top_level_cmakelists
     ]
-    modules += [ test_license_header ]
+    modules += [
+        test_class_header
+    ]
     modules += [ test_command_create_project ]
     modules += [ test_command_parser ]
     return TestSuite.create_from_modules(modules)

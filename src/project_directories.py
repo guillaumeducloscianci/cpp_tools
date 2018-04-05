@@ -26,6 +26,10 @@ class ProjectDirectories():
         return str(self.root)
 
     @property
+    def to_class_header_template(self):
+        return self.root/".templates/class_header.template"
+
+    @property
     def to_license_header_template(self):
         return self.root/".templates/license_header.template"
 
