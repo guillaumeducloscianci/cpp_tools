@@ -12,6 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from class_header import ClassHeader
+from class_source import ClassSource
 from file import File
 from file_template import FileTemplate
 from license_header import LicenseHeader
@@ -41,16 +42,14 @@ class ClassCreator():
         return content
 
     def create_header_file(self):
-        header_template = ClassHeader(File.read(self.path.to_class_header_template), self.create_license_header())
         path = self.path.to_include_directory/(self.class_name+".h")
-        File.write(path, header_template.instantiate_with(self.class_name))
+        template = ClassHeader(File.read(self.path.to_class_header_template), self.create_license_header())
+        File.write(path, template.instantiate_with(self.class_name))
 
     def create_source_file(self):
-        template = FileTemplate(File.read(self.path.to_templates_directory/"class_source.template"))
-        replacement_rules = {"class_name_": str(self.class_name)}
-        content = self.create_license_header() + template.instantiate_with(replacement_rules)
         path = self.path.to_source_directory/(self.class_name+".cpp")
-        File.write(path, content)
+        template = ClassSource(File.read(self.path.to_class_source_template), self.create_license_header())
+        File.write(path, template.instantiate_with(self.class_name))
 
     def create_tests_file(self):
         template = FileTemplate(File.read(self.path.to_templates_directory/"class_tests.template"))
