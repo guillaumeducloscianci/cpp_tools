@@ -13,6 +13,7 @@
 
 from file import File
 from file_template import FileTemplate
+from license_header import LicenseHeader
 from project import Project, ProjectParameters
 from system_tools import cpp_tools_resources_directory
 
@@ -60,6 +61,4 @@ class ClassCreator():
         File.write(path, content)
 
     def create_license_header(self):
-        end_of_license = ">."
-        raw_license_header = Project(ProjectParameters(self.path.root, "")).create_license_header().replace("# ", "")
-        return "/* " + raw_license_header.replace(end_of_license, end_of_license + " */")
+        return LicenseHeader(File.read(self.path.to_license_header_template)).instantiate_for_cpp()

@@ -21,6 +21,7 @@ from class_tests_template import ClassTestsTemplate
 from directory import Directory
 from file import File
 from file_template import FileTemplate
+from license_header import LicenseHeader
 from license_header_template import LicenseHeaderTemplate
 from project_directories import ProjectDirectories
 from top_level_cmakelists import TopLevelCMakeLists
@@ -46,7 +47,7 @@ class Project():
         self.create_git_repository()
         self.create_license_file()
         self.create_class_templates()
-        self.create_license_header_template() # Must appear before top level cmakelists creation
+        self.create_license_header_template() # Must appear before cmakelists creation
         self.create_readme_file()
         self.create_src_cmakelists()
         self.create_top_level_cmakelists()
@@ -71,7 +72,7 @@ class Project():
 
     def create_license_header_template(self):
         content = LicenseHeaderTemplate().instantiate_with(self.name, self.author)
-        File.write(self.create_license_header_template_path(), content)
+        File.write(self.path.to_license_header_template, content)
 
     def create_readme_file(self):
         content = "# " + self.name + "\n"
@@ -86,8 +87,4 @@ class Project():
         File.write(self.path/"CMakeLists.txt", content)
 
     def create_license_header(self):
-        replacement_rules = {"year_": str(datetime.now().year)}
-        return FileTemplate(File.read(self.create_license_header_template_path())).instantiate_with(replacement_rules)
-
-    def create_license_header_template_path(self):
-        return self.path.to_templates_directory/"license_header.template"
+        return LicenseHeader(File.read(self.path.to_license_header_template)).instantiate_for_cmakelists()

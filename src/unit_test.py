@@ -16,6 +16,12 @@ import unittest
 
 class UnitTest(unittest.TestCase):
 
+    def assert_true(self, value):
+        self.assertTrue(value)
+
+    def assert_false(self, value):
+        self.assertFalse(value)
+
     def assert_equals(self, lhs, rhs):
         self.assertEquals(lhs, rhs)
 

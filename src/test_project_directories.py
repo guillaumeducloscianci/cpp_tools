@@ -31,6 +31,9 @@ class TestProjectDirectories(UnitTest):
     def test_converstion_to_string(self):
         self.assert_equals(str(self.raw_path), str(self.path))
 
+    def test_path_to_license_header_template(self):
+        self.assert_equals(self.raw_path/".templates/license_header.template", self.path.to_license_header_template)
+
     def test_path_to_include_directory(self):
         self.assert_equals(self.raw_path/"include"/self.raw_path.name, self.path.to_include_directory)
 
