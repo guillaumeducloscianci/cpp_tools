@@ -13,17 +13,22 @@
 
 from pathlib import Path
 from shutil import copy
+import os
 
 class File():
 
     @staticmethod
     def copy(source_path, destination_path):
-        # arguments are converted to strings because shutil.copy does not support Path objects
+        # arguments are converted to strings because shutil.copy does not support Path objects in Python 3.5
         copy(str(source_path), str(destination_path))
 
     @staticmethod
+    def overwrite(path, content):
+        Path(path).open('w').write(content)
+
+    @staticmethod
     def remove(path):
-        Path(path).unlink()
+        if Path(path).exists(): Path(path).unlink()
 
     @staticmethod
     def read(path):
@@ -31,4 +36,5 @@ class File():
 
     @staticmethod
     def write(path, content):
-        return Path(path).open('w').write(content)
+        if Path(path).exists(): raise OSError(os.errno.EEXIST, os.strerror(os.errno.EEXIST), str(path))
+        Path(path).open('w').write(content)

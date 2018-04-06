@@ -39,7 +39,7 @@ class ClassCreator():
         content = File.read(self.path.to_source_directory/"CMakeLists.txt")
         content = content.replace(end_of_source_files, "    "+self.class_name+".cpp\n"+end_of_source_files)
         content = content.replace(end_of_test_files, "    "+self.class_name+"_tests.cpp\n"+end_of_test_files)
-        File.write(self.path.to_source_directory/"CMakeLists.txt", content)
+        File.overwrite(self.path.to_source_directory/"CMakeLists.txt", content)
         return content
 
     def create_header_file(self):

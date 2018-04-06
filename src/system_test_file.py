@@ -29,17 +29,35 @@ class TestFileReadWrite(SystemTest):
         self.path.unlink()
 
 
-class TestFileRemove(SystemTest):
+class TestFileActingOnExistingFile(SystemTest):
 
     def test_remove(self):
         self.assert_file_exists(self.path)
         File.remove(self.path)
         self.assert_file_does_not_exist(self.path)
 
+    def test_remove_is_idempotent(self):
+        self.assert_file_exists(self.path)
+        File.remove(self.path)
+        File.remove(self.path)
+        self.assert_file_does_not_exist(self.path)
+
+    def test_write_does_not_overwrite(self):
+        self.assert_file_exists(self.path)
+        self.assertRaises(OSError, lambda : File.write(self.path, ""))
+
+    def test_overwrite(self):
+        self.assert_file_exists(self.path)
+        File.overwrite(self.path, self.content)
+        self.assert_equals(self.content, File.read(self.path))
+
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_file"
         self.content = "Arbitrary content."
         File.write(self.path, self.content)
+
+    def tearDown(self):
+        if self.path.exists(): self.path.unlink()
 
 
 class TestFileCopy(SystemTest):
@@ -56,5 +74,5 @@ class TestFileCopy(SystemTest):
         File.write(self.path, self.content)
 
     def tearDown(self):
-        for p in [self.path, self.copy_path]: p.unlink()
+        for p in [self.path, self.copy_path]: File.remove(p)
         
