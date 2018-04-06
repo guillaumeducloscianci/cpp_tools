@@ -13,14 +13,14 @@
 
 from pathlib import Path
 
-def create_symbolic_link(link_path, target_path):
-    Path(link_path).symlink_to(target_path, target_path.is_dir())
-
-def remove_path(path):
-    if Path(path).is_dir():
+def remove_path(path_):
+    path = Path(path_)
+    if path.is_symlink() or path.is_file(): # is_symlink must appear before is_dir
+        path.unlink()
+    elif path.is_dir():
         Directory.remove(path)
     else:
-        Path(path).unlink()
+        return
 
 
 class Directory():
@@ -31,6 +31,7 @@ class Directory():
 
     @staticmethod
     def remove(path):
+        if not Path(path).exists(): return
         for p in Path(path).iterdir():
             remove_path(p)
         Path(path).rmdir()
