@@ -4,7 +4,8 @@
 namespace project_name_ {
 
 class class_name_ {
-
+public:
+    class_name_() = default;
 };
 
 } /* project_name_ */
