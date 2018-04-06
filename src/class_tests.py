@@ -20,7 +20,7 @@ class ClassTests():
     
     def __init__(self, template_, license_header_):
         self.template = FileTemplate(template_)
-        self.license_header = license_header_
+        self.license_header = license_header_.instantiate_for_cpp()
 
     def instantiate_with(self, class_name):
         return self.license_header + self.template.instantiate_with(self.create_replacement_rules(class_name))

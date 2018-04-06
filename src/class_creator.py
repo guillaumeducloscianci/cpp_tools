@@ -58,4 +58,4 @@ class ClassCreator():
         File.write(path, template.instantiate_with(self.class_name))
 
     def create_license_header(self):
-        return LicenseHeader(File.read(self.path.to_license_header_template)).instantiate_for_cpp()
+        return LicenseHeader(File.read(self.path.to_license_header_template))

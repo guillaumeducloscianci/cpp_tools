@@ -23,13 +23,13 @@ class TestClassHeader(UnitTest):
             ClassHeader.create_replacement_rules(self.class_name))
 
     def test_instantiate_with(self):
-        self.instance = ClassHeader(self.fake_template, self.fake_license_header).instantiate_with(self.class_name)
+        instance = ClassHeader(self.fake_template, self.fake_license_header).instantiate_with(self.class_name)
         for token, value in ClassHeader.create_replacement_rules(self.class_name).items():
-            self.assert_string_does_not_contain(self.instance, token)
-            self.assert_string_contains(self.instance, value)
-        # \todo : add test to check header formatting
+            self.assert_string_does_not_contain(instance, token)
+            self.assert_string_contains(instance, value)
+        self.assert_string_contains(instance, "license")
 
     def setUp(self):
         self.fake_template = "CLASS_NAME_ class_name_"
-        self.fake_license_header = LicenseHeader("arbitrary license (year_)").instantiate_for_cpp()
+        self.fake_license_header = LicenseHeader("arbitrary license (year_)")
         self.class_name = "arbitrary_name"

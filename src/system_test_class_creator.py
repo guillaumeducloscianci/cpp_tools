@@ -69,7 +69,7 @@ class TestClassCreator(TestClassCreatorTools):
         self.assert_equals(self.classCreator.path, self.path)
 
     def test_create_license_header(self):
-        license_header = self.classCreator.create_license_header()
+        license_header = self.classCreator.create_license_header().instantiate_for_cpp()
         self.assert_string_does_not_contain(license_header, "#")
         for delimiter in ["/* ", " */"]:
             self.assert_string_contains(license_header, delimiter)
