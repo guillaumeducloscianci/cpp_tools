@@ -54,5 +54,5 @@ class ProjectPaths():
         return self.root/".templates"
 
     def list_top_down(self):
-        return [self.root, self.to_templates_directory, self.to_source_directory, self.root/"include",
-            self.to_include_directory]
+        return [self.root, self.root/"build", self.to_source_directory, self.to_templates_directory,
+            self.root/"include", self.to_include_directory]

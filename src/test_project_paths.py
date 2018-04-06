@@ -55,8 +55,8 @@ class TestProjectPaths(UnitTest):
     def test_list_top_down(self):
         expected = [
             self.raw_path,
-            self.path.to_templates_directory, self.path.to_source_directory, self.raw_path/"include",
-            self.path.to_include_directory
+            self.raw_path/"build", self.path.to_source_directory, self.path.to_templates_directory,
+            self.raw_path/"include",self.path.to_include_directory
         ]
         self.assert_equals(expected, self.path.list_top_down())
 
