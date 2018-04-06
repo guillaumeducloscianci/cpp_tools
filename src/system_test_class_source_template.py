@@ -1,4 +1,4 @@
-# `cpp_tools` is a set of lightweight python scripts used to facilitate and greatly speed up development in C++.
+# `cpp_tools` is a set of lightweight python scripts used to facilitate and speed up development in C++.
 # Copyright (C) 2018 Guillaume Duclos-Cianci
 
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
