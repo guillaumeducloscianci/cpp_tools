@@ -14,7 +14,7 @@
 from class_creator import ClassCreator
 from directory import Directory
 from project import Project, ProjectParameters
-from project_directories import ProjectDirectories
+from project_paths import ProjectPaths
 from system_test import SystemTest
 
 class TestClassCreatorTools(SystemTest):
@@ -22,7 +22,7 @@ class TestClassCreatorTools(SystemTest):
     @classmethod
     def setup_base(cls):
         cls.class_name = "arbitrary_class"
-        cls.path = ProjectDirectories(SystemTest.get_testing_directory()/"arbitrary_project_name")
+        cls.path = ProjectPaths(SystemTest.get_testing_directory()/"arbitrary_project_name")
         Project(ProjectParameters(cls.path.root, "arbitrary_author")).create()
         cls.classCreator = ClassCreator(cls.class_name, cls.path)
 

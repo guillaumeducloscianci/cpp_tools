@@ -13,11 +13,11 @@
 
 from pathlib import Path
 
-from project_directories import ProjectDirectories
+from project_paths import ProjectPaths
 from unit_test import UnitTest
 
 
-class TestProjectDirectories(UnitTest):
+class TestProjectPaths(UnitTest):
 
     def test_root_variable(self):
         self.assert_equals(self.raw_path, self.path.root)
@@ -62,4 +62,4 @@ class TestProjectDirectories(UnitTest):
 
     def setUp(self):
         self.raw_path = Path("arbitrary_path")
-        self.path = ProjectDirectories(self.raw_path)
+        self.path = ProjectPaths(self.raw_path)

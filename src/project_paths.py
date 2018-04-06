@@ -14,7 +14,7 @@
 from pathlib import Path
 
 
-class ProjectDirectories():
+class ProjectPaths():
     
     def __init__(self, root_):
         self.root = Path(root_)

@@ -23,7 +23,7 @@ from file import File
 from file_template import FileTemplate
 from license_header import LicenseHeader
 from license_header_template import LicenseHeaderTemplate
-from project_directories import ProjectDirectories
+from project_paths import ProjectPaths
 from top_level_cmakelists import TopLevelCMakeLists
 from system_tools import cpp_tools_resources_directory 
 
@@ -38,7 +38,7 @@ class ProjectParameters():
 class Project():
     def __init__(self, parameters):
         self.name = parameters.path.name
-        self.path = ProjectDirectories(parameters.path)
+        self.path = ProjectPaths(parameters.path)
         self.author = parameters.author
 
     def create(self):
