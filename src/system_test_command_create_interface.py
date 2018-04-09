@@ -11,43 +11,26 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
+
+from command_create_interface import CommandCreateInterface
 from directory import Directory
-from interface_creator import InterfaceCreator
-from project import Project, ProjectParameters
-from project_paths import ProjectPaths
 from system_test import SystemTest
+from system_test_interface_creator import TestInterfaceCreatorTools
 
 
-class TestInterfaceCreatorTools(SystemTest):
-    
-    @classmethod
-    def setup_base(cls):
-        cls.class_name = "arbitrary_class"
-        cls.path = ProjectPaths(SystemTest.get_testing_directory()/"arbitrary_project_name")
-        Project(ProjectParameters(cls.path.root, "arbitrary_author")).create()
-        cls.header_path = cls.path.to_include_directory/(cls.class_name+".h")
+class TestCommandCreateInterface(TestInterfaceCreatorTools):
 
-    @classmethod
-    def tear_down_base(cls):
-        Directory.remove(cls.path.root)
-
-    def assert_interface_does_not_exist(self):
-        self.assert_file_does_not_exist(self.header_path)
-
-    def assert_interface_exists(self):
-        self.assert_file_exists(self.header_path)
-
-
-class TestInterfaceCreator(TestInterfaceCreatorTools):
-
-    def test_create(self):
+    def test_execution(self):
+        command = CommandCreateInterface(self.class_name, self.path)
         self.assert_interface_does_not_exist()
-        InterfaceCreator(self.class_name, self.path).create()
+        command.execute()
         self.assert_interface_exists()
 
     @classmethod
     def setUpClass(cls):
         cls.setup_base()
+        cls.header_path = cls.path.to_include_directory/(cls.class_name+".h")
 
     @classmethod
     def tearDownClass(cls):
