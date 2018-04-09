@@ -19,11 +19,12 @@ class InterfaceHeader():
     def __init__(self, template, license_header):
         self.bare_header = ClassHeader(template, license_header)
 
-    def add_content_to(self, bare_header, class_name):
+    def instantiate_with(self, class_name):
+        return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name)
+
+    @staticmethod
+    def add_content_to(bare_header, class_name):
         virtual_destructor = "    virtual ~" + class_name + "() {}\n"
         method_template = "    //virtual return_type_ method_name_(input_type_) = 0;\n"
         token = "};"
         return bare_header.replace(token, virtual_destructor + "\n" + method_template + token)
-
-    def instantiate_with(self, class_name):
-        return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name)

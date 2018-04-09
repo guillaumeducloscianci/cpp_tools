@@ -35,4 +35,3 @@ class TestCommandParser(UnitTest):
         author_name = "author_name"
         arguments = ["create", "project", "--name", project_name, "--author", author_name]
         self.assert_equals(project_name, str(self.parser.parse(arguments).project.name))
-
