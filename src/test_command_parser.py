@@ -20,13 +20,19 @@ class TestCommandParser(UnitTest):
     def setUp(self):
         self.parser = CommandParser()
 
+    def test_command_parser_returns_a_command_create_class(self):
+        class_name = "class_name"
+        arguments = ["create", "class", "--name", class_name]
+        self.assert_equals(class_name, str(self.parser.parse(arguments).class_creator.class_name))
+
+    def test_command_parser_returns_a_command_create_interface(self):
+        class_name = "class_name"
+        arguments = ["create", "interface", "--name", class_name]
+        self.assert_equals(class_name, str(self.parser.parse(arguments).interface_creator.class_name))
+
     def test_command_parser_returns_a_command_create_project(self):
         project_name = "arbitrary_project_name"
         author_name = "author_name"
         arguments = ["create", "project", "--name", project_name, "--author", author_name]
         self.assert_equals(project_name, str(self.parser.parse(arguments).project.name))
 
-    def test_command_parser_returns_a_command_create_class(self):
-        class_name = "class_name"
-        arguments = ["create", "class", "--name", class_name]
-        self.assert_equals(class_name, str(self.parser.parse(arguments).class_creator.class_name))

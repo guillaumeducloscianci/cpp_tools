@@ -18,10 +18,10 @@ from interface_creator import InterfaceCreator
 class CommandCreateInterface(Command):
 
     def __init__(self, class_name, project_directories):
-        self.interfac_creator = InterfaceCreator(class_name, project_directories)
+        self.interface_creator = InterfaceCreator(class_name, project_directories)
 
     def description(self):
-        return "Create interface " + str(self.interfac_creator.class_name)
+        return "Create interface " + str(self.interface_creator.class_name)
 
     def execute(self):
-        self.interfac_creator.create()
+        self.interface_creator.create()

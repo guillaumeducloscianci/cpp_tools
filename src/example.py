@@ -27,3 +27,4 @@ if __name__ == '__main__':
         [cpp_tools, "create", "project", "--name", "ToricCodeDecoder", "--author", "Guillaume Duclos-Cianci"])
     os.chdir(str(Path(".").resolve()/"ToricCodeDecoder"))
     subprocess.run([cpp_tools, "create", "class", "--name", "Syndrome"])
+    subprocess.run([cpp_tools, "create", "interface", "--name", "UnitCell"])

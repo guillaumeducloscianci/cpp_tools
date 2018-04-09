@@ -15,8 +15,9 @@ from pathlib import Path
 import argparse
 import sys
 
-from command_create_project import CommandCreateProject
 from command_create_class import CommandCreateClass
+from command_create_interface import CommandCreateInterface
+from command_create_project import CommandCreateProject
 from project import ProjectParameters
 from project_paths import ProjectPaths
 
@@ -28,8 +29,21 @@ class CommandParser:
         subparsers = self.parser.add_subparsers()
         parser_create = subparsers.add_parser("create")
         subparsers_create = parser_create.add_subparsers()
-        self.add_create_project_parser(subparsers_create)
         self.add_create_class_parser(subparsers_create)
+        self.add_create_interface_parser(subparsers_create)
+        self.add_create_project_parser(subparsers_create)
+
+    def add_create_class_parser(self, subparsers):
+        parser_create_class = subparsers.add_parser("class")
+        parser_create_class.add_argument("--name", type=str)
+        parser_create_class.set_defaults(
+            func=lambda args: CommandCreateClass(args.name, ProjectPaths(Path(".").resolve())))
+
+    def add_create_interface_parser(self, subparsers):
+        parser_create_class = subparsers.add_parser("interface")
+        parser_create_class.add_argument("--name", type=str)
+        parser_create_class.set_defaults(
+            func=lambda args: CommandCreateInterface(args.name, ProjectPaths(Path(".").resolve())))
 
     def add_create_project_parser(self, subparsers):
         parser_create_project = subparsers.add_parser("project")
@@ -37,12 +51,6 @@ class CommandParser:
         parser_create_project.add_argument("--author", type=str)
         parser_create_project.set_defaults(
             func=lambda args: CommandCreateProject(ProjectParameters(args.name, args.author)))
-
-    def add_create_class_parser(self, subparsers):
-        parser_create_class = subparsers.add_parser("class")
-        parser_create_class.add_argument("--name", type=str)
-        parser_create_class.set_defaults(
-            func=lambda args: CommandCreateClass(args.name, ProjectPaths(Path(".").resolve())))
 
     def parse(self, arguments=sys.argv[1:]):
         args = self.parser.parse_args(arguments)
