@@ -53,3 +53,6 @@ class TestDirectoryRemove(SystemTest):
     def setUp(self):
         self.path = SystemTest.get_testing_directory()/"arbitrary_directory"
         Directory.create(self.path)
+
+    def tearDown(self):
+        Directory.remove(self.path)

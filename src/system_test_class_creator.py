@@ -17,6 +17,7 @@ from project import Project, ProjectParameters
 from project_paths import ProjectPaths
 from system_test import SystemTest
 
+
 class TestClassCreatorTools(SystemTest):
     
     @classmethod

@@ -11,19 +11,22 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from class_header import ClassHeader
+from interface_header import InterfaceHeader
+from file import File
+from license_header import LicenseHeader
+from project import Project, ProjectParameters
 
 
-class InterfaceHeader():
-    
-    def __init__(self, template, license_header):
-        self.bare_header = ClassHeader(template, license_header)
+class InterfaceCreator():
 
-    def add_content_to(self, bare_header, class_name):
-        virtual_destructor = "    virtual ~" + class_name + "() {}\n"
-        method_template = "    //virtual return_type_ method_name_(input_type_) = 0;\n"
-        token = "};"
-        return bare_header.replace(token, virtual_destructor + "\n" + method_template + token)
+    def __init__(self, class_name_, project_paths):
+        self.class_name = class_name_
+        self.path = project_paths
 
-    def instantiate_with(self, class_name):
-        return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name)
+    def create(self):
+        path = self.path.to_include_directory/(self.class_name+".h")
+        template = InterfaceHeader(File.read(self.path.to_class_header_template), self.create_license_header())
+        File.write(self.path.to_include_directory/(self.class_name+".h"), template.instantiate_with(self.class_name))
+
+    def create_license_header(self):
+        return LicenseHeader(File.read(self.path.to_license_header_template))

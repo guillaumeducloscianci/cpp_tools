@@ -15,10 +15,7 @@ from class_header import ClassHeader
 from class_source import ClassSource
 from class_tests import ClassTests
 from file import File
-from file_template import FileTemplate
 from license_header import LicenseHeader
-from project import Project, ProjectParameters
-from system_tools import cpp_tools_resources_directory
 
 
 class ClassCreator():
