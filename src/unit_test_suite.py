@@ -25,6 +25,7 @@ import test_command_parser
 import test_file_template
 import test_license_header
 import test_license_header_template
+import test_implementation_header
 import test_interface_header
 import test_top_level_cmakelists
 import test_project_paths
@@ -47,7 +48,8 @@ def create_unit_test_suite():
         test_class_header,
         test_class_source,
         test_class_tests,
-        test_interface_header
+        test_interface_header,
+        test_implementation_header
     ]
     modules += [ test_command_create_project ]
     modules += [ test_command_parser ]

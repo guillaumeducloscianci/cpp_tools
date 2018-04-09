@@ -35,4 +35,4 @@ class UnitTest(unittest.TestCase):
         self.assertEquals(-1,string.find(str(content)))
 
     def assert_string_contains(self, string, content):
-        self.assertNotEquals(-1,string.find(str(content)))
+        self.assertNotEquals(-1,string.find(str(content)), msg=string)

@@ -11,20 +11,27 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from interface_header import InterfaceHeader
+from implementation_header import ImplementationHeader
 from license_header import LicenseHeader
 from unit_test import UnitTest
 
 
-class TestInterfaceHeader(UnitTest):
+class TestImplementationHeader(UnitTest):
+
+    def test_extract_methods(self):
+        self.assert_equals(ImplementationHeader.extract_methods(self.fake_interface),
+            ["virtual void method1() override;", "virtual void method2() override;"])
 
     def test_instantiate_with(self):
-        instance = InterfaceHeader(self.fake_template, self.fake_license_header).instantiate_with(self.class_name)
-        self.assert_string_contains(instance, "virtual ~" + self.class_name + "() {}")
-        self.assert_string_contains(instance, "//virtual return_type_ method_name_(input_type_) = 0;")
+        implementation_header = ImplementationHeader(self.fake_template, self.fake_license_header, self.fake_interface)
+        instance = implementation_header.instantiate_with(self.class_name, self.interface_name)
+        self.assert_string_contains(instance, self.class_name + ": public " + self.interface_name + " {")
+        self.assert_string_contains(instance, "virtual void method1() override;\nvirtual void method2() override;\n")
 
     def setUp(self):
         self.fake_template = "CLASS_NAME_ class_name_ { };"
+        self.fake_interface = "virtual void method1() = 0;\nvirtual void method2() = 0;\n"
         self.class_name = "arbitrary_name"
+        self.interface_name = "interface_name"
         self.fake_raw_header = "};"
         self.fake_license_header = LicenseHeader("arbitrary license (year_)")
