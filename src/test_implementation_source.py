@@ -18,10 +18,6 @@ from unit_test import UnitTest
 
 class TestImplementationSource(UnitTest):
 
-    def test_extract_methods(self):
-        self.assert_equals(["void method1()", "void method2()"],
-            ImplementationSource.extract_methods(self.fake_header))
-
     def test_instantiate_with(self):
         source = ImplementationSource(self.fake_template, self.fake_license_header, self.fake_header)
         instance = source.instantiate_with(self.class_name)
@@ -30,6 +26,6 @@ class TestImplementationSource(UnitTest):
 
     def setUp(self):
         self.fake_template = "class_name_\n"
-        self.fake_header = "virtual void method1() override;\nvirtual void method2() override;\n"
+        self.fake_header = "virtual void method1() = 0;\nvirtual void method2() = 0;\n"
         self.fake_license_header = LicenseHeader("arbitrary license (year_)")
         self.class_name = "arbitrary_name"

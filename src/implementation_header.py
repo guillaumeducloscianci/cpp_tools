@@ -12,7 +12,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from class_header import ClassHeader
-
+from interface_header import InterfaceHeader
 
 class ImplementationHeader():
     
@@ -24,19 +24,14 @@ class ImplementationHeader():
         return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name, interface_name)
 
     def add_content_to(self, bare_header, class_name, interface_name):
-        inheritance_token = " {"
-        overide_token = "};"
+        class_block_begin = " {"
+        class_block_end = "};"
         inheritance = ": public " + interface_name
-        bare_header = bare_header.replace(inheritance_token, inheritance + inheritance_token)
-        for method in self.extract_methods(self.interface):
-            bare_header = bare_header.replace(overide_token, method + "\n" + overide_token)
+        bare_header = bare_header.replace(class_block_begin, inheritance + class_block_begin)
+        for method in InterfaceHeader.extract_methods(self.interface):
+            bare_header = bare_header.replace(class_block_end, self.create_signature(method) + class_block_end)
         return bare_header
 
     @staticmethod
-    def extract_methods(interface):
-        abstract_method_token = "= 0"
-        methods = []
-        for line in interface.splitlines():
-            if not line.find(abstract_method_token) == -1:
-                methods.append(line.replace(abstract_method_token, "override"))
-        return methods
+    def create_signature(method):
+        return method + " override;\n"

@@ -28,3 +28,12 @@ class InterfaceHeader():
         method_template = "    //virtual return_type_ method_name_(input_type_) = 0;\n"
         token = "};"
         return bare_header.replace(token, virtual_destructor + "\n" + method_template + token)
+        
+    @staticmethod
+    def extract_methods(header):
+        method_token = " = 0;"
+        methods = []
+        for line in header.splitlines():
+            if not line.find(method_token) == -1:
+                methods.append(line.replace("virtual ", "").replace(method_token, ""));
+        return methods

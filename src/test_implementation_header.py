@@ -18,15 +18,11 @@ from unit_test import UnitTest
 
 class TestImplementationHeader(UnitTest):
 
-    def test_extract_methods(self):
-        self.assert_equals(ImplementationHeader.extract_methods(self.fake_interface),
-            ["virtual void method1() override;", "virtual void method2() override;"])
-
     def test_instantiate_with(self):
         implementation_header = ImplementationHeader(self.fake_template, self.fake_license_header, self.fake_interface)
         instance = implementation_header.instantiate_with(self.class_name, self.interface_name)
         self.assert_string_contains(instance, self.class_name + ": public " + self.interface_name + " {")
-        self.assert_string_contains(instance, "virtual void method1() override;\nvirtual void method2() override;\n")
+        self.assert_string_contains(instance, "void method1() override;\nvoid method2() override;\n")
 
     def setUp(self):
         self.fake_template = "CLASS_NAME_ class_name_ { };"

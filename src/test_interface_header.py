@@ -23,8 +23,13 @@ class TestInterfaceHeader(UnitTest):
         self.assert_string_contains(instance, "virtual ~" + self.class_name + "() {}")
         self.assert_string_contains(instance, "//virtual return_type_ method_name_(input_type_) = 0;")
 
+    def test_extract_methods(self):
+        self.assert_equals(["void method1()", "void method2()"],
+            InterfaceHeader.extract_methods(self.fake_interface_header))
+
     def setUp(self):
         self.fake_template = "CLASS_NAME_ class_name_ { };"
         self.class_name = "arbitrary_name"
         self.fake_raw_header = "};"
+        self.fake_interface_header = "virtual void method1() = 0;\nvirtual void method2() = 0;\n"
         self.fake_license_header = LicenseHeader("arbitrary license (year_)")
