@@ -1,0 +1,35 @@
+# `cpp_tools` is a set of lightweight python scripts used to facilitate and speed up development in C++.
+# Copyright (C) 2018 Guillaume Duclos-Cianci
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+# version.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License along with this program.
+# If not, see <http://www.gnu.org/licenses/>.
+
+from implementation_source import ImplementationSource
+from license_header import LicenseHeader
+from unit_test import UnitTest
+
+
+class TestImplementationSource(UnitTest):
+
+    def test_extract_methods(self):
+        self.assert_equals(["void method1()", "void method2()"],
+            ImplementationSource.extract_methods(self.fake_header))
+
+    def test_instantiate_with(self):
+        source = ImplementationSource(self.fake_template, self.fake_license_header, self.fake_header)
+        instance = source.instantiate_with(self.class_name)
+        self.assert_string_contains(instance, "void " +self.class_name + "::method1() {\n\n}")
+        self.assert_string_contains(instance, "void " +self.class_name + "::method2() {\n\n}")
+
+    def setUp(self):
+        self.fake_template = "class_name_\n"
+        self.fake_header = "virtual void method1() override;\nvirtual void method2() override;\n"
+        self.fake_license_header = LicenseHeader("arbitrary license (year_)")
+        self.class_name = "arbitrary_name"
