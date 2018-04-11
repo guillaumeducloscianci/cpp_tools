@@ -22,7 +22,7 @@ class TestImplementationHeader(UnitTest):
         implementation_header = ImplementationHeader(self.fake_template, self.fake_license_header, self.fake_interface)
         instance = implementation_header.instantiate_with(self.class_name, self.interface_name)
         self.assert_string_contains(instance, self.class_name + ": public " + self.interface_name + " {")
-        self.assert_string_contains(instance, "void method1() override;\nvoid method2() override;\n")
+        self.assert_string_contains(instance, "    void method1() override;\n    void method2() override;\n")
 
     def setUp(self):
         self.fake_template = "CLASS_NAME_ class_name_ { };"
