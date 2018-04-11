@@ -24,6 +24,7 @@ import system_test_command_create_interface
 import system_test_command_create_project
 import system_test_directory
 import system_test_file
+import system_test_implementation_creator
 import system_test_interface_creator
 import system_test_license_header_template
 import system_test_project
@@ -44,6 +45,7 @@ def create_system_test_suite():
     ]
     modules += [ system_test_project ]
     modules += [
+        system_test_implementation_creator,
         system_test_interface_creator,
         system_test_class_creator,
         system_test_command_create_project

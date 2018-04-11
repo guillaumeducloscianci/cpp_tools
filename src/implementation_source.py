@@ -25,6 +25,7 @@ class ImplementationSource():
         return self.add_content_to(self.bare_source.instantiate_with(class_name), class_name)
 
     def add_content_to(self, bare_source, class_name):
+        bare_source += "\n"
         for method in InterfaceHeader.extract_methods(self.header):
             bare_source += self.create_definition(method, class_name)
         return bare_source
@@ -32,4 +33,4 @@ class ImplementationSource():
     @staticmethod
     def create_definition(signature, class_name):
         name = signature.split()[1]
-        return signature.replace(name, class_name+"::"+ name) + " {\n\n}\n\n"
+        return signature.replace(name, class_name+"::"+ name) + " {\n\n}\n"

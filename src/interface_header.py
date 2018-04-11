@@ -35,5 +35,5 @@ class InterfaceHeader():
         methods = []
         for line in header.splitlines():
             if not line.find(method_token) == -1:
-                methods.append(line.replace("virtual ", "").replace(method_token, ""));
+                methods.append(line.lstrip().replace("virtual ", "").replace(method_token, ""));
         return methods

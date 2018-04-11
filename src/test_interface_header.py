@@ -31,5 +31,5 @@ class TestInterfaceHeader(UnitTest):
         self.fake_template = "CLASS_NAME_ class_name_ { };"
         self.class_name = "arbitrary_name"
         self.fake_raw_header = "};"
-        self.fake_interface_header = "virtual void method1() = 0;\nvirtual void method2() = 0;\n"
+        self.fake_interface_header = "    virtual void method1() = 0;\nvirtual void method2() = 0;\n"
         self.fake_license_header = LicenseHeader("arbitrary license (year_)")

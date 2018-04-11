@@ -32,4 +32,4 @@ class ImplementationTests():
     @staticmethod
     def create_test_case(method, class_name):
         name = method.split()[1].split('(')[0]
-        return "TEST_F(test_" + class_name + ", " + name + ") {\n\n}\n"
+        return "//TEST_F(test_" + class_name + ", " + name + ") {\n//\n//}\n"

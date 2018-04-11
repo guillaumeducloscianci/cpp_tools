@@ -21,8 +21,8 @@ class TestImplementationTests(UnitTest):
     def test_instantiate_with(self):
         source = ImplementationTests(self.fake_template, self.fake_license_header, self.fake_header)
         instance = source.instantiate_with(self.class_name)
-        self.assert_string_contains(instance, "TEST_F(test_" + self.class_name + ", method1) {\n\n}\n")
-        self.assert_string_contains(instance, "TEST_F(test_" + self.class_name + ", method2) {\n\n}\n")
+        self.assert_string_contains(instance, "//TEST_F(test_" + self.class_name + ", method1) {\n//\n//}\n")
+        self.assert_string_contains(instance, "//TEST_F(test_" + self.class_name + ", method2) {\n//\n//}\n")
 
     def setUp(self):
         self.fake_template = "class_name_\n"
