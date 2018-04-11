@@ -58,7 +58,7 @@ class TestImplementationCreator(TestImplementationCreatorTools):
 
     def test_create(self):
         self.assert_implementation_does_not_exist()
-        ImplementationCreator(self.class_name, self.path, self.interface_path.name).create()
+        ImplementationCreator(self.class_name, self.path, self.interface_path.stem).create()
         self.assert_implementation_exists()
 
     @classmethod

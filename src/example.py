@@ -17,14 +17,28 @@ from pathlib import Path
 import os
 import subprocess
 
+from file import File
 from system_test import SystemTest
 
-if __name__ == '__main__':
+cpp_tools = str(Path(__file__).resolve().with_name("cpp_tools.py"))
+
+def main():
     SystemTest.clean_testing_directory()
-    cpp_tools = str(Path(__file__).resolve().with_name("cpp_tools.py"))
     os.chdir(str(Path(__file__).resolve().parents[1]/"testing"))
     subprocess.run(
         [cpp_tools, "create", "project", "--name", "ToricCodeDecoder", "--author", "Guillaume Duclos-Cianci"])
     os.chdir(str(Path(".").resolve()/"ToricCodeDecoder"))
     subprocess.run([cpp_tools, "create", "class", "--name", "Syndrome"])
+    create_interface()
+    subprocess.run([cpp_tools, "create", "implementation", "--name", "UnitCell2X2", "--interface", "UnitCell"])
+
+def create_interface():
     subprocess.run([cpp_tools, "create", "interface", "--name", "UnitCell"])
+    path = Path(".").resolve()/"include/ToricCodeDecoder/UnitCell.h"
+    content = File.read(path)
+    content = content.replace("//virtual return_type_ method_name_(input_type_) = 0;",
+        "double computeMarginalProbability(const unsigned qubitIndex);")
+    File.overwrite(path, content)
+
+if __name__ == '__main__':
+    main()

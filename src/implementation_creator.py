@@ -24,7 +24,7 @@ class ImplementationCreator():
         self.class_name = class_name_
         self.path = project_paths
         self.interface_name = interface_name_
-        self.interface = File.read(self.path.to_include_directory/self.interface_name)
+        self.interface = File.read(self.path.to_include_directory/(self.interface_name+".h"))
 
     def create(self):
         self.create_header_file()

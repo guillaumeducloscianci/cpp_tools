@@ -16,6 +16,7 @@ import argparse
 import sys
 
 from command_create_class import CommandCreateClass
+from command_create_implementation import CommandCreateImplementation
 from command_create_interface import CommandCreateInterface
 from command_create_project import CommandCreateProject
 from project import ProjectParameters
@@ -30,6 +31,7 @@ class CommandParser:
         parser_create = subparsers.add_parser("create")
         subparsers_create = parser_create.add_subparsers()
         self.add_create_class_parser(subparsers_create)
+        self.add_create_implementation_parser(subparsers_create)
         self.add_create_interface_parser(subparsers_create)
         self.add_create_project_parser(subparsers_create)
 
@@ -38,6 +40,13 @@ class CommandParser:
         parser_create_class.add_argument("--name", type=str)
         parser_create_class.set_defaults(
             func=lambda args: CommandCreateClass(args.name, ProjectPaths(Path(".").resolve())))
+
+    def add_create_implementation_parser(self, subparsers):
+        parser_create_class = subparsers.add_parser("implementation")
+        parser_create_class.add_argument("--name", type=str)
+        parser_create_class.add_argument("--interface", type=str)
+        parser_create_class.set_defaults(
+            func=lambda args: CommandCreateImplementation(args.name, ProjectPaths(Path(".").resolve()), args.interface))
 
     def add_create_interface_parser(self, subparsers):
         parser_create_class = subparsers.add_parser("interface")

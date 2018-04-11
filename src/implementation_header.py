@@ -34,4 +34,4 @@ class ImplementationHeader():
 
     @staticmethod
     def create_signature(method):
-        return method + " override;\n"
+        return "    " + method + " override;\n"
