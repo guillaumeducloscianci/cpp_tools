@@ -24,12 +24,11 @@ class ImplementationHeader():
         return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name, interface_name)
 
     def add_content_to(self, bare_header, class_name, interface_name):
-        class_block_begin = " {"
-        class_block_end = "};"
+        class_end = "};"
         inheritance = ": public " + interface_name
-        bare_header = bare_header.replace(class_block_begin, inheritance + class_block_begin)
+        bare_header = bare_header.replace(class_name, class_name + inheritance)
         for method in InterfaceHeader.extract_methods(self.interface):
-            bare_header = bare_header.replace(class_block_end, self.create_signature(method) + class_block_end)
+            bare_header = bare_header.replace(class_end, self.create_signature(method) + class_end)
         return bare_header
 
     @staticmethod
