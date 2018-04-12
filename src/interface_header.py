@@ -28,7 +28,15 @@ class InterfaceHeader():
         method_template = "    //virtual return_type_ method_name_(input_type_) = 0;\n"
         token = "};"
         return bare_header.replace(token, virtual_destructor + "\n" + method_template + token)
-        
+
+    # \todo : This class should be renamed InterfaceHeaderTemplate and the following method should be in another class
+    # named InterfaceHeader
+    @staticmethod
+    def extract_interface_name(header):
+        for line in header.splitlines():
+            if line.startswith("class"): return line.split()[1]
+        return ""
+
     @staticmethod
     def extract_methods(header):
         method_token = " = 0;"
@@ -37,3 +45,9 @@ class InterfaceHeader():
             if not line.find(method_token) == -1:
                 methods.append(line.lstrip().replace("virtual ", "").replace(method_token, ""));
         return methods
+
+    @staticmethod
+    def extract_project_name(header):
+        for line in header.splitlines():
+            if line.startswith("namespace"): return line.split()[1]
+        return ""
