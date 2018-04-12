@@ -21,22 +21,27 @@ class TestImplementationHeader(UnitTest):
     def test_instantiate_with(self):
         implementation_header = ImplementationHeader(self.fake_template, self.fake_license_header, self.fake_interface)
         instance = implementation_header.instantiate_with(self.class_name, self.interface_name)
-        self.assert_implementation_contains_methods(instance)
-        self.assert_implementation_inherits_from_interface(instance)
+        self.assert_implementation_includes_interface(instance)
         self.assert_implementation_namespace_is_well_formatted(instance)
+        self.assert_implementation_inherits_from_interface(instance)
+        self.assert_implementation_contains_methods(instance)
 
     def setUp(self):
         self.namespace_begin = "namespace Fake {" 
         self.namespace_end = "} /* Fake */"
-        self.fake_template = self.namespace_begin + " CLASS_NAME_ class_name_ { }; " + self.namespace_end
-        self.fake_interface = "virtual void method1() = 0;\nvirtual void method2() = 0;\n"
         self.class_name = "arbitrary_name"
         self.interface_name = "interface_name"
+        self.fake_template = self.namespace_begin + " CLASS_NAME_ class_name_ { }; " + self.namespace_end
+        self.fake_interface = (self.namespace_begin + "\nclass " + self.interface_name
+            + " {\nvirtual void method1() = 0;\nvirtual void method2() = 0;\n};\n" + self.namespace_end)
         self.fake_raw_header = "};"
         self.fake_license_header = LicenseHeader("arbitrary license (year_)")
 
     def assert_implementation_contains_methods(self, instance):
         self.assert_string_contains(instance, "    void method1() override;\n    void method2() override;\n")
+
+    def assert_implementation_includes_interface(self, instance):
+        self.assert_string_contains(instance, "#include <Fake/" + self.interface_name + ".h>")
 
     def assert_implementation_inherits_from_interface(self, instance):
         self.assert_string_contains(instance, self.class_name + ": public " + self.interface_name + " {")

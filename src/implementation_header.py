@@ -23,13 +23,30 @@ class ImplementationHeader():
     def instantiate_with(self, class_name, interface_name):
         return self.add_content_to(self.bare_header.instantiate_with(class_name), class_name, interface_name)
 
-    def add_content_to(self, bare_header, class_name, interface_name):
-        class_end = "};"
+    def add_content_to(self, header, class_name, interface_name):
+        header = self.add_interface_header(header, self.interface)
+        header = self.add_inheritance(header, class_name, interface_name)
+        header = self.add_methods(header, self.interface)
+        return header
+
+    @staticmethod
+    def add_inheritance(header, class_name, interface_name):
         inheritance = ": public " + interface_name
-        bare_header = bare_header.replace(class_name, class_name + inheritance)
-        for method in InterfaceHeader.extract_methods(self.interface):
-            bare_header = bare_header.replace(class_end, self.create_signature(method) + class_end)
-        return bare_header
+        return header.replace(class_name + " {", class_name + inheritance + " {")
+
+    @staticmethod
+    def add_interface_header(header, interface):
+        project_name = InterfaceHeader.extract_project_name(interface)
+        interface_name = InterfaceHeader.extract_interface_name(interface)
+        include = "#include <" + project_name + "/" + interface_name + ".h>\n"
+        return header.replace("namespace", include + "\nnamespace")
+
+    @staticmethod
+    def add_methods(header, interface):
+        class_end = "};"
+        for method in InterfaceHeader.extract_methods(interface):
+            header = header.replace(class_end, ImplementationHeader.create_signature(method) + class_end)
+        return header
 
     @staticmethod
     def create_signature(method):
