@@ -33,4 +33,4 @@ class ImplementationSource():
     @staticmethod
     def create_definition(signature, class_name):
         name = signature.split()[1]
-        return signature.replace(name, class_name+"::"+ name) + " {\n\n}\n"
+        return "//" + signature.replace(name, class_name+"::"+ name) + " {\n//\n//}\n"
