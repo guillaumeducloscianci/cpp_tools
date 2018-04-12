@@ -44,6 +44,7 @@ class ImplementationHeader():
     @staticmethod
     def add_methods(header, interface):
         class_end = "};"
+        header = header.replace(class_end, "\n" + class_end)
         for method in InterfaceHeader.extract_methods(interface):
             header = header.replace(class_end, ImplementationHeader.create_signature(method) + class_end)
         return header

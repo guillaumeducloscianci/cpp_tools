@@ -50,8 +50,10 @@ class Example():
     def add_method_to_interface(self):
         path = Path(".").resolve()/"include/ToricCodeDecoder/UnitCell.h"
         content = File.read(path)
-        content = content.replace("//virtual return_type_ method_name_(input_type_) = 0;",
-            "double computeMarginalProbability(const unsigned qubitIndex);")
+        content = content.replace("    //virtual return_type_ method_name_(input_type_) = 0;\n",
+            "    virtual double computeMarginalProbability1(const unsigned qubitIndex) = 0;\n"
+            + "    virtual double computeMarginalProbability2(const unsigned qubitIndex) = 0;\n"
+            + "    virtual double computeMarginalProbability3(const unsigned qubitIndex) = 0;\n")
         File.overwrite(path, content)
 
     def create_implementation(self):
