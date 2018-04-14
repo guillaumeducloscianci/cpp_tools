@@ -62,7 +62,11 @@ class Project():
         for directory in self.path.list_top_down(): Directory().create(directory)
 
     def create_gitignore_file(self):
-        File.write(self.path/".gitignore", ".templates")
+        to_ignore = [".templates", "build"]
+        content = ""
+        for path in to_ignore:
+            content += path + "\n" 
+        File.write(self.path/".gitignore", content)
 
     def create_git_repository(self):
         subprocess.run(["git", "-C", str(self.path), "init"], stdout=subprocess.DEVNULL)
